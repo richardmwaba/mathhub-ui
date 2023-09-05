@@ -23,7 +23,7 @@ import {
   AppHeaderDropdownTasks,
 } from './header/index'
 
-import { logoNegative } from 'src/assets/brand/logo-negative'
+import { logoMain } from 'src/assets/brand/mathhub-logo'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -49,7 +49,7 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none text-white" to="/">
-          <CIcon icon={logoNegative} height={34} alt="Logo" />
+          <CIcon icon={logoMain} height={34} alt="Logo" />
         </CHeaderBrand>
         <CForm className="d-none d-md-flex">
           <CInputGroup>
