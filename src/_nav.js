@@ -2,6 +2,7 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
   cilBell,
+  cilBook,
   cilCalculator,
   cilCalendar,
   cilChartPie,
@@ -33,7 +34,13 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Theme',
+    name: 'Students',
+  },
+  {
+    component: CNavItem,
+    name: 'Enrolment',
+    to: '/students/enrolment',
+    icon: <CIcon icon={cilBook} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
