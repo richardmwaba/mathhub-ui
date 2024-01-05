@@ -1,5 +1,5 @@
-import { React, useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { React, useEffect, useRef, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
     CButton,
     CLoadingButton,
@@ -17,21 +17,23 @@ import {
 import CIcon from '@coreui/icons-react';
 import { logoSecondary } from 'src/assets/brand/mathhub-logo-vertical';
 import { cilLockLocked, cilUser } from '@coreui/icons';
-import AuthContext from 'src/providers/AuthProvider';
 import AuthService from 'src/services/auth.service';
+import useAuthentication from 'src/hooks/useAuth';
 
 export default function Login() {
-    const { setCurrentUser } = useContext(AuthContext);
+    const { setCurrentUser } = useAuthentication();
     const usernameRef = useRef();
     const errorRef = useRef();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/dashboard';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [validated, setValidated] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
-    const navigate = useNavigate();
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -61,8 +63,7 @@ export default function Login() {
                     setCurrentUser({ username, accessToken, userRoles });
                     setUsername('');
                     setPassword('');
-                    navigate('/dashboard');
-                    window.location.reload();
+                    navigate(from, { replace: true });
                 },
                 (error) => {
                     if (!error?.response) {
