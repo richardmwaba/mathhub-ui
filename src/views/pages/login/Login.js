@@ -58,7 +58,7 @@ export default function Login() {
 
             await AuthService.login(username, password).then(
                 (response) => {
-                    const accessToken = response.token;
+                    const accessToken = response.accessToken;
                     const userRoles = response.roles;
                     setCurrentUser({ username, accessToken, userRoles });
                     setUsername('');
