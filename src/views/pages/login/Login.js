@@ -17,7 +17,7 @@ import {
 import CIcon from '@coreui/icons-react';
 import { logoSecondary } from 'src/assets/brand/mathhub-logo-vertical';
 import { cilLockLocked, cilUser } from '@coreui/icons';
-import AuthService from 'src/services/auth.service';
+import AuthService from 'src/api/auth/auth.service';
 import useAuthentication from 'src/hooks/useAuth';
 
 export default function Login() {

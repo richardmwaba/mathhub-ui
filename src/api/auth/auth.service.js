@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'src/api/axios';
 
 const headers = {
     headers: { 'Content-Type': 'application/json' },
@@ -7,7 +7,7 @@ const headers = {
 
 function register(username, email, password, roles) {
     return axios.post(
-        process.env.REACT_APP_LOCALHOST_API_URL + 'auth/register',
+        '/auth/register',
         {
             username,
             email,
@@ -21,7 +21,7 @@ function register(username, email, password, roles) {
 function login(username, password) {
     return axios
         .post(
-            process.env.REACT_APP_LOCALHOST_API_URL + 'auth/login',
+            '/auth/login',
             {
                 username,
                 password,
@@ -39,7 +39,7 @@ function login(username, password) {
 
 function logout() {
     localStorage.removeItem('user');
-    return axios.post(process.env.REACT_APP_LOCALHOST_API_URL + 'logout').then((response) => {
+    return axios.post('/logout').then((response) => {
         return response.data;
     });
 }
