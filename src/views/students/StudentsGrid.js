@@ -1,13 +1,14 @@
-import React, { useState, useEffect, setLoading } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CCardBody, CButton, CSmartTable } from '@coreui/react-pro';
-import { getData } from 'src/components/apiGateway.js';
-import data from './_data.js';
+import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
+import StudentsService from 'src/api/students/students.service.js';
 
 export default function StudentsGrid() {
+    const axiosPrivate = useAxiosPrivate();
+
     const [loading, setLoading] = useState();
-    const [currentItems, setCurrentItems] = useState(data);
-    const [studentsApiResponse, setStudentsApiResponse] = useState(null);
-    const [studentsSummary, setStudentsSummary] = useState([]);
+    const [currentItems, setCurrentItems] = useState([]);
+    const [students, setStudents] = useState([]);
     const [error, setError] = useState('');
 
     const csvContent = currentItems.map((item) => Object.values(item).join(',')).join('\n');
@@ -38,24 +39,27 @@ export default function StudentsGrid() {
         },
     ];
 
-    function updateStudentsData(resonseData) {
-        setStudentsApiResponse(resonseData);
-        setStudentsSummary(extractStudentsSummary(resonseData));
-    }
-
     // get students data from api
-    useEffect(
-        () =>
-            getData(
-                'http://localhost:8080/api/v1/sis/students',
-                updateStudentsData,
-                setError,
-                setLoading,
-            ),
-        [],
-    );
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
 
-    console.log(studentsSummary);
+        const getStudents = async () => {
+            const response = await StudentsService.getAllStudents(
+                axiosPrivate,
+                controller,
+                setError,
+            );
+            isMounted && setStudents(response) && setCurrentItems(response);
+        };
+
+        getStudents();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, [axiosPrivate]);
 
     return (
         <CCardBody>
@@ -72,7 +76,7 @@ export default function StudentsGrid() {
                 columns={columns}
                 columnFilter
                 columnSorter
-                items={studentsSummary}
+                items={students}
                 itemsPerPageSelect
                 loading={loading}
                 pagination
