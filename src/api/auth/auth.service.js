@@ -30,7 +30,7 @@ function login(username, password) {
         )
         .then((response) => {
             if (response?.data?.username) {
-                localStorage.setItem('refresh_token', JSON.stringify(response.data.refreshToken));
+                localStorage.setItem('refresh_token', response.data.refreshToken);
             }
 
             return response.data;
@@ -38,7 +38,7 @@ function login(username, password) {
 }
 
 function logout() {
-    localStorage.removeItem('user');
+    localStorage.removeItem('refresh_token');
     return axios.post('/logout').then((response) => {
         return response.data;
     });

@@ -1,21 +1,10 @@
-import axios from 'src/api/axios';
-
-const headers = {
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true,
-};
-
-function getAllStudents(controller, errorCallback) {
-    return axios
-        .get('/students', { signal: controller.signal }, headers)
+function getAllStudents(axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .get('/v1/sis/students', { signal: controller.signal })
         .then((response) => {
-            if (!response.ok) {
-                throw new Error('Something went wrong while fetching this data. Please try again.');
-            }
-
             let studentsSummary = [];
 
-            const studentsList = response._embedded.studentDtoList;
+            const studentsList = response.data._embedded.studentDtoList;
 
             studentsSummary = studentsList.map((detailedStudent) => {
                 const studentMobilePhoneNumber = detailedStudent.phoneNumbers.map((phoneNumber) => {
@@ -39,9 +28,10 @@ function getAllStudents(controller, errorCallback) {
         })
         .catch((error) => {
             errorCallback(error.message);
+            console.error(error);
         });
 }
 
-const StudentsService = {};
+const StudentsService = { getAllStudents };
 
 export default StudentsService;

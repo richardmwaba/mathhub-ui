@@ -2,19 +2,19 @@ import React from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuthentication from 'src/hooks/useAuth';
 
-export const isAuthenticated = (user) => {
-    return user?.username;
+export const isAuthenticated = (authentication) => {
+    return authentication?.username;
 };
 
-export const userHasAllowedRole = (user, allowedRoles) => {
-    return user?.roles?.find((role) => allowedRoles?.includes(role));
+export const userHasAllowedRole = (authentication, allowedRoles) => {
+    return authentication?.roles?.find((role) => allowedRoles?.includes(role));
 };
 
 const RequireAuthentication = () => {
-    const { currentUser } = useAuthentication();
+    const { authentication } = useAuthentication();
     const location = useLocation();
 
-    return isAuthenticated(currentUser) ? (
+    return isAuthenticated(authentication) ? (
         <Outlet />
     ) : (
         <Navigate to="/login" state={{ from: location }} replace />

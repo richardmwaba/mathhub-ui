@@ -21,7 +21,7 @@ import AuthService from 'src/api/auth/auth.service';
 import useAuthentication from 'src/hooks/useAuth';
 
 export default function Login() {
-    const { setCurrentUser } = useAuthentication();
+    const { setAuthentication } = useAuthentication();
     const usernameRef = useRef();
     const errorRef = useRef();
 
@@ -60,7 +60,7 @@ export default function Login() {
                 (response) => {
                     const accessToken = response.accessToken;
                     const userRoles = response.roles;
-                    setCurrentUser({ username, accessToken, userRoles });
+                    setAuthentication({ username, accessToken, userRoles });
                     setUsername('');
                     setPassword('');
                     navigate(from, { replace: true });

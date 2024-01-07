@@ -15,16 +15,28 @@ import {
     cilCommentSquare,
     cilEnvelopeOpen,
     cilFile,
-    cilLockLocked,
+    cilAccountLogout,
     cilSettings,
     cilTask,
     cilUser,
 } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
+import useAuthentication from 'src/hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import avatar8 from './../../assets/images/avatars/8.jpg';
 
 const AppHeaderDropdown = () => {
+    const { setAuthentication } = useAuthentication();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleLogout = (event) => {
+        event.preventDefault();
+        setAuthentication({});
+        navigate('/login', { state: { from: location }, replace: true });
+    };
+
     return (
         <CDropdown variant="nav-item" alignment="end">
             <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -88,9 +100,9 @@ const AppHeaderDropdown = () => {
                     </CBadge>
                 </CDropdownItem>
                 <CDropdownDivider />
-                <CDropdownItem href="#">
-                    <CIcon icon={cilLockLocked} className="me-2" />
-                    Lock Account
+                <CDropdownItem href="#" onClick={handleLogout}>
+                    <CIcon icon={cilAccountLogout} className="me-2" />
+                    Logout
                 </CDropdownItem>
             </CDropdownMenu>
         </CDropdown>
