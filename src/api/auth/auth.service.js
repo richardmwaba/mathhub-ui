@@ -37,10 +37,10 @@ function login(username, password) {
         });
 }
 
-function logout() {
+function logout(username) {
     localStorage.removeItem('refresh_token');
-    return axios.post('/logout').then((response) => {
-        return response.data;
+    return axios.post('/auth/logout', { username }, headers).then((response) => {
+        return response;
     });
 }
 
