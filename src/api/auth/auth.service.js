@@ -38,7 +38,6 @@ function login(username, password) {
 }
 
 function logout(username) {
-    localStorage.removeItem('refresh_token');
     return axios.post('/auth/logout', { username }, headers).then((response) => {
         return response;
     });

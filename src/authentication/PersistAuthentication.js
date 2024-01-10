@@ -6,7 +6,7 @@ import useRefreshToken from 'src/hooks/useRefreshToken';
 
 const PersistAuthentication = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const { authentication } = useAuthentication();
+    const { authentication, persist } = useAuthentication();
     const refresh = useRefreshToken();
 
     // Persist login by fetching auth details using refresh token
@@ -22,7 +22,7 @@ const PersistAuthentication = () => {
         };
 
         !authentication?.accesToken ? verifyRefreshToken() : setIsLoading(false);
-    }, [authentication, refresh]);
+    }, [authentication?.accesToken, refresh]);
 
     return isLoading ? (
         <div className="d-flex justify-content-center">
