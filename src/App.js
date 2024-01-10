@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import RequireAuthentication from './authentication/RequireAuthentication';
+import PersistAuthentication from './authentication/PersistAuthentication';
 import './scss/style.scss';
 
 const loading = (
@@ -29,9 +30,11 @@ class App extends Component {
                     <Route exact path="/login" name="Login Page" element={<Login />} />
                     <Route exact path="/register" name="Register Page" element={<Register />} />
 
-                    <Route element={<RequireAuthentication />}>
-                        <Route path="*" name="Home" element={<DefaultLayout />} />
-                        <Route path="/apps/email/*" name="Email App" element={<EmailApp />} />
+                    <Route element={<PersistAuthentication />}>
+                        <Route element={<RequireAuthentication />}>
+                            <Route path="*" name="Home" element={<DefaultLayout />} />
+                            <Route path="/apps/email/*" name="Email App" element={<EmailApp />} />
+                        </Route>
                     </Route>
 
                     <Route exact path="/404" name="Page 404" element={<Page404 />} />

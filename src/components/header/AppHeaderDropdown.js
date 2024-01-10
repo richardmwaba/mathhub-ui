@@ -23,18 +23,24 @@ import {
 import CIcon from '@coreui/icons-react';
 import useAuthentication from 'src/hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
+import AuthService from 'src/api/auth/auth.service';
 
 import avatar8 from './../../assets/images/avatars/8.jpg';
 
 const AppHeaderDropdown = () => {
-    const { setAuthentication } = useAuthentication();
+    const { authentication, setAuthentication } = useAuthentication();
     const navigate = useNavigate();
     const location = useLocation();
 
-    const handleLogout = (event) => {
+    const handleLogout = async (event) => {
         event.preventDefault();
-        setAuthentication({});
-        navigate('/login', { state: { from: location }, replace: true });
+        await AuthService.logout(authentication?.username).then((response) => {
+            if (response?.status === 204) {
+                localStorage.removeItem('refresh_token');
+                navigate('/login', { state: { from: location }, replace: true });
+                setAuthentication({});
+            }
+        });
     };
 
     return (

@@ -1,6 +1,6 @@
 function getAllStudents(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .get('/v1/sis/students', { signal: controller.signal })
+        .get('/sis/students', { signal: controller.signal })
         .then((response) => {
             let studentsSummary = [];
 

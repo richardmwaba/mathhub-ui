@@ -37,10 +37,9 @@ function login(username, password) {
         });
 }
 
-function logout() {
-    localStorage.removeItem('refresh_token');
-    return axios.post('/logout').then((response) => {
-        return response.data;
+function logout(username) {
+    return axios.post('/auth/logout', { username }, headers).then((response) => {
+        return response;
     });
 }
 
