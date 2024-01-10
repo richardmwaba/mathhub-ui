@@ -15,21 +15,23 @@ const useRefreshToken = () => {
     return async () => {
         try {
             const refreshToken = localStorage.getItem('refresh_token');
-            const response = await axios.post(
-                '/auth/refresh',
-                { refreshToken: refreshToken },
-                headers,
-            );
-            setAuthentication((prev) => {
-                return {
-                    ...prev,
-                    username: response.data.username,
-                    roles: response.data.roles,
-                    accessToken: response.data.accessToken,
-                };
-            });
+            if (refreshToken !== null || refreshToken !== undefined) {
+                const response = await axios.post(
+                    '/auth/refresh',
+                    { refreshToken: refreshToken },
+                    headers,
+                );
+                setAuthentication((prev) => {
+                    return {
+                        ...prev,
+                        username: response.data.username,
+                        roles: response.data.roles,
+                        accessToken: response.data.accessToken,
+                    };
+                });
 
-            return response.data.accessToken;
+                return response.data.accessToken;
+            }
         } catch (error) {
             if (error?.response?.status === 403) {
                 console.info('New sign in request required due to expired login.');

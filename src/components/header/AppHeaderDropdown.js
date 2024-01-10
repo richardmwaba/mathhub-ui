@@ -36,9 +36,9 @@ const AppHeaderDropdown = () => {
         event.preventDefault();
         await AuthService.logout(authentication?.username).then((response) => {
             if (response?.status === 204) {
-                setAuthentication({});
                 localStorage.removeItem('refresh_token');
                 navigate('/login', { state: { from: location }, replace: true });
+                setAuthentication({});
             }
         });
     };

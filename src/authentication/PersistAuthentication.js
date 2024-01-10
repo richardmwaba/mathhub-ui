@@ -6,7 +6,7 @@ import useRefreshToken from 'src/hooks/useRefreshToken';
 
 const PersistAuthentication = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const { authentication, persist } = useAuthentication();
+    const { authentication } = useAuthentication();
     const refresh = useRefreshToken();
 
     // Persist login by fetching auth details using refresh token
