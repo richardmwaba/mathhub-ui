@@ -11,6 +11,9 @@ const ExpenseTypes = React.lazy(() =>
     import('./views/system-config/expense-types/ExpenseTypesPage'),
 );
 const IncomeTypes = React.lazy(() => import('./views/system-config/income-types/IncomeTypesPage'));
+const LiabilityTypes = React.lazy(() =>
+    import('./views/system-config/liability-types/LiabilityTypesPage'),
+);
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
 
@@ -107,6 +110,12 @@ const routes = [
         path: '/system-config/income-types',
         name: 'Income Types',
         element: IncomeTypes,
+        exact: true,
+    },
+    {
+        path: '/system-config/liability-types',
+        name: 'Liability Types',
+        element: LiabilityTypes,
         exact: true,
     },
     { path: '/theme/colors', name: 'Colors', element: Colors },

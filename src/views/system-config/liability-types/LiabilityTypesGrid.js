@@ -8,23 +8,23 @@ import {
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import PaymentMethodsService from 'src/api/system-config/cash-book/payment-methods.service.js';
+import LiabilityTypesService from 'src/api/system-config/cash-book/liability-types.service';
 
-export default function PaymentMethodsGrid() {
+export default function LiabilityTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
 
     const [selected, setSelected] = useState([]);
     const [details, setDetails] = useState([]);
-    const [paymentMethods, setPaymentMethods] = useState([]);
+    const [liabilityTypes, setLiabilityTypes] = useState([]);
     const [error, setError] = useState('');
 
-    const paymentMethodsWithSelect = paymentMethods?.map((paymentMethod) => {
-        const _selected = selected.includes(paymentMethod.id);
+    const liabilityTypesWithSelect = liabilityTypes?.map((liabilityType) => {
+        const _selected = selected.includes(liabilityType.id);
         return {
-            ...paymentMethod,
-            paymentMethod,
+            ...liabilityType,
+            liabilityType,
             _selected,
-            _classes: [paymentMethod._classes, _selected && 'table-selected'],
+            _classes: [liabilityType._classes, _selected && 'table-selected'],
         };
     });
 
@@ -69,16 +69,16 @@ export default function PaymentMethodsGrid() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getPaymentMethods = async () => {
-            const response = await PaymentMethodsService.getAllPaymentMethods(
+        const getLiabilityTypes = async () => {
+            const response = await LiabilityTypesService.getAllLiabilityTypes(
                 axiosPrivate,
                 controller,
                 setError,
             );
-            isMounted && setPaymentMethods(response);
+            isMounted && setLiabilityTypes(response);
         };
 
-        getPaymentMethods();
+        getLiabilityTypes();
 
         return () => {
             isMounted = false;
@@ -90,7 +90,7 @@ export default function PaymentMethodsGrid() {
         <CCardBody>
             <CSmartTable
                 sorterValue={{ column: 'description', state: 'asc' }}
-                items={paymentMethodsWithSelect}
+                items={liabilityTypesWithSelect}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter

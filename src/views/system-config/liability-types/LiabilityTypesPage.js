@@ -1,15 +1,15 @@
 import React from 'react';
 import { CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react-pro';
-import PaymentMethodsGrid from './PaymentMethodsGrid';
+import LiabilityTypesGrid from './LiabilityTypesGrid';
 
-const PaymentMethodsPage = () => {
+const LiabilityTypesPage = () => {
     return (
         <CContainer fluid>
             <CRow>
                 <CCol xs={{ cols: 12 }}>
                     <CCard className="mb-4">
                         <CCardBody>
-                            <PaymentMethodsGrid />
+                            <LiabilityTypesGrid />
                         </CCardBody>
                     </CCard>
                 </CCol>
@@ -18,4 +18,4 @@ const PaymentMethodsPage = () => {
     );
 };
 
-export default PaymentMethodsPage;
+export default LiabilityTypesPage;

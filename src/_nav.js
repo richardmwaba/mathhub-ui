@@ -87,7 +87,7 @@ const _nav = [
             {
                 component: CNavItem,
                 name: 'Liability Types',
-                to: '/system-config/payment-methods',
+                to: '/system-config/liability-types',
             },
             {
                 component: CNavItem,
