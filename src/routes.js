@@ -2,6 +2,15 @@ import React from 'react';
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 const Students = React.lazy(() => import('./views/students/StudentsPage'));
+const PaymentMethods = React.lazy(() =>
+    import('./views/system-config/payment-methods/PaymentMethodsPage'),
+);
+const AssetTypes = React.lazy(() => import('./views/system-config/asset-types/AssetTypesPage'));
+const EquityTypes = React.lazy(() => import('./views/system-config/equity-types/EquityTypesPage'));
+const ExpenseTypes = React.lazy(() =>
+    import('./views/system-config/expense-types/ExpenseTypesPage'),
+);
+const IncomeTypes = React.lazy(() => import('./views/system-config/income-types/IncomeTypesPage'));
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
 
@@ -69,6 +78,37 @@ const routes = [
     { path: '/theme', name: 'Theme', element: Colors, exact: true },
     { path: '/students', name: 'Students', element: Students, exact: true },
     { path: '/students/enrolment', name: 'Enrolment', element: Students, exact: true },
+    { path: '/system-config', name: 'Configuration', element: PaymentMethods, exact: true },
+    {
+        path: '/system-config/payment-methods',
+        name: 'Payment Methods',
+        element: PaymentMethods,
+        exact: true,
+    },
+    {
+        path: '/system-config/asset-types',
+        name: 'Asset Types',
+        element: AssetTypes,
+        exact: true,
+    },
+    {
+        path: '/system-config/equity-types',
+        name: 'Equity Types',
+        element: EquityTypes,
+        exact: true,
+    },
+    {
+        path: '/system-config/expense-types',
+        name: 'Exepense Types',
+        element: ExpenseTypes,
+        exact: true,
+    },
+    {
+        path: '/system-config/income-types',
+        name: 'Income Types',
+        element: IncomeTypes,
+        exact: true,
+    },
     { path: '/theme/colors', name: 'Colors', element: Colors },
     { path: '/theme/typography', name: 'Typography', element: Typography },
     { path: '/base', name: 'Base', element: Cards, exact: true },
