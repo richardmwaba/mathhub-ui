@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CSpinner } from '@coreui/react-pro';
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -22,7 +23,7 @@ const PersistAuthentication = () => {
         };
 
         !authentication?.accesToken ? verifyRefreshToken() : setIsLoading(false);
-    }, [authentication?.accesToken, refresh]);
+    }, []);
 
     return isLoading ? (
         <div className="d-flex justify-content-center">

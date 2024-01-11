@@ -56,10 +56,9 @@ export const AppSidebarNav = ({ items }) => {
 
     return (
         <React.Fragment>
-            {items &&
-                items.map((item, index) =>
-                    item.items ? navGroup(item, index) : navItem(item, index),
-                )}
+            {items?.map((item, index) =>
+                item.items ? navGroup(item, index) : navItem(item, index),
+            )}
         </React.Fragment>
     );
 };

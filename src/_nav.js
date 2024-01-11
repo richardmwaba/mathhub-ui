@@ -12,6 +12,7 @@ import {
     cilGrid,
     cilLayers,
     cilMap,
+    cilMoney,
     cilNotes,
     cilPencil,
     cilPuzzle,
@@ -29,7 +30,6 @@ const _nav = [
         icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
         badge: {
             color: 'info-gradient',
-            text: 'NEW',
         },
     },
     {
@@ -53,6 +53,48 @@ const _nav = [
         name: 'Typography',
         to: '/theme/typography',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    },
+    {
+        component: CNavTitle,
+        name: 'Configuration',
+    },
+    {
+        component: CNavGroup,
+        name: 'Cash Book',
+        to: '/system-config/payment-methods',
+        icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
+        items: [
+            {
+                component: CNavItem,
+                name: 'Asset Types',
+                to: '/system-config/asset-types',
+            },
+            {
+                component: CNavItem,
+                name: 'Equity Types',
+                to: '/system-config/equity-types',
+            },
+            {
+                component: CNavItem,
+                name: 'Expense Types',
+                to: '/system-config/expense-types',
+            },
+            {
+                component: CNavItem,
+                name: 'Income Types',
+                to: '/system-config/income-types',
+            },
+            {
+                component: CNavItem,
+                name: 'Liability Types',
+                to: '/system-config/payment-methods',
+            },
+            {
+                component: CNavItem,
+                name: 'Payment Methods',
+                to: '/system-config/payment-methods',
+            },
+        ],
     },
     {
         component: CNavTitle,

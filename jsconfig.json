@@ -2,5 +2,5 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["src"]
+  "include": ["src", "src/views/system-config/payment-methods/PaymentMethodsGrid.js"]
 }
