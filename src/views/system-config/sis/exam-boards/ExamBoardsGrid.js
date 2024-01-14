@@ -8,34 +8,34 @@ import {
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import ExpenseTypesService from 'src/api/system-config/cash-book/expense-types.service';
+import ExamBoardsService from 'src/api/sis/exam-boards.service';
 
-export default function ExpenseTypesGrid() {
+export default function ExamBoardsGrid() {
     const axiosPrivate = useAxiosPrivate();
 
     const [selected, setSelected] = useState([]);
     const [details, setDetails] = useState([]);
-    const [expenseTypes, setExpenseTypes] = useState([]);
+    const [examBoards, setExamBoards] = useState([]);
     const [error, setError] = useState('');
 
-    const expenseTypesWithSelect = expenseTypes?.map((expenseType) => {
-        const _selected = selected.includes(expenseType.id);
+    const examBoardsWithSelect = examBoards?.map((examBoard) => {
+        const _selected = selected.includes(examBoard.id);
         return {
-            ...expenseType,
-            expenseType,
+            ...examBoard,
+            examBoard,
             _selected,
-            _classes: [expenseType._classes, _selected && 'table-selected'],
+            _classes: [examBoard._classes, _selected && 'table-selected'],
         };
     });
 
     const columns = [
         { key: 'select', label: '', filter: false, sorter: false },
+        { key: 'type', label: 'Name', _style: { width: '40%' } },
         {
             key: 'description',
-            label: 'Name',
+            label: 'Description',
             _style: { width: '60%' },
         },
-        { key: 'type', label: 'Short Name', _style: { width: '40%' } },
         {
             key: 'show_details',
             label: '',
@@ -69,16 +69,16 @@ export default function ExpenseTypesGrid() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getExpenseTypes = async () => {
-            const response = await ExpenseTypesService.getAllExpenseTypes(
+        const getExamBoards = async () => {
+            const response = await ExamBoardsService.getAllExamBoards(
                 axiosPrivate,
                 controller,
                 setError,
             );
-            isMounted && setExpenseTypes(response);
+            isMounted && setExamBoards(response);
         };
 
-        getExpenseTypes();
+        getExamBoards();
 
         return () => {
             isMounted = false;
@@ -90,7 +90,7 @@ export default function ExpenseTypesGrid() {
         <CCardBody>
             <CSmartTable
                 sorterValue={{ column: 'description', state: 'asc' }}
-                items={expenseTypesWithSelect}
+                items={examBoardsWithSelect}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter
@@ -124,6 +124,7 @@ export default function ExpenseTypesGrid() {
                 }}
                 tableProps={{
                     hover: true,
+                    responsive: true,
                 }}
             />
         </CCardBody>

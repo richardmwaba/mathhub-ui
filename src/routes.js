@@ -3,17 +3,36 @@ import React from 'react';
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 const Students = React.lazy(() => import('./views/students/StudentsPage'));
 const PaymentMethods = React.lazy(() =>
-    import('./views/system-config/payment-methods/PaymentMethodsPage'),
+    import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
 );
-const AssetTypes = React.lazy(() => import('./views/system-config/asset-types/AssetTypesPage'));
-const EquityTypes = React.lazy(() => import('./views/system-config/equity-types/EquityTypesPage'));
+const AssetTypes = React.lazy(() =>
+    import('./views/system-config/cashbook/asset-types/AssetTypesPage'),
+);
+const EquityTypes = React.lazy(() =>
+    import('./views/system-config/cashbook/equity-types/EquityTypesPage'),
+);
 const ExpenseTypes = React.lazy(() =>
-    import('./views/system-config/expense-types/ExpenseTypesPage'),
+    import('./views/system-config/cashbook/expense-types/ExpenseTypesPage'),
 );
-const IncomeTypes = React.lazy(() => import('./views/system-config/income-types/IncomeTypesPage'));
+const IncomeTypes = React.lazy(() =>
+    import('./views/system-config/cashbook/income-types/IncomeTypesPage'),
+);
 const LiabilityTypes = React.lazy(() =>
-    import('./views/system-config/liability-types/LiabilityTypesPage'),
+    import('./views/system-config/cashbook/liability-types/LiabilityTypesPage'),
 );
+const AssessmentTypes = React.lazy(() =>
+    import('./views/system-config/sis/assessment-types/AssessmentTypesPage'),
+);
+const ExamBoards = React.lazy(() => import('./views/system-config/sis/exam-boards/ExamBoardsPage'));
+const Grades = React.lazy(() => import('./views/system-config/sis/grades/GradesPage'));
+const LessonRates = React.lazy(() =>
+    import('./views/system-config/sis/lesson-rates/LessonRatesPage'),
+);
+const SessionTypes = React.lazy(() =>
+    import('./views/system-config/sis/session-types/SessionTypesPage'),
+);
+const Subjects = React.lazy(() => import('./views/system-config/sis/subjects/SubjectsPage'));
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
 
@@ -116,6 +135,42 @@ const routes = [
         path: '/system-config/liability-types',
         name: 'Liability Types',
         element: LiabilityTypes,
+        exact: true,
+    },
+    {
+        path: '/system-config/assessment-types',
+        name: 'Assessment Types',
+        element: AssessmentTypes,
+        exact: true,
+    },
+    {
+        path: '/system-config/exam-boards',
+        name: 'Exam Boards',
+        element: ExamBoards,
+        exact: true,
+    },
+    {
+        path: '/system-config/grades',
+        name: 'Grades',
+        element: Grades,
+        exact: true,
+    },
+    {
+        path: '/system-config/lesson-rates',
+        name: 'Lesson Rates',
+        element: LessonRates,
+        exact: true,
+    },
+    {
+        path: '/system-config/session-types',
+        name: 'Session Types',
+        element: SessionTypes,
+        exact: true,
+    },
+    {
+        path: '/system-config/subjects',
+        name: 'Subjects',
+        element: Subjects,
         exact: true,
     },
     { path: '/theme/colors', name: 'Colors', element: Colors },

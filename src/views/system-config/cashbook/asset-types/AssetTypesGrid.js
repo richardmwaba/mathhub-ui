@@ -8,7 +8,7 @@ import {
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import AssetTypesService from 'src/api/system-config/cash-book/asset-types.service';
+import AssetTypesService from 'src/api/system-config/cashbook/asset-types.service';
 
 export default function AssetTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
@@ -124,6 +124,7 @@ export default function AssetTypesGrid() {
                 }}
                 tableProps={{
                     hover: true,
+                    responsive: true,
                 }}
             />
         </CCardBody>

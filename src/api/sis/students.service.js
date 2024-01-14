@@ -1,3 +1,5 @@
+import TextUtils from 'src/utils/textUtils';
+
 function getAllStudents(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/sis/students', { signal: controller.signal })
@@ -14,8 +16,9 @@ function getAllStudents(axiosPrivate, controller, errorCallback) {
                 });
 
                 return {
+                    id: detailedStudent.studentId,
                     name: `${detailedStudent.firstName} ${detailedStudent.lastName}`,
-                    gender: detailedStudent.gender,
+                    gender: TextUtils.sentenceCase(detailedStudent.gender),
                     grade: detailedStudent.grade.gradeName,
                     syllabus: detailedStudent.examBoard.examBoardName,
                     phone_number: studentMobilePhoneNumber,

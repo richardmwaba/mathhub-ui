@@ -8,23 +8,23 @@ import {
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import EquityTypesService from 'src/api/system-config/cash-book/equity-types.service';
+import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service.js';
 
-export default function EquityTypesGrid() {
+export default function PaymentMethodsGrid() {
     const axiosPrivate = useAxiosPrivate();
 
     const [selected, setSelected] = useState([]);
     const [details, setDetails] = useState([]);
-    const [equityTypes, setEquityTypes] = useState([]);
+    const [paymentMethods, setPaymentMethods] = useState([]);
     const [error, setError] = useState('');
 
-    const equityTypesWithSelect = equityTypes?.map((equityTypes) => {
-        const _selected = selected.includes(equityTypes.id);
+    const paymentMethodsWithSelect = paymentMethods?.map((paymentMethod) => {
+        const _selected = selected.includes(paymentMethod.id);
         return {
-            ...equityTypes,
-            equityTypes,
+            ...paymentMethod,
+            paymentMethod,
             _selected,
-            _classes: [equityTypes._classes, _selected && 'table-selected'],
+            _classes: [paymentMethod._classes, _selected && 'table-selected'],
         };
     });
 
@@ -69,16 +69,16 @@ export default function EquityTypesGrid() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getEquityTypes = async () => {
-            const response = await EquityTypesService.getAllEquityTypes(
+        const getPaymentMethods = async () => {
+            const response = await PaymentMethodsService.getAllPaymentMethods(
                 axiosPrivate,
                 controller,
                 setError,
             );
-            isMounted && setEquityTypes(response);
+            isMounted && setPaymentMethods(response);
         };
 
-        getEquityTypes();
+        getPaymentMethods();
 
         return () => {
             isMounted = false;
@@ -90,7 +90,7 @@ export default function EquityTypesGrid() {
         <CCardBody>
             <CSmartTable
                 sorterValue={{ column: 'description', state: 'asc' }}
-                items={equityTypesWithSelect}
+                items={paymentMethodsWithSelect}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter
@@ -124,6 +124,7 @@ export default function EquityTypesGrid() {
                 }}
                 tableProps={{
                     hover: true,
+                    responsive: true,
                 }}
             />
         </CCardBody>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react-pro';
-import LiabilityTypesGrid from './LiabilityTypesGrid';
+import AssessmentTypesGrid from './LiabilityTypesGrid';
 
 const LiabilityTypesPage = () => {
     return (
@@ -9,7 +9,7 @@ const LiabilityTypesPage = () => {
                 <CCol xs={{ cols: 12 }}>
                     <CCard className="mb-4">
                         <CCardBody>
-                            <LiabilityTypesGrid />
+                            <AssessmentTypesGrid />
                         </CCardBody>
                     </CCard>
                 </CCol>
