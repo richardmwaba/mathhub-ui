@@ -8,23 +8,23 @@ import {
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import IncomeTypesService from 'src/api/system-config/cash-book/income-types.service';
+import ExpenseTypesService from 'src/api/system-config/cashbook/expense-types.service';
 
-export default function IncomeTypesGrid() {
+export default function ExpenseTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
 
     const [selected, setSelected] = useState([]);
     const [details, setDetails] = useState([]);
-    const [incomeTypes, setIncomeTypes] = useState([]);
+    const [expenseTypes, setExpenseTypes] = useState([]);
     const [error, setError] = useState('');
 
-    const incomeTypesWithSelect = incomeTypes?.map((incomeType) => {
-        const _selected = selected.includes(incomeType.id);
+    const expenseTypesWithSelect = expenseTypes?.map((expenseType) => {
+        const _selected = selected.includes(expenseType.id);
         return {
-            ...incomeType,
-            incomeType,
+            ...expenseType,
+            expenseType,
             _selected,
-            _classes: [incomeType._classes, _selected && 'table-selected'],
+            _classes: [expenseType._classes, _selected && 'table-selected'],
         };
     });
 
@@ -69,16 +69,16 @@ export default function IncomeTypesGrid() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getPaymentMethods = async () => {
-            const response = await IncomeTypesService.getAllIncomeTypes(
+        const getExpenseTypes = async () => {
+            const response = await ExpenseTypesService.getAllExpenseTypes(
                 axiosPrivate,
                 controller,
                 setError,
             );
-            isMounted && setIncomeTypes(response);
+            isMounted && setExpenseTypes(response);
         };
 
-        getPaymentMethods();
+        getExpenseTypes();
 
         return () => {
             isMounted = false;
@@ -90,7 +90,7 @@ export default function IncomeTypesGrid() {
         <CCardBody>
             <CSmartTable
                 sorterValue={{ column: 'description', state: 'asc' }}
-                items={incomeTypesWithSelect}
+                items={expenseTypesWithSelect}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter
@@ -124,6 +124,7 @@ export default function IncomeTypesGrid() {
                 }}
                 tableProps={{
                     hover: true,
+                    responsive: true,
                 }}
             />
         </CCardBody>

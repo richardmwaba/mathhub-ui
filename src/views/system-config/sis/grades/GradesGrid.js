@@ -8,34 +8,34 @@ import {
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import PaymentMethodsService from 'src/api/system-config/cash-book/payment-methods.service.js';
+import GradesService from 'src/api/sis/grades.service';
 
-export default function PaymentMethodsGrid() {
+export default function GradesGrid() {
     const axiosPrivate = useAxiosPrivate();
 
     const [selected, setSelected] = useState([]);
     const [details, setDetails] = useState([]);
-    const [paymentMethods, setPaymentMethods] = useState([]);
+    const [grades, setGrades] = useState([]);
     const [error, setError] = useState('');
 
-    const paymentMethodsWithSelect = paymentMethods?.map((paymentMethod) => {
-        const _selected = selected.includes(paymentMethod.id);
+    const gradesWithSelect = grades?.map((grade) => {
+        const _selected = selected.includes(grade.id);
         return {
-            ...paymentMethod,
-            paymentMethod,
+            ...grade,
+            grade,
             _selected,
-            _classes: [paymentMethod._classes, _selected && 'table-selected'],
+            _classes: [grade._classes, _selected && 'table-selected'],
         };
     });
 
     const columns = [
         { key: 'select', label: '', filter: false, sorter: false },
+        { key: 'type', label: 'Name', _style: { width: '40%' } },
         {
             key: 'description',
-            label: 'Name',
+            label: 'Description',
             _style: { width: '60%' },
         },
-        { key: 'type', label: 'Short Name', _style: { width: '40%' } },
         {
             key: 'show_details',
             label: '',
@@ -69,16 +69,12 @@ export default function PaymentMethodsGrid() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getPaymentMethods = async () => {
-            const response = await PaymentMethodsService.getAllPaymentMethods(
-                axiosPrivate,
-                controller,
-                setError,
-            );
-            isMounted && setPaymentMethods(response);
+        const getGrades = async () => {
+            const response = await GradesService.getAllGrades(axiosPrivate, controller, setError);
+            isMounted && setGrades(response);
         };
 
-        getPaymentMethods();
+        getGrades();
 
         return () => {
             isMounted = false;
@@ -90,7 +86,7 @@ export default function PaymentMethodsGrid() {
         <CCardBody>
             <CSmartTable
                 sorterValue={{ column: 'description', state: 'asc' }}
-                items={paymentMethodsWithSelect}
+                items={gradesWithSelect}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter
@@ -124,6 +120,7 @@ export default function PaymentMethodsGrid() {
                 }}
                 tableProps={{
                     hover: true,
+                    responsive: true,
                 }}
             />
         </CCardBody>

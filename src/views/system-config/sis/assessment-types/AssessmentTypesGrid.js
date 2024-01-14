@@ -1,75 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import {
-    CCardBody,
     CButton,
+    CCardBody,
     CCollapse,
     CFormCheck,
     CFormLabel,
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import StudentsService from 'src/api/sis/students.service.js';
+import AssessmentTypesService from 'src/api/system-config/sis/assessment-types.service';
 
-export default function StudentsGrid() {
+export default function AssessmentTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
 
     const [selected, setSelected] = useState([]);
-    const [loading, setLoading] = useState();
     const [details, setDetails] = useState([]);
-    const [currentItems, setCurrentItems] = useState([]);
-    const [students, setStudents] = useState([]);
+    const [assessmentTypes, setAssessmentTypes] = useState([]);
     const [error, setError] = useState('');
 
-    const studentsWithSelect = students?.map((student) => {
-        const _selected = selected.includes(student.id);
+    const assessmentTypesWithSelect = assessmentTypes?.map((assessmentType) => {
+        const _selected = selected.includes(assessmentType.id);
         return {
-            ...student,
-            subject: student,
+            ...assessmentType,
+            assessmentType,
             _selected,
-            _classes: [student._classes, _selected && 'table-selected'],
+            _classes: [assessmentType._classes, _selected && 'table-selected'],
         };
     });
 
-    const csvContent = currentItems.map((item) => Object.values(item).join(',')).join('\n');
-
-    const csvCode = 'data:text/csv;charset=utf-8,SEP=,%0A' + encodeURIComponent(csvContent);
-
     const columns = [
         { key: 'select', label: '', filter: false, sorter: false },
+        { key: 'type', label: 'Name', _style: { width: '40%' } },
         {
-            key: 'name',
-            label: 'Name',
-            _style: { width: '20%' },
-        },
-        {
-            key: 'gender',
-            label: 'Genger',
-            _style: { width: '10%' },
-        },
-        {
-            key: 'grade',
-            label: 'Grade',
-            _style: { width: '10%' },
-        },
-        {
-            key: 'syllabus',
-            label: 'Syllabus',
-            _style: { width: '10%' },
-        },
-        {
-            key: 'phone_number',
-            label: 'Phone Number',
-            _style: { width: '15%' },
-        },
-        {
-            key: 'parents_name',
-            label: "Parent's Name",
-            _style: { width: '15%' },
-        },
-        {
-            key: 'parents_email',
-            label: "Parent's Email",
-            _style: { width: '15%' },
+            key: 'description',
+            label: 'Description',
+            _style: { width: '60%' },
         },
         {
             key: 'show_details',
@@ -104,16 +69,16 @@ export default function StudentsGrid() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getStudents = async () => {
-            const response = await StudentsService.getAllStudents(
+        const getAssessmentTypes = async () => {
+            const response = await AssessmentTypesService.getAllAssessmentTypes(
                 axiosPrivate,
                 controller,
                 setError,
             );
-            isMounted && setStudents(response) && setCurrentItems(response);
+            isMounted && setAssessmentTypes(response);
         };
 
-        getStudents();
+        getAssessmentTypes();
 
         return () => {
             isMounted = false;
@@ -123,26 +88,16 @@ export default function StudentsGrid() {
 
     return (
         <CCardBody>
-            <CButton
-                color="primary"
-                className="mb-2"
-                href={csvCode}
-                download="coreui-table-data.csv"
-                target="_blank"
-            >
-                Download current items (.csv)
-            </CButton>
             <CSmartTable
-                sorterValue={{ column: 'name', state: 'asc' }}
+                sorterValue={{ column: 'description', state: 'asc' }}
+                items={assessmentTypesWithSelect}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter
                 columnSorter
-                items={studentsWithSelect}
-                itemsPerPageSelect
                 tableFilter
                 cleaner
-                loading={loading}
+                itemsPerPageSelect
                 pagination
                 scopedColumns={{
                     select: (item) => {

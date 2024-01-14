@@ -14,8 +14,6 @@ function getAllLiabilityTypes(axiosPrivate, controller, errorCallback) {
                 };
             });
 
-            console.log(liabilityTypes);
-
             return liabilityTypes;
         })
         .catch((error) => {

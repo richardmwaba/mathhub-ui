@@ -8,34 +8,39 @@ import {
     CSmartTable,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import LiabilityTypesService from 'src/api/system-config/cash-book/liability-types.service';
+import LessonRatesService from 'src/api/system-config/sis/lesson-rates.service';
 
-export default function LiabilityTypesGrid() {
+export default function LessonRatesGrid() {
     const axiosPrivate = useAxiosPrivate();
 
     const [selected, setSelected] = useState([]);
     const [details, setDetails] = useState([]);
-    const [liabilityTypes, setLiabilityTypes] = useState([]);
+    const [lessonRates, setLessonRates] = useState([]);
     const [error, setError] = useState('');
 
-    const liabilityTypesWithSelect = liabilityTypes?.map((liabilityType) => {
-        const _selected = selected.includes(liabilityType.id);
+    const lessonRatesWithSelect = lessonRates?.map((lessonRate) => {
+        const _selected = selected.includes(lessonRate.id);
         return {
-            ...liabilityType,
-            liabilityType,
+            ...lessonRate,
+            lessonRate,
             _selected,
-            _classes: [liabilityType._classes, _selected && 'table-selected'],
+            _classes: [lessonRate._classes, _selected && 'table-selected'],
         };
     });
 
     const columns = [
         { key: 'select', label: '', filter: false, sorter: false },
+        { key: 'subjectComplexity', label: 'Subject Complexity', _style: { width: '30%' } },
         {
-            key: 'description',
-            label: 'Name',
-            _style: { width: '60%' },
+            key: 'amountPerLesson',
+            label: 'Amount Per Lesson (ZMW)',
+            _style: { width: '30%' },
         },
-        { key: 'type', label: 'Short Name', _style: { width: '40%' } },
+        {
+            key: 'expiryDate',
+            label: 'Expiry Date',
+            _style: { width: '40%' },
+        },
         {
             key: 'show_details',
             label: '',
@@ -69,16 +74,16 @@ export default function LiabilityTypesGrid() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getLiabilityTypes = async () => {
-            const response = await LiabilityTypesService.getAllLiabilityTypes(
+        const getLessonRates = async () => {
+            const response = await LessonRatesService.getAllLessonRates(
                 axiosPrivate,
                 controller,
                 setError,
             );
-            isMounted && setLiabilityTypes(response);
+            isMounted && setLessonRates(response);
         };
 
-        getLiabilityTypes();
+        getLessonRates();
 
         return () => {
             isMounted = false;
@@ -90,7 +95,7 @@ export default function LiabilityTypesGrid() {
         <CCardBody>
             <CSmartTable
                 sorterValue={{ column: 'description', state: 'asc' }}
-                items={liabilityTypesWithSelect}
+                items={lessonRatesWithSelect}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter
@@ -124,6 +129,7 @@ export default function LiabilityTypesGrid() {
                 }}
                 tableProps={{
                     hover: true,
+                    responsive: true,
                 }}
             />
         </CCardBody>
