@@ -32,6 +32,7 @@ const SessionTypes = React.lazy(() =>
     import('./views/system-config/sis/session-types/SessionTypesPage'),
 );
 const Subjects = React.lazy(() => import('./views/system-config/sis/subjects/SubjectsPage'));
+const Users = React.lazy(() => import('./views/system-config/users/UsersPage'));
 
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
@@ -171,6 +172,12 @@ const routes = [
         path: '/system-config/subjects',
         name: 'Subjects',
         element: Subjects,
+        exact: true,
+    },
+    {
+        path: '/system-config/users',
+        name: 'Users',
+        element: Users,
         exact: true,
     },
     { path: '/theme/colors', name: 'Colors', element: Colors },
