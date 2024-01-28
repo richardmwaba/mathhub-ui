@@ -8,12 +8,17 @@ function getAllUsers(axiosPrivate, controller, errorCallback) {
 
             users = usersList.map((user) => {
                 const userRoles = user.userRoles.map((userRole) => {
-                    return getReadableUserRole(userRole.roleName);
+                    return userRole.role;
                 });
+
+                const fullName = user.middleName
+                    ? `${user.firstName} ${user.middleName} ${user.lastName}`
+                    : `${user.firstName} ${user.lastName}`;
 
                 return {
                     id: user.userId,
-                    name: `${user.firstName} ${user.lastName}`,
+                    username: user.username,
+                    name: fullName,
                     email: user.email,
                     phoneNumber: user.phoneNumber,
                     userRoles: userRoles,
@@ -28,23 +33,28 @@ function getAllUsers(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const getReadableUserRole = (userRole) => {
-    switch (userRole) {
-        case 'ROLE_ADMIN':
-            return 'Admin';
-        case 'ROLE_TEACHER':
-            return 'Teacher';
-        case 'ROLE_STUDENT':
-            return 'Student';
-        case 'ROLE_PARENT':
-            return 'Parent';
-        case 'ROLE_Cashier':
-            return 'Cashier';
-        default:
-            return '';
-    }
-};
+function createUser(newUser, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/ops/users', newUser, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
 
-const UsersService = { getAllUsers };
+function getAllUserRoles() {
+    return [
+        { value: 'Administrator', text: 'Administrator' },
+        { value: 'Teacher', text: 'Teacher' },
+        { value: 'Student', text: 'Student' },
+        { value: 'Parent', text: 'Parent' },
+        { value: 'Cashier', text: 'Cashier' },
+    ];
+}
+
+const UsersService = { createUser, getAllUsers, getAllUserRoles };
 
 export default UsersService;
