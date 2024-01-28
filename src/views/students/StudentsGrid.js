@@ -7,6 +7,8 @@ import {
     CFormLabel,
     CSmartTable,
 } from '@coreui/react-pro';
+import CIcon from '@coreui/icons-react';
+import { cilArrowThickToBottom } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import StudentsService from 'src/api/sis/students.service.js';
 
@@ -130,7 +132,7 @@ export default function StudentsGrid() {
                 download="coreui-table-data.csv"
                 target="_blank"
             >
-                Download current items (.csv)
+                <CIcon icon={cilArrowThickToBottom} title="Download file" /> (.csv)
             </CButton>
             <CSmartTable
                 sorterValue={{ column: 'name', state: 'asc' }}
@@ -146,19 +148,7 @@ export default function StudentsGrid() {
                 pagination
                 scopedColumns={{
                     select: (item) => {
-                        return (
-                            <td>
-                                <CFormCheck
-                                    id={`checkbox${item.id}`}
-                                    checked={item._selected}
-                                    onChange={(e) => check(e, item.id)}
-                                />
-                                <CFormLabel
-                                    variant="custom-checkbox"
-                                    htmlFor={`checkbox${item.id}`}
-                                />
-                            </td>
-                        );
+                        return GridCheckBox(item, check);
                     },
                     show_details: (item) => {
                         return ToggleButton(toggleDetails, item, details);
@@ -173,6 +163,19 @@ export default function StudentsGrid() {
                 }}
             />
         </CCardBody>
+    );
+}
+
+function GridCheckBox(item, check) {
+    return (
+        <td>
+            <CFormCheck
+                id={`checkbox${item.id}`}
+                checked={item._selected}
+                onChange={(e) => check(e, item.id)}
+            />
+            <CFormLabel variant="custom-checkbox" htmlFor={`checkbox${item.id}`} />
+        </td>
     );
 }
 

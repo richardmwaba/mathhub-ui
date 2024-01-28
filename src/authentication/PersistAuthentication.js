@@ -16,7 +16,9 @@ const PersistAuthentication = () => {
             try {
                 await refresh();
             } catch (error) {
-                console.error(error);
+                if (error?.response?.status !== 403) {
+                    console.error(error);
+                }
             } finally {
                 setIsLoading(false);
             }
