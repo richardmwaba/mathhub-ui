@@ -9,7 +9,6 @@ import {
     CToastBody,
     CToastClose,
     CToaster,
-    CTable,
     CTableBody,
     CTableRow,
     CTableDataCell,
@@ -19,6 +18,8 @@ import {
     cilArrowThickToBottom,
     cilChevronCircleDownAlt,
     cilChevronCircleUpAlt,
+    cilPencil,
+    cilTrash,
     cilUserPlus,
 } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
@@ -26,32 +27,29 @@ import UsersService from 'src/api/system-config/users/users.service';
 import UserRegistrationForm from './UserRegistrationForm';
 import avatar1 from 'src/assets/images/avatars/1.jpg';
 import PropTypes from 'prop-types';
+import UserEditForm from './UserEditForm';
+import UserDeletionConfirmation from './UserDeletionConfirmation';
 
 export default function UsersGrid() {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
 
-    const [toast, addToast] = useState(0);
-    const [selected, setSelected] = useState([]);
+    const [toast, setToast] = useState(0);
     const [loading, setLoading] = useState();
     const [details, setDetails] = useState([]);
     const [currentItems, setCurrentItems] = useState([]);
     const [createdUser, setCreatedUser] = useState({});
+    const [savedEditedUser, setSavedEditedUser] = useState({});
+    const [deleteUserResponse, setDeleteUserResponse] = useState({});
+    const [deletedUserFullname, setDeletedUserFullname] = useState('');
+    const [selectedUser, setSelectedUser] = useState({});
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
-    const [isVisibleUserModal, setIsVisibleUserModal] = useState(false);
+    const [isVisibleNewUserModal, setIsVisibleNewUserModal] = useState(false);
+    const [isVisibleEditUserModal, setIsVisibleEditUserModal] = useState(false);
+    const [isVisibleDeleteUserModal, setIsVisibleDeleteUserModal] = useState(false);
 
-    const userCreatedToasterRef = useRef();
-
-    const usersWithSelect = users?.map((user) => {
-        const _selected = selected.includes(user.id);
-        return {
-            ...user,
-            user,
-            _selected,
-            _classes: [user._classes, _selected && 'table-selected'],
-        };
-    });
+    const userActionSuccessToasterRef = useRef();
 
     const csvContent = currentItems.map((item) => Object.values(item).join(',')).join('\n');
 
@@ -99,7 +97,7 @@ export default function UsersGrid() {
     };
 
     const setUserModalVisibility = () => {
-        setIsVisibleUserModal(!isVisibleUserModal);
+        setIsVisibleNewUserModal(!isVisibleNewUserModal);
     };
 
     let isMounted = true;
@@ -118,25 +116,55 @@ export default function UsersGrid() {
         };
     }, []);
 
-    const setCreatedCreatedUserAndRefreshUsers = (newUser) => {
+    const setCreatedUserAndRefreshUsers = (newUser) => {
         setCreatedUser(newUser);
+        getUsers();
+    };
+
+    const setSavedEditedUserAndRefreshUsers = (savedEditedUser) => {
+        setSavedEditedUser(savedEditedUser);
+        getUsers();
+    };
+
+    const setDeleteUserResponseAndRefreshUsers = (userFullname, response) => {
+        setDeleteUserResponse(response);
+        setDeletedUserFullname(userFullname);
         getUsers();
     };
 
     useEffect(() => {
         const userSuccessfullyCreatedToast = (
-            <CToast visible={true} color="success" className="text-white align-items-center">
-                <div className="d-flex">
-                    <CToastBody>{`User ${createdUser?.firstName} has been created successfully`}</CToastBody>
-                    <CToastClose className="me-2 m-auto" white />
-                </div>
-            </CToast>
+            <SuccessToast
+                message={`User ${createdUser?.firstName} has been created successfully`}
+            />
         );
 
         if (createdUser?.firstName) {
-            addToast(userSuccessfullyCreatedToast);
+            setToast(userSuccessfullyCreatedToast);
         }
     }, [createdUser]);
+
+    useEffect(() => {
+        const userSuccessfullyEditedToast = (
+            <SuccessToast
+                message={`User ${savedEditedUser?.firstName} has been updated successfully`}
+            />
+        );
+
+        if (savedEditedUser?.firstName) {
+            setToast(userSuccessfullyEditedToast);
+        }
+    }, [savedEditedUser]);
+
+    useEffect(() => {
+        const userSuccessfullyDeletedToast = (
+            <SuccessToast message={`User ${deletedUserFullname} has been deleted successfully`} />
+        );
+
+        if (deleteUserResponse.status === 200 && deletedUserFullname) {
+            setToast(userSuccessfullyDeletedToast);
+        }
+    }, [deletedUserFullname, deleteUserResponse]);
 
     return (
         <>
@@ -146,7 +174,7 @@ export default function UsersGrid() {
                     className="mb-2"
                     variant="outline"
                     size="sm"
-                    onClick={() => setIsVisibleUserModal(!isVisibleUserModal)}
+                    onClick={() => setIsVisibleNewUserModal(!isVisibleNewUserModal)}
                 >
                     <CIcon icon={cilUserPlus} title="Add New User" /> Add New User
                 </CButton>
@@ -168,7 +196,7 @@ export default function UsersGrid() {
                     itemsPerPage={10}
                     columnFilter
                     columnSorter
-                    items={usersWithSelect}
+                    items={users}
                     itemsPerPageSelect
                     tableFilter
                     cleaner
@@ -179,7 +207,20 @@ export default function UsersGrid() {
                             return ToggleButton(toggleDetails, user, details);
                         },
                         details: (user) => {
-                            return DetailsCard(details, user);
+                            return (
+                                <DetailsCard
+                                    details={details}
+                                    user={user}
+                                    setSelectedUser={setSelectedUser}
+                                    setIsVisibleEditUserModal={setIsVisibleEditUserModal}
+                                    isVisibleEditUserModal={isVisibleEditUserModal}
+                                    setIsVisibleDeleteUserModal={setIsVisibleDeleteUserModal}
+                                    isVisibleDeleteUserModal={isVisibleDeleteUserModal}
+                                />
+                            );
+                        },
+                        selectUser: (user) => {
+                            setSelectedUser(user);
                         },
                     }}
                     tableProps={{
@@ -189,48 +230,82 @@ export default function UsersGrid() {
                     }}
                 />
             </CCardBody>
-            {isVisibleUserModal && (
+            {isVisibleNewUserModal && (
                 <UserRegistrationForm
-                    visibility={isVisibleUserModal}
+                    visibility={isVisibleNewUserModal}
                     setUserModalVisibility={setUserModalVisibility}
-                    createdUserCallBack={setCreatedCreatedUserAndRefreshUsers}
+                    createdUserCallBack={setCreatedUserAndRefreshUsers}
                 />
             )}
-            <CToaster ref={userCreatedToasterRef} push={toast} placement="bottom-end" />
+            {isVisibleEditUserModal && (
+                <UserEditForm
+                    user={selectedUser}
+                    visibility={isVisibleEditUserModal}
+                    setEditUserModalVisibility={setIsVisibleEditUserModal}
+                    savedUserCallBack={setSavedEditedUserAndRefreshUsers}
+                />
+            )}
+            {isVisibleDeleteUserModal && (
+                <UserDeletionConfirmation
+                    user={selectedUser}
+                    visibility={isVisibleDeleteUserModal}
+                    setDeleteUserModalVisibility={setIsVisibleDeleteUserModal}
+                    savedUserCallBack={setDeleteUserResponseAndRefreshUsers}
+                />
+            )}
+            <CToaster ref={userActionSuccessToasterRef} push={toast} placement="bottom-end" />
         </>
     );
 }
 
-function DetailsCard(details, user) {
+function DetailsCard({
+    details,
+    user,
+    setSelectedUser,
+    setIsVisibleEditUserModal,
+    isVisibleEditUserModal,
+    setIsVisibleDeleteUserModal,
+    isVisibleDeleteUserModal,
+}) {
     return (
         <CCollapse visible={details.includes(user.id)}>
             <CCardBody>
-                {/* <div>
-                    <CAvatar size="md" src={avatar1} />
-                    {user.name}
-                </div>
-                <div className="small text-disabled text-nowrap">
-                    <span>{user.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                    {user.user.registered}
-                </div>
-                <CButton size="sm" color="info">
-                    User Settings
-                </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                    Delete
-                </CButton> */}
                 <CTableBody>
                     <CTableRow>
                         <CTableDataCell className="text-center">
                             <CAvatar size="md" src={avatar1} />
                         </CTableDataCell>
                         <CTableDataCell>
-                            <div style={{ marginLeft: 15 }}>
-                                <div>{user.username}</div>
-                                <div className="small text-disabled text-nowrap">
-                                    <span>{user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                                    {user.registered}
-                                </div>
+                            <div style={{ marginLeft: 15 }}>{user.username}</div>
+                            <div
+                                className="small text-disabled text-nowrap"
+                                style={{ marginLeft: 5 }}
+                            >
+                                <span>
+                                    <CButton
+                                        color="primary"
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => {
+                                            setSelectedUser(user);
+                                            setIsVisibleEditUserModal(!isVisibleEditUserModal);
+                                        }}
+                                    >
+                                        <CIcon icon={cilPencil} title="Edit user" />
+                                    </CButton>
+                                </span>{' '}
+                                |{' '}
+                                <CButton
+                                    color="danger"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                        setSelectedUser(user);
+                                        setIsVisibleDeleteUserModal(!isVisibleDeleteUserModal);
+                                    }}
+                                >
+                                    <CIcon icon={cilTrash} title="Delete user" />
+                                </CButton>
                             </div>
                         </CTableDataCell>
                     </CTableRow>
@@ -239,6 +314,16 @@ function DetailsCard(details, user) {
         </CCollapse>
     );
 }
+
+DetailsCard.propTypes = {
+    details: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+    setSelectedUser: PropTypes.func.isRequired,
+    setIsVisibleEditUserModal: PropTypes.func.isRequired,
+    isVisibleEditUserModal: PropTypes.bool.isRequired,
+    setIsVisibleDeleteUserModal: PropTypes.func.isRequired,
+    isVisibleDeleteUserModal: PropTypes.bool.isRequired,
+};
 
 function ToggleButton(toggleDetails, item, details) {
     return (
@@ -262,17 +347,17 @@ function ToggleButton(toggleDetails, item, details) {
     );
 }
 
-function UserSuccessToast({ createdUser }) {
+function SuccessToast({ message }) {
     return (
         <CToast visible={true} color="success" className="text-white align-items-center">
             <div className="d-flex">
-                <CToastBody>{`User ${createdUser.firstName} has been created successfully`}</CToastBody>
+                <CToastBody>{message}</CToastBody>
                 <CToastClose className="me-2 m-auto" white />
             </div>
         </CToast>
     );
 }
 
-UserSuccessToast.propTypes = {
-    createdUser: PropTypes.object.isRequired,
+SuccessToast.propTypes = {
+    message: PropTypes.string.isRequired,
 };
