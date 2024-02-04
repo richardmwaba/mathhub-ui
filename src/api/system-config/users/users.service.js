@@ -45,6 +45,30 @@ function createUser(newUser, axiosPrivate, controller, errorCallback) {
         });
 }
 
+function editUser(editedUser, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/ops/users/${editedUser.userId}`, editedUser, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function deleteUser(userId, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .delete(`/ops/users/${userId}`, { signal: controller.signal })
+        .then((response) => {
+            return response;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
 function getAllUserRoles() {
     return [
         { value: 'Administrator', text: 'Administrator' },
@@ -55,6 +79,6 @@ function getAllUserRoles() {
     ];
 }
 
-const UsersService = { createUser, getAllUsers, getAllUserRoles };
+const UsersService = { createUser, editUser, deleteUser, getAllUsers, getAllUserRoles };
 
 export default UsersService;

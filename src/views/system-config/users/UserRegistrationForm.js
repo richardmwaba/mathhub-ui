@@ -40,7 +40,7 @@ export default function UserRegistrationForm({
         lastName: '',
         email: '',
         password: '',
-        roles: [],
+        userRoles: [],
     };
 
     const [allUserRoles, setAllUserRoles] = useState([]);
@@ -128,7 +128,7 @@ export default function UserRegistrationForm({
                 <CContainer>
                     <CRow className="justify-content-center">
                         <CCol md={12} lg={12} xl={12}>
-                            <CCard className="mx-4">
+                            <CCard className="mx-2">
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
@@ -224,7 +224,7 @@ export default function UserRegistrationForm({
                                                             );
                                                         return {
                                                             ...prev,
-                                                            roles: selectedUserRolesValues,
+                                                            userRoles: selectedUserRolesValues,
                                                         };
                                                     });
                                                 }}
