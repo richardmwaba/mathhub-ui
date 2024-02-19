@@ -16,14 +16,14 @@ export default function AssetTypesGrid() {
 
     const [assetTypes, setAssetTypes] = useState([]);
     const [createdAssetType, setCreatedAssetType] = useState({});
-    const [savedAssetType, setSavedAssetType] = useState({});
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(true);
-    const [isVisibleNewAssetTypeModal, setIsVisibleNewAssetTypeModal] = useState(false);
     const [isVisibleEditAssetTypeModal, setIsVisibleEditAssetTypeModal] = useState(false);
+    const [isVisibleNewAssetTypeModal, setIsVisibleNewAssetTypeModal] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [toast, setToast] = useState(0);
+    const [savedAssetType, setSavedAssetType] = useState({});
     const [selectedAssetType, setSelectedAssetType] = useState({});
+    const [toast, setToast] = useState(0);
 
     const assetTypeActionSuccessToasterRef = useRef();
 

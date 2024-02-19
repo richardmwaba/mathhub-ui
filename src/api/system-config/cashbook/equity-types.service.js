@@ -9,7 +9,7 @@ function getAllEquityTypes(axiosPrivate, controller, errorCallback) {
             equityTypes = equityTypesList.map((equityType) => {
                 return {
                     id: equityType.equityTypeId,
-                    type: equityType.typeName,
+                    name: equityType.typeName,
                     description: equityType.typeDescription,
                 };
             });
@@ -22,6 +22,32 @@ function getAllEquityTypes(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const EquityTypesService = { getAllEquityTypes };
+function createEquityType(newEquityType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/systemconfig/ops/equityTypes', newEquityType, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editEquityType(editedEquityType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/systemconfig/ops/equityTypes/${editedEquityType.equityTypeId}`, editedEquityType, {
+            signal: controller.signal,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const EquityTypesService = { createEquityType, editEquityType, getAllEquityTypes };
 
 export default EquityTypesService;

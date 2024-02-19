@@ -18,37 +18,37 @@ import {
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
-import AssetTypesService from 'src/api/system-config/cashbook/asset-types.service';
+import EquityTypesService from 'src/api/system-config/cashbook/equity-types.service';
 
-export default function EditAssetTypeForm({
-    assetType,
+export default function EditEquityTypeForm({
+    equityType,
     visibility,
-    setEditAssetTypeModalVisibility,
-    savedAssetTypeCallBack,
+    setEditEquityTypeModalVisibility,
+    savedEquityTypeCallBack,
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const typeNameRef = useRef();
     const errorRef = useRef();
-    const defaultAssetType = {
-        assetTypeId: assetType.id,
-        typeName: assetType.name,
-        typeDescription: assetType.description,
+    const defaultEquityType = {
+        equityTypeId: equityType.id,
+        typeName: equityType.name,
+        typeDescription: equityType.description,
     };
 
-    const [isEditAssetTypeFormValidated, setIsEditAssetTypeFormValidated] = useState(false);
+    const [isEditEquityTypeFormValidated, setIsEditEquityTypeFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [editedAssetType, setEditedAssetType] = useState(defaultAssetType);
+    const [editedEquityType, setEditedEquityType] = useState(defaultEquityType);
 
     useEffect(() => {
         typeNameRef.current.focus();
     }, [typeNameRef]);
 
-    const handleEditAssetType = async (event) => {
-        const editAssetTypeForm = event.currentTarget;
+    const handleEditEquityType = async (event) => {
+        const editEquityTypeForm = event.currentTarget;
 
-        if (editAssetTypeForm.checkValidity() === false) {
+        if (editEquityTypeForm.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         } else {
@@ -56,16 +56,16 @@ export default function EditAssetTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await AssetTypesService.editAssetType(
-                editedAssetType,
+            await EquityTypesService.editEquityType(
+                editedEquityType,
                 axiosPrivate,
                 controller,
                 setErrorMessage,
             ).then(
                 (response) => {
-                    setEditedAssetType(defaultAssetType);
-                    setEditAssetTypeModalVisibility(!visibility);
-                    savedAssetTypeCallBack(response);
+                    setEditedEquityType(defaultEquityType);
+                    setEditEquityTypeModalVisibility(!visibility);
+                    savedEquityTypeCallBack(response);
                 },
                 (error) => {
                     if (!error?.response) {
@@ -79,7 +79,7 @@ export default function EditAssetTypeForm({
         }
 
         setIsLoading(false);
-        setIsEditAssetTypeFormValidated(true);
+        setIsEditEquityTypeFormValidated(true);
     };
 
     return (
@@ -87,11 +87,11 @@ export default function EditAssetTypeForm({
             backdrop="static"
             alignment="center"
             visible={visibility}
-            onClose={() => setEditAssetTypeModalVisibility(!visibility)}
+            onClose={() => setEditEquityTypeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
         >
             <CModalHeader>
-                <CModalTitle id="StaticBackdropExampleLabel">New Asset Type</CModalTitle>
+                <CModalTitle id="StaticBackdropExampleLabel">New Equity Type</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CContainer>
@@ -101,16 +101,16 @@ export default function EditAssetTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the asset type. Please try
-                                            again!
+                                            An error occured while saving the equity type. Please
+                                            try again!
                                         </CFormText>
                                     )}
                                     <CForm
                                         className="needs-validation"
                                         noValidate
-                                        validated={isEditAssetTypeFormValidated}
-                                        onSubmit={handleEditAssetType}
-                                        id="editAssetTypeForm"
+                                        validated={isEditEquityTypeFormValidated}
+                                        onSubmit={handleEditEquityType}
+                                        id="editEquityTypeForm"
                                     >
                                         <CFormInput
                                             className="mb-3"
@@ -120,10 +120,10 @@ export default function EditAssetTypeForm({
                                             label="Name"
                                             required
                                             ref={typeNameRef}
-                                            value={editedAssetType.typeName}
+                                            value={editedEquityType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
-                                                setEditedAssetType((prev) => {
+                                                setEditedEquityType((prev) => {
                                                     return {
                                                         ...prev,
                                                         typeName: e.target.value,
@@ -138,9 +138,9 @@ export default function EditAssetTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedAssetType.typeDescription}
+                                            value={editedEquityType.typeDescription}
                                             onChange={(e) => {
-                                                setEditedAssetType((prev) => {
+                                                setEditedEquityType((prev) => {
                                                     return {
                                                         ...prev,
                                                         typeDescription: e.target.value,
@@ -156,25 +156,25 @@ export default function EditAssetTypeForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton color="secondary" onClick={() => setEditAssetTypeModalVisibility(false)}>
+                <CButton color="secondary" onClick={() => setEditEquityTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
                 <CLoadingButton
                     color="primary"
-                    form="editAssetTypeForm"
+                    form="editEquityTypeForm"
                     loading={isLoading}
                     type="submit"
                 >
-                    Save Asset Type
+                    Save Equity Type
                 </CLoadingButton>
             </CModalFooter>
         </CModal>
     );
 }
 
-EditAssetTypeForm.propTypes = {
-    assetType: PropTypes.object.isRequired,
+EditEquityTypeForm.propTypes = {
+    equityType: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
-    setEditAssetTypeModalVisibility: PropTypes.func.isRequired,
-    savedAssetTypeCallBack: PropTypes.func.isRequired,
+    setEditEquityTypeModalVisibility: PropTypes.func.isRequired,
+    savedEquityTypeCallBack: PropTypes.func.isRequired,
 };
