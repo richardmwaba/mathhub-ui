@@ -9,7 +9,7 @@ function getAllAssessmentTypes(axiosPrivate, controller, errorCallback) {
             assessmentTypes = assessmentTypesList.map((assessmentType) => {
                 return {
                     id: assessmentType.assessmentTypeId,
-                    type: assessmentType.typeName,
+                    name: assessmentType.typeName,
                     description: assessmentType.typeDescription,
                 };
             });
@@ -22,6 +22,36 @@ function getAllAssessmentTypes(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const AssessmentTypesService = { getAllAssessmentTypes };
+function createAssessmentType(newAssessmentType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/systemconfig/sis/assessmentTypes', newAssessmentType, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editAssessmentType(editedAssessmentType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(
+            `/systemconfig/sis/assessmentTypes/${editedAssessmentType.assessmentTypeId}`,
+            editedAssessmentType,
+            {
+                signal: controller.signal,
+            },
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const AssessmentTypesService = { createAssessmentType, editAssessmentType, getAllAssessmentTypes };
 
 export default AssessmentTypesService;

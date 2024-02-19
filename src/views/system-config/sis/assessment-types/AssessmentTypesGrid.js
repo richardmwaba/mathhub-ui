@@ -1,36 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import {
-    CButton,
-    CCardBody,
-    CCollapse,
-    CFormCheck,
-    CFormLabel,
-    CSmartTable,
-} from '@coreui/react-pro';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from 'react';
+import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import AssessmentTypesService from 'src/api/system-config/sis/assessment-types.service';
+import CIcon from '@coreui/icons-react';
+import NewAssessmentTypeForm from './NewAssessmentTypeForm';
+import { SuccessToast } from 'src/components/common/SuccessToast';
+import EditAssessmentTypeForm from './EditAssessmentTypeForm';
+import { EditButton } from 'src/components/common/EditButton';
+import { cilPlus } from '@coreui/icons';
 
 export default function AssessmentTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
+    const controller = new AbortController();
 
-    const [selected, setSelected] = useState([]);
-    const [details, setDetails] = useState([]);
     const [assessmentTypes, setAssessmentTypes] = useState([]);
+    const [createdAssessmentType, setCreatedAssessmentType] = useState({});
     const [error, setError] = useState('');
+    const [isMounted, setIsMounted] = useState(true);
+    const [isVisibleEditAssessmentTypeModal, setIsVisibleEditAssessmentTypeModal] = useState(false);
+    const [isVisibleNewAssessmentTypeModal, setIsVisibleNewAssessmentTypeModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [savedAssessmentType, setSavedAssessmentType] = useState({});
+    const [selectedAssessmentType, setSelectedAssessmentType] = useState({});
+    const [toast, setToast] = useState(0);
 
-    const assessmentTypesWithSelect = assessmentTypes?.map((assessmentType) => {
-        const _selected = selected.includes(assessmentType.id);
-        return {
-            ...assessmentType,
-            assessmentType,
-            _selected,
-            _classes: [assessmentType._classes, _selected && 'table-selected'],
-        };
-    });
+    const assessmentTypeActionSuccessToasterRef = useRef();
 
     const columns = [
-        { key: 'select', label: '', filter: false, sorter: false },
-        { key: 'type', label: 'Name', _style: { width: '40%' } },
+        { key: 'name', label: 'Name', _style: { width: '40%' } },
         {
             key: 'description',
             label: 'Description',
@@ -45,123 +43,130 @@ export default function AssessmentTypesGrid() {
         },
     ];
 
-    const toggleDetails = (index) => {
-        const position = details.indexOf(index);
-        let newDetails = details.slice();
-        if (position !== -1) {
-            newDetails.splice(position, 1);
-        } else {
-            newDetails = [...details, index];
-        }
-        setDetails(newDetails);
+    const getAssessmentTypes = async () => {
+        const response = await AssessmentTypesService.getAllAssessmentTypes(
+            axiosPrivate,
+            controller,
+            setError,
+        );
+        isMounted && setAssessmentTypes(response);
+        setLoading(false);
     };
 
-    const check = (e, id) => {
-        if (e.target.checked) {
-            setSelected([...selected, id]);
-        } else {
-            setSelected(selected.filter((itemId) => itemId !== id));
-        }
+    const setCreatedAssessmentTypeAndRefreshAssessmentTypes = (newAssessmentType) => {
+        setCreatedAssessmentType(newAssessmentType);
+        getAssessmentTypes();
     };
 
-    // get students data from api
+    const setSavedAssessmentTypeAndRefreshAssessmentTypes = (savedEditedAssessmentType) => {
+        setSavedAssessmentType(savedEditedAssessmentType);
+        getAssessmentTypes();
+    };
+
+    // get assessment types data from api
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getAssessmentTypes = async () => {
-            const response = await AssessmentTypesService.getAllAssessmentTypes(
-                axiosPrivate,
-                controller,
-                setError,
-            );
-            isMounted && setAssessmentTypes(response);
-        };
-
         getAssessmentTypes();
 
         return () => {
-            isMounted = false;
+            setIsMounted(false);
             controller.abort();
         };
-    }, [axiosPrivate]);
+    }, []);
 
-    return (
-        <CCardBody>
-            <CSmartTable
-                sorterValue={{ column: 'description', state: 'asc' }}
-                items={assessmentTypesWithSelect}
-                columns={columns}
-                itemsPerPage={10}
-                columnFilter
-                columnSorter
-                tableFilter
-                cleaner
-                itemsPerPageSelect
-                pagination
-                scopedColumns={{
-                    select: (item) => {
-                        return (
-                            <td>
-                                <CFormCheck
-                                    id={`checkbox${item.id}`}
-                                    checked={item._selected}
-                                    onChange={(e) => check(e, item.id)}
-                                />
-                                <CFormLabel
-                                    variant="custom-checkbox"
-                                    htmlFor={`checkbox${item.id}`}
-                                />
-                            </td>
-                        );
-                    },
-                    show_details: (item) => {
-                        return ToggleButton(toggleDetails, item, details);
-                    },
-                    details: (item) => {
-                        return DetailsCard(details, item);
-                    },
-                }}
-                tableProps={{
-                    hover: true,
-                    responsive: true,
-                }}
+    useEffect(() => {
+        const assessmentTypeSuccessfullyCreatedToast = (
+            <SuccessToast
+                message={`Assessment type ${createdAssessmentType?.typeName} has been created successfully`}
             />
-        </CCardBody>
-    );
-}
+        );
 
-function DetailsCard(details, item) {
+        if (createdAssessmentType?.typeName) {
+            setToast(assessmentTypeSuccessfullyCreatedToast);
+        }
+    }, [createdAssessmentType]);
+
+    useEffect(() => {
+        const assessmentTypeSuccessfullyEditedToast = (
+            <SuccessToast
+                message={`Assessment type ${savedAssessmentType?.typeName} has been updated successfully`}
+            />
+        );
+
+        if (savedAssessmentType?.typeName) {
+            setToast(assessmentTypeSuccessfullyEditedToast);
+        }
+    }, [savedAssessmentType]);
+
     return (
-        <CCollapse visible={details.includes(item.id)}>
+        <>
             <CCardBody>
-                <h4>{item.username}</h4>
-                <p className="text-muted">User since: {item.registered}</p>
-                <CButton size="sm" color="info">
-                    User Settings
+                <CButton
+                    color="primary"
+                    className="mb-2"
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                        setIsVisibleNewAssessmentTypeModal(!isVisibleNewAssessmentTypeModal)
+                    }
+                >
+                    <CIcon icon={cilPlus} title="Add New Assessment Type" /> Add New Assessment Type
                 </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                    Delete
-                </CButton>
+                <CSmartTable
+                    sorterValue={{ column: 'description', state: 'asc' }}
+                    items={assessmentTypes}
+                    columns={columns}
+                    itemsPerPage={10}
+                    columnFilter
+                    columnSorter
+                    tableFilter
+                    loading={loading}
+                    cleaner
+                    itemsPerPageSelect
+                    pagination
+                    noItemsLabel={
+                        error
+                            ? `Could not retrieve assessment types due to ${error}. Please try again.`
+                            : 'No assessment types found'
+                    }
+                    scopedColumns={{
+                        show_details: (item) => (
+                            <EditButton
+                                item={item}
+                                setSelectedItem={setSelectedAssessmentType}
+                                isVisibleEditModal={isVisibleEditAssessmentTypeModal}
+                                setIsVisibleEditModal={setIsVisibleEditAssessmentTypeModal}
+                            />
+                        ),
+                    }}
+                    tableProps={{
+                        hover: true,
+                        responsive: true,
+                        striped: true,
+                    }}
+                />
             </CCardBody>
-        </CCollapse>
-    );
-}
-
-function ToggleButton(toggleDetails, item, details) {
-    return (
-        <td className="py-2">
-            <CButton
-                color="primary"
-                variant="outline"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                    toggleDetails(item.id);
-                }}
-            >
-                {details.includes(item.id) ? 'Hide' : 'Show'}
-            </CButton>
-        </td>
+            {isVisibleNewAssessmentTypeModal && (
+                <NewAssessmentTypeForm
+                    visibility={isVisibleNewAssessmentTypeModal}
+                    setAssessmentTypeModalVisibility={setIsVisibleNewAssessmentTypeModal}
+                    createdAssessmentTypeCallBack={
+                        setCreatedAssessmentTypeAndRefreshAssessmentTypes
+                    }
+                />
+            )}
+            {isVisibleEditAssessmentTypeModal && (
+                <EditAssessmentTypeForm
+                    assessmentType={selectedAssessmentType}
+                    visibility={isVisibleEditAssessmentTypeModal}
+                    setEditAssessmentTypeModalVisibility={setIsVisibleEditAssessmentTypeModal}
+                    savedAssessmentTypeCallBack={setSavedAssessmentTypeAndRefreshAssessmentTypes}
+                />
+            )}
+            <CToaster
+                ref={assessmentTypeActionSuccessToasterRef}
+                push={toast}
+                placement="bottom-end"
+            />
+        </>
     );
 }
