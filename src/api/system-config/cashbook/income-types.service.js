@@ -9,7 +9,7 @@ function getAllIncomeTypes(axiosPrivate, controller, errorCallback) {
             incomeTypes = incomeTypesList.map((incomeType) => {
                 return {
                     id: incomeType.incomeTypeId,
-                    type: incomeType.typeName,
+                    name: incomeType.typeName,
                     description: incomeType.typeDescription,
                 };
             });
@@ -22,6 +22,32 @@ function getAllIncomeTypes(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const IncomeTypesService = { getAllIncomeTypes };
+function createIncomeType(newIncomeType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/systemconfig/ops/incomeTypes', newIncomeType, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editIncomeType(editedIncomeType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/systemconfig/ops/incomeTypes/${editedIncomeType.incomeTypeId}`, editedIncomeType, {
+            signal: controller.signal,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const IncomeTypesService = { createIncomeType, editIncomeType, getAllIncomeTypes };
 
 export default IncomeTypesService;
