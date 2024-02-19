@@ -1,41 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import {
-    CButton,
-    CCardBody,
-    CCollapse,
-    CFormCheck,
-    CFormLabel,
-    CSmartTable,
-} from '@coreui/react-pro';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from 'react';
+import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import ExpenseTypesService from 'src/api/system-config/cashbook/expense-types.service';
+import CIcon from '@coreui/icons-react';
+import NewExpenseTypeForm from './NewExpenseTypeForm';
+import { SuccessToast } from 'src/components/common/SuccessToast';
+import EditExpenseTypeForm from './EditExpenseTypeForm';
+import { EditButton } from 'src/components/common/EditButton';
+import { cilPlus } from '@coreui/icons';
 
 export default function ExpenseTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
+    const controller = new AbortController();
 
-    const [selected, setSelected] = useState([]);
-    const [details, setDetails] = useState([]);
     const [expenseTypes, setExpenseTypes] = useState([]);
+    const [createdExpenseType, setCreatedExpenseType] = useState({});
     const [error, setError] = useState('');
+    const [isMounted, setIsMounted] = useState(true);
+    const [isVisibleEditExpenseTypeModal, setIsVisibleEditExpenseTypeModal] = useState(false);
+    const [isVisibleNewExpenseTypeModal, setIsVisibleNewExpenseTypeModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [savedExpenseType, setSavedExpenseType] = useState({});
+    const [selectedExpenseType, setSelectedExpenseType] = useState({});
+    const [toast, setToast] = useState(0);
 
-    const expenseTypesWithSelect = expenseTypes?.map((expenseType) => {
-        const _selected = selected.includes(expenseType.id);
-        return {
-            ...expenseType,
-            expenseType,
-            _selected,
-            _classes: [expenseType._classes, _selected && 'table-selected'],
-        };
-    });
+    const expenseTypeActionSuccessToasterRef = useRef();
 
     const columns = [
-        { key: 'select', label: '', filter: false, sorter: false },
+        { key: 'name', label: 'Name', _style: { width: '40%' } },
         {
             key: 'description',
-            label: 'Name',
+            label: 'Description',
             _style: { width: '60%' },
         },
-        { key: 'type', label: 'Short Name', _style: { width: '40%' } },
         {
             key: 'show_details',
             label: '',
@@ -45,123 +43,126 @@ export default function ExpenseTypesGrid() {
         },
     ];
 
-    const toggleDetails = (index) => {
-        const position = details.indexOf(index);
-        let newDetails = details.slice();
-        if (position !== -1) {
-            newDetails.splice(position, 1);
-        } else {
-            newDetails = [...details, index];
-        }
-        setDetails(newDetails);
+    const getExpenseTypes = async () => {
+        const response = await ExpenseTypesService.getAllExpenseTypes(
+            axiosPrivate,
+            controller,
+            setError,
+        );
+        isMounted && setExpenseTypes(response);
+        setLoading(false);
     };
 
-    const check = (e, id) => {
-        if (e.target.checked) {
-            setSelected([...selected, id]);
-        } else {
-            setSelected(selected.filter((itemId) => itemId !== id));
-        }
+    const setCreatedExpenseTypeAndRefreshExpenseTypes = (newExpenseType) => {
+        setCreatedExpenseType(newExpenseType);
+        getExpenseTypes();
     };
 
-    // get students data from api
+    const setSavedExpenseTypeAndRefreshExpenseTypes = (savedEditedExpenseType) => {
+        setSavedExpenseType(savedEditedExpenseType);
+        getExpenseTypes();
+    };
+
+    // get expense types data from api
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getExpenseTypes = async () => {
-            const response = await ExpenseTypesService.getAllExpenseTypes(
-                axiosPrivate,
-                controller,
-                setError,
-            );
-            isMounted && setExpenseTypes(response);
-        };
-
         getExpenseTypes();
 
         return () => {
-            isMounted = false;
+            setIsMounted(false);
             controller.abort();
         };
-    }, [axiosPrivate]);
+    }, []);
 
-    return (
-        <CCardBody>
-            <CSmartTable
-                sorterValue={{ column: 'description', state: 'asc' }}
-                items={expenseTypesWithSelect}
-                columns={columns}
-                itemsPerPage={10}
-                columnFilter
-                columnSorter
-                tableFilter
-                cleaner
-                itemsPerPageSelect
-                pagination
-                scopedColumns={{
-                    select: (item) => {
-                        return (
-                            <td>
-                                <CFormCheck
-                                    id={`checkbox${item.id}`}
-                                    checked={item._selected}
-                                    onChange={(e) => check(e, item.id)}
-                                />
-                                <CFormLabel
-                                    variant="custom-checkbox"
-                                    htmlFor={`checkbox${item.id}`}
-                                />
-                            </td>
-                        );
-                    },
-                    show_details: (item) => {
-                        return ToggleButton(toggleDetails, item, details);
-                    },
-                    details: (item) => {
-                        return DetailsCard(details, item);
-                    },
-                }}
-                tableProps={{
-                    hover: true,
-                    responsive: true,
-                }}
+    useEffect(() => {
+        const expenseTypeSuccessfullyCreatedToast = (
+            <SuccessToast
+                message={`Expense type ${createdExpenseType?.typeName} has been created successfully`}
             />
-        </CCardBody>
-    );
-}
+        );
 
-function DetailsCard(details, item) {
+        if (createdExpenseType?.typeName) {
+            setToast(expenseTypeSuccessfullyCreatedToast);
+        }
+    }, [createdExpenseType]);
+
+    useEffect(() => {
+        const expenseTypeSuccessfullyEditedToast = (
+            <SuccessToast
+                message={`Expense type ${savedExpenseType?.typeName} has been updated successfully`}
+            />
+        );
+
+        if (savedExpenseType?.typeName) {
+            setToast(expenseTypeSuccessfullyEditedToast);
+        }
+    }, [savedExpenseType]);
+
     return (
-        <CCollapse visible={details.includes(item.id)}>
+        <>
             <CCardBody>
-                <h4>{item.username}</h4>
-                <p className="text-muted">User since: {item.registered}</p>
-                <CButton size="sm" color="info">
-                    User Settings
+                <CButton
+                    color="primary"
+                    className="mb-2"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsVisibleNewExpenseTypeModal(!isVisibleNewExpenseTypeModal)}
+                >
+                    <CIcon icon={cilPlus} title="Add New Expense Type" /> Add New Expense Type
                 </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                    Delete
-                </CButton>
+                <CSmartTable
+                    sorterValue={{ column: 'description', state: 'asc' }}
+                    items={expenseTypes}
+                    columns={columns}
+                    itemsPerPage={10}
+                    columnFilter
+                    columnSorter
+                    tableFilter
+                    loading={loading}
+                    cleaner
+                    itemsPerPageSelect
+                    pagination
+                    noItemsLabel={
+                        error
+                            ? `Could not retrieve expense types due to ${error}. Please try again.`
+                            : 'No expense types found'
+                    }
+                    scopedColumns={{
+                        show_details: (item) => (
+                            <EditButton
+                                item={item}
+                                setSelectedItem={setSelectedExpenseType}
+                                isVisibleEditModal={isVisibleEditExpenseTypeModal}
+                                setIsVisibleEditModal={setIsVisibleEditExpenseTypeModal}
+                            />
+                        ),
+                    }}
+                    tableProps={{
+                        hover: true,
+                        responsive: true,
+                        striped: true,
+                    }}
+                />
             </CCardBody>
-        </CCollapse>
-    );
-}
-
-function ToggleButton(toggleDetails, item, details) {
-    return (
-        <td className="py-2">
-            <CButton
-                color="primary"
-                variant="outline"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                    toggleDetails(item.id);
-                }}
-            >
-                {details.includes(item.id) ? 'Hide' : 'Show'}
-            </CButton>
-        </td>
+            {isVisibleNewExpenseTypeModal && (
+                <NewExpenseTypeForm
+                    visibility={isVisibleNewExpenseTypeModal}
+                    setExpenseTypeModalVisibility={setIsVisibleNewExpenseTypeModal}
+                    createdExpenseTypeCallBack={setCreatedExpenseTypeAndRefreshExpenseTypes}
+                />
+            )}
+            {isVisibleEditExpenseTypeModal && (
+                <EditExpenseTypeForm
+                    expenseType={selectedExpenseType}
+                    visibility={isVisibleEditExpenseTypeModal}
+                    setEditExpenseTypeModalVisibility={setIsVisibleEditExpenseTypeModal}
+                    savedExpenseTypeCallBack={setSavedExpenseTypeAndRefreshExpenseTypes}
+                />
+            )}
+            <CToaster
+                ref={expenseTypeActionSuccessToasterRef}
+                push={toast}
+                placement="bottom-end"
+            />
+        </>
     );
 }
