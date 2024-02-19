@@ -9,7 +9,7 @@ function getAllPaymentMethods(axiosPrivate, controller, errorCallback) {
             paymentMethods = paymentMethodsList.map((paymentMethod) => {
                 return {
                     id: paymentMethod.paymentMethodId,
-                    type: paymentMethod.typeName,
+                    name: paymentMethod.typeName,
                     description: paymentMethod.typeDescription,
                 };
             });
@@ -22,6 +22,36 @@ function getAllPaymentMethods(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const PaymentMethodsService = { getAllPaymentMethods };
+function createPaymentMethod(newPaymentMethod, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/systemconfig/ops/paymentMethods', newPaymentMethod, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editPaymentMethod(editedPaymentMethod, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(
+            `/systemconfig/ops/paymentMethods/${editedPaymentMethod.paymentMethodId}`,
+            editedPaymentMethod,
+            {
+                signal: controller.signal,
+            },
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const PaymentMethodsService = { createPaymentMethod, editPaymentMethod, getAllPaymentMethods };
 
 export default PaymentMethodsService;
