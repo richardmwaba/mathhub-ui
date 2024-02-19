@@ -34,7 +34,7 @@ function createAssetType(newAssetType, axiosPrivate, controller, errorCallback) 
         });
 }
 
-function editAssetTypeForm(editedAssetType, axiosPrivate, controller, errorCallback) {
+function editAssetType(editedAssetType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .put(`/systemconfig/ops/assetTypes/${editedAssetType.assetTypeId}`, editedAssetType, {
             signal: controller.signal,
@@ -48,6 +48,6 @@ function editAssetTypeForm(editedAssetType, axiosPrivate, controller, errorCallb
         });
 }
 
-const AssetTypesService = { createAssetType, editAssetTypeForm, getAllAssetTypes };
+const AssetTypesService = { createAssetType, editAssetType, getAllAssetTypes };
 
 export default AssetTypesService;
