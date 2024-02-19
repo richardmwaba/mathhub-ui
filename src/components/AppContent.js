@@ -10,7 +10,13 @@ const AppContent = () => {
     return (
         <CContainer fluid>
             <AppBreadcrumb />
-            <Suspense fallback={<CSpinner color="primary" />}>
+            <Suspense
+                fallback={
+                    <div className="text-center">
+                        <CSpinner variant="grow" color="primary" />
+                    </div>
+                }
+            >
                 <Routes>
                     {routes.map((route, idx) => {
                         return (

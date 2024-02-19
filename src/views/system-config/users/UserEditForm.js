@@ -24,11 +24,17 @@ import {
     cilChevronCircleDownAlt,
     cilChevronCircleUpAlt,
     cilLockLocked,
+    cilPhone,
     cilUser,
 } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
 import PropTypes from 'prop-types';
+import { IMaskMixin } from 'react-imask';
+
+const CFormInputWithMask = IMaskMixin(({ inputRef, ...props }) => (
+    <CFormInput {...props} ref={inputRef} />
+));
 
 export default function UserEditForm({
     user,
@@ -49,6 +55,7 @@ export default function UserEditForm({
         firstName: usersNames[0],
         lastName: usersNames[usersNames.length - 1],
         middleName: usersNames.length === 3 ? usersNames[1] : '',
+        phoneNumber: user.phoneNumber,
         email: user.email,
         userRoles: user.userRoles,
     };
@@ -201,7 +208,6 @@ export default function UserEditForm({
                                                 placeholder="Middle Name"
                                                 autoComplete="middlename"
                                                 id="middlename"
-                                                required
                                                 value={editedUser.middleName}
                                                 onChange={(e) => {
                                                     setEditedUser((prev) => {
@@ -231,6 +237,26 @@ export default function UserEditForm({
                                                         };
                                                     });
                                                 }}
+                                            />
+                                        </CInputGroup>
+                                        <CInputGroup className="mb-3">
+                                            <CInputGroupText>
+                                                <CIcon icon={cilPhone} title="Phone Number" />
+                                            </CInputGroupText>
+                                            <CFormInputWithMask
+                                                mask="+260 000 000000"
+                                                autoComplete="phoneNumber"
+                                                id="phoneNumber"
+                                                value={editedUser.phoneNumber}
+                                                onChange={(e) => {
+                                                    setEditedUser((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            phoneNumber: e.target.value,
+                                                        };
+                                                    });
+                                                }}
+                                                placeholder="Phone Number"
                                             />
                                         </CInputGroup>
                                         <CInputGroup className="mb-3">
