@@ -1,41 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import {
-    CButton,
-    CCardBody,
-    CCollapse,
-    CFormCheck,
-    CFormLabel,
-    CSmartTable,
-} from '@coreui/react-pro';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from 'react';
+import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service.js';
+import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
+import CIcon from '@coreui/icons-react';
+import NewPaymentMethodForm from './NewPaymentMethodForm';
+import { SuccessToast } from 'src/components/common/SuccessToast';
+import EditPaymentMethodForm from './EditPaymentMethodForm';
+import { EditButton } from 'src/components/common/EditButton';
+import { cilPlus } from '@coreui/icons';
 
 export default function PaymentMethodsGrid() {
     const axiosPrivate = useAxiosPrivate();
+    const controller = new AbortController();
 
-    const [selected, setSelected] = useState([]);
-    const [details, setDetails] = useState([]);
     const [paymentMethods, setPaymentMethods] = useState([]);
+    const [createdPaymentMethod, setCreatedPaymentMethod] = useState({});
     const [error, setError] = useState('');
+    const [isMounted, setIsMounted] = useState(true);
+    const [isVisibleEditPaymentMethodModal, setIsVisibleEditPaymentMethodModal] = useState(false);
+    const [isVisibleNewPaymentMethodModal, setIsVisibleNewPaymentMethodModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [savedPaymentMethod, setSavedPaymentMethod] = useState({});
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState({});
+    const [toast, setToast] = useState(0);
 
-    const paymentMethodsWithSelect = paymentMethods?.map((paymentMethod) => {
-        const _selected = selected.includes(paymentMethod.id);
-        return {
-            ...paymentMethod,
-            paymentMethod,
-            _selected,
-            _classes: [paymentMethod._classes, _selected && 'table-selected'],
-        };
-    });
+    const paymentMethodActionSuccessToasterRef = useRef();
 
     const columns = [
-        { key: 'select', label: '', filter: false, sorter: false },
+        { key: 'name', label: 'Name', _style: { width: '40%' } },
         {
             key: 'description',
-            label: 'Name',
+            label: 'Description',
             _style: { width: '60%' },
         },
-        { key: 'type', label: 'Short Name', _style: { width: '40%' } },
         {
             key: 'show_details',
             label: '',
@@ -45,123 +43,128 @@ export default function PaymentMethodsGrid() {
         },
     ];
 
-    const toggleDetails = (index) => {
-        const position = details.indexOf(index);
-        let newDetails = details.slice();
-        if (position !== -1) {
-            newDetails.splice(position, 1);
-        } else {
-            newDetails = [...details, index];
-        }
-        setDetails(newDetails);
+    const getPaymentMethods = async () => {
+        const response = await PaymentMethodsService.getAllPaymentMethods(
+            axiosPrivate,
+            controller,
+            setError,
+        );
+        isMounted && setPaymentMethods(response);
+        setLoading(false);
     };
 
-    const check = (e, id) => {
-        if (e.target.checked) {
-            setSelected([...selected, id]);
-        } else {
-            setSelected(selected.filter((itemId) => itemId !== id));
-        }
+    const setCreatedPaymentMethodAndRefreshPaymentMethods = (newPaymentMethod) => {
+        setCreatedPaymentMethod(newPaymentMethod);
+        getPaymentMethods();
     };
 
-    // get students data from api
+    const setSavedPaymentMethodAndRefreshPaymentMethods = (savedEditedPaymentMethod) => {
+        setSavedPaymentMethod(savedEditedPaymentMethod);
+        getPaymentMethods();
+    };
+
+    // get payment methods data from api
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getPaymentMethods = async () => {
-            const response = await PaymentMethodsService.getAllPaymentMethods(
-                axiosPrivate,
-                controller,
-                setError,
-            );
-            isMounted && setPaymentMethods(response);
-        };
-
         getPaymentMethods();
 
         return () => {
-            isMounted = false;
+            setIsMounted(false);
             controller.abort();
         };
-    }, [axiosPrivate]);
+    }, []);
 
-    return (
-        <CCardBody>
-            <CSmartTable
-                sorterValue={{ column: 'description', state: 'asc' }}
-                items={paymentMethodsWithSelect}
-                columns={columns}
-                itemsPerPage={10}
-                columnFilter
-                columnSorter
-                tableFilter
-                cleaner
-                itemsPerPageSelect
-                pagination
-                scopedColumns={{
-                    select: (item) => {
-                        return (
-                            <td>
-                                <CFormCheck
-                                    id={`checkbox${item.id}`}
-                                    checked={item._selected}
-                                    onChange={(e) => check(e, item.id)}
-                                />
-                                <CFormLabel
-                                    variant="custom-checkbox"
-                                    htmlFor={`checkbox${item.id}`}
-                                />
-                            </td>
-                        );
-                    },
-                    show_details: (item) => {
-                        return ToggleButton(toggleDetails, item, details);
-                    },
-                    details: (item) => {
-                        return DetailsCard(details, item);
-                    },
-                }}
-                tableProps={{
-                    hover: true,
-                    responsive: true,
-                }}
+    useEffect(() => {
+        const paymentMethodSuccessfullyCreatedToast = (
+            <SuccessToast
+                message={`Asset type ${createdPaymentMethod?.typeName} has been created successfully`}
             />
-        </CCardBody>
-    );
-}
+        );
 
-function DetailsCard(details, item) {
+        if (createdPaymentMethod?.typeName) {
+            setToast(paymentMethodSuccessfullyCreatedToast);
+        }
+    }, [createdPaymentMethod]);
+
+    useEffect(() => {
+        const paymentMethodSuccessfullyEditedToast = (
+            <SuccessToast
+                message={`Asset type ${savedPaymentMethod?.typeName} has been updated successfully`}
+            />
+        );
+
+        if (savedPaymentMethod?.typeName) {
+            setToast(paymentMethodSuccessfullyEditedToast);
+        }
+    }, [savedPaymentMethod]);
+
     return (
-        <CCollapse visible={details.includes(item.id)}>
+        <>
             <CCardBody>
-                <h4>{item.username}</h4>
-                <p className="text-muted">User since: {item.registered}</p>
-                <CButton size="sm" color="info">
-                    User Settings
+                <CButton
+                    color="primary"
+                    className="mb-2"
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                        setIsVisibleNewPaymentMethodModal(!isVisibleNewPaymentMethodModal)
+                    }
+                >
+                    <CIcon icon={cilPlus} title="Add New Asset Type" /> Add New Asset Type
                 </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                    Delete
-                </CButton>
+                <CSmartTable
+                    sorterValue={{ column: 'description', state: 'asc' }}
+                    items={paymentMethods}
+                    columns={columns}
+                    itemsPerPage={10}
+                    columnFilter
+                    columnSorter
+                    tableFilter
+                    loading={loading}
+                    cleaner
+                    itemsPerPageSelect
+                    pagination
+                    noItemsLabel={
+                        error
+                            ? `Could not retrieve asset types due to ${error}. Please try again.`
+                            : 'No asset types found'
+                    }
+                    scopedColumns={{
+                        show_details: (item) => (
+                            <EditButton
+                                item={item}
+                                setSelectedItem={setSelectedPaymentMethod}
+                                isVisibleEditModal={isVisibleEditPaymentMethodModal}
+                                setIsVisibleEditModal={setIsVisibleEditPaymentMethodModal}
+                            />
+                        ),
+                    }}
+                    tableProps={{
+                        hover: true,
+                        responsive: true,
+                        striped: true,
+                    }}
+                />
             </CCardBody>
-        </CCollapse>
-    );
-}
-
-function ToggleButton(toggleDetails, item, details) {
-    return (
-        <td className="py-2">
-            <CButton
-                color="primary"
-                variant="outline"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                    toggleDetails(item.id);
-                }}
-            >
-                {details.includes(item.id) ? 'Hide' : 'Show'}
-            </CButton>
-        </td>
+            {isVisibleNewPaymentMethodModal && (
+                <NewPaymentMethodForm
+                    visibility={isVisibleNewPaymentMethodModal}
+                    setPaymentMethodModalVisibility={setIsVisibleNewPaymentMethodModal}
+                    createdPaymentMethodCallBack={setCreatedPaymentMethodAndRefreshPaymentMethods}
+                />
+            )}
+            {isVisibleEditPaymentMethodModal && (
+                <EditPaymentMethodForm
+                    paymentMethod={selectedPaymentMethod}
+                    visibility={isVisibleEditPaymentMethodModal}
+                    setEditPaymentMethodModalVisibility={setIsVisibleEditPaymentMethodModal}
+                    savedPaymentMethodCallBack={setSavedPaymentMethodAndRefreshPaymentMethods}
+                />
+            )}
+            <CToaster
+                ref={paymentMethodActionSuccessToasterRef}
+                push={toast}
+                placement="bottom-end"
+            />
+        </>
     );
 }
