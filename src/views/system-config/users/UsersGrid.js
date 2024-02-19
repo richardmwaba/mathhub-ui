@@ -1,27 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import {
     CAvatar,
     CCardBody,
     CButton,
     CCollapse,
+    CMultiSelect,
     CSmartTable,
-    CToast,
-    CToastBody,
-    CToastClose,
     CToaster,
     CTableBody,
     CTableRow,
     CTableDataCell,
+    CTable,
 } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
-import {
-    cilArrowThickToBottom,
-    cilChevronCircleDownAlt,
-    cilChevronCircleUpAlt,
-    cilPencil,
-    cilTrash,
-    cilUserPlus,
-} from '@coreui/icons';
+import { cilArrowThickToBottom, cilPencil, cilTrash, cilUserPlus } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
 import UserRegistrationForm from './UserRegistrationForm';
@@ -29,25 +22,28 @@ import avatar1 from 'src/assets/images/avatars/1.jpg';
 import PropTypes from 'prop-types';
 import UserEditForm from './UserEditForm';
 import UserDeletionConfirmation from './UserDeletionConfirmation';
+import { SuccessToast } from 'src/components/common/SuccessToast';
+import { ToggleButton } from 'src/components/common/ToggleButton';
 
 export default function UsersGrid() {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
 
-    const [toast, setToast] = useState(0);
-    const [loading, setLoading] = useState();
-    const [details, setDetails] = useState([]);
-    const [currentItems, setCurrentItems] = useState([]);
     const [createdUser, setCreatedUser] = useState({});
-    const [savedEditedUser, setSavedEditedUser] = useState({});
+    const [currentItems, setCurrentItems] = useState([]);
     const [deleteUserResponse, setDeleteUserResponse] = useState({});
     const [deletedUserFullname, setDeletedUserFullname] = useState('');
-    const [selectedUser, setSelectedUser] = useState({});
-    const [users, setUsers] = useState([]);
+    const [details, setDetails] = useState([]);
     const [error, setError] = useState('');
-    const [isVisibleNewUserModal, setIsVisibleNewUserModal] = useState(false);
-    const [isVisibleEditUserModal, setIsVisibleEditUserModal] = useState(false);
+    const [isMounted, setIsMounted] = useState(true);
     const [isVisibleDeleteUserModal, setIsVisibleDeleteUserModal] = useState(false);
+    const [isVisibleEditUserModal, setIsVisibleEditUserModal] = useState(false);
+    const [isVisibleNewUserModal, setIsVisibleNewUserModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [savedEditedUser, setSavedEditedUser] = useState({});
+    const [selectedUser, setSelectedUser] = useState({});
+    const [toast, setToast] = useState(0);
+    const [users, setUsers] = useState([]);
 
     const userActionSuccessToasterRef = useRef();
 
@@ -75,6 +71,7 @@ export default function UsersGrid() {
             key: 'userRoles',
             label: 'User Roles',
             _style: { width: '30%' },
+            filter: (values, onChange) => multiSelectColumnFilter(values, onChange),
         },
         {
             key: 'show_details',
@@ -100,10 +97,13 @@ export default function UsersGrid() {
         setIsVisibleNewUserModal(!isVisibleNewUserModal);
     };
 
-    let isMounted = true;
     const getUsers = async () => {
         const response = await UsersService.getAllUsers(axiosPrivate, controller, setError);
-        isMounted && setUsers(response) && setCurrentItems(response);
+        if (isMounted) {
+            setUsers(response);
+            setCurrentItems(response);
+        }
+        setLoading(false);
     };
 
     // get students data from api
@@ -111,7 +111,7 @@ export default function UsersGrid() {
         getUsers();
 
         return () => {
-            isMounted = false;
+            setIsMounted(false);
             controller.abort();
         };
     }, []);
@@ -202,13 +202,18 @@ export default function UsersGrid() {
                     cleaner
                     loading={loading}
                     pagination
+                    noItemsLabel={
+                        error
+                            ? `Could not retrieve users due to ${error}. Please try again.`
+                            : 'No users found'
+                    }
                     scopedColumns={{
                         show_details: (user) => {
                             return ToggleButton(toggleDetails, user, details);
                         },
                         details: (user) => {
                             return (
-                                <DetailsCard
+                                <UserDetailsCard
                                     details={details}
                                     user={user}
                                     setSelectedUser={setSelectedUser}
@@ -258,7 +263,7 @@ export default function UsersGrid() {
     );
 }
 
-function DetailsCard({
+function UserDetailsCard({
     details,
     user,
     setSelectedUser,
@@ -269,53 +274,55 @@ function DetailsCard({
 }) {
     return (
         <CCollapse visible={details.includes(user.id)}>
-            <CCardBody>
-                <CTableBody>
-                    <CTableRow>
-                        <CTableDataCell className="text-center">
-                            <CAvatar size="md" src={avatar1} />
-                        </CTableDataCell>
-                        <CTableDataCell>
-                            <div style={{ marginLeft: 15 }}>{user.username}</div>
-                            <div
-                                className="small text-disabled text-nowrap"
-                                style={{ marginLeft: 5 }}
-                            >
-                                <span>
+            <CCardBody color="light">
+                <CTable align="middle" color="light">
+                    <CTableBody>
+                        <CTableRow>
+                            <CTableDataCell style={{ width: '1%' }}>
+                                <CAvatar size="md" src={avatar1} />
+                            </CTableDataCell>
+                            <CTableDataCell>
+                                <div>{user.username}</div>
+                                <div
+                                    className="small text-disabled text-nowrap"
+                                    style={{ marginLeft: -10 }}
+                                >
+                                    <span>
+                                        <CButton
+                                            color="primary"
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => {
+                                                setSelectedUser(user);
+                                                setIsVisibleEditUserModal(!isVisibleEditUserModal);
+                                            }}
+                                        >
+                                            <CIcon icon={cilPencil} title={`Edit ${user.name}`} />
+                                        </CButton>
+                                    </span>{' '}
+                                    |{' '}
                                     <CButton
-                                        color="primary"
+                                        color="danger"
                                         variant="ghost"
                                         size="sm"
                                         onClick={() => {
                                             setSelectedUser(user);
-                                            setIsVisibleEditUserModal(!isVisibleEditUserModal);
+                                            setIsVisibleDeleteUserModal(!isVisibleDeleteUserModal);
                                         }}
                                     >
-                                        <CIcon icon={cilPencil} title="Edit user" />
+                                        <CIcon icon={cilTrash} title={`Delete ${user.name}`} />
                                     </CButton>
-                                </span>{' '}
-                                |{' '}
-                                <CButton
-                                    color="danger"
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => {
-                                        setSelectedUser(user);
-                                        setIsVisibleDeleteUserModal(!isVisibleDeleteUserModal);
-                                    }}
-                                >
-                                    <CIcon icon={cilTrash} title="Delete user" />
-                                </CButton>
-                            </div>
-                        </CTableDataCell>
-                    </CTableRow>
-                </CTableBody>
+                                </div>
+                            </CTableDataCell>
+                        </CTableRow>
+                    </CTableBody>
+                </CTable>
             </CCardBody>
         </CCollapse>
     );
 }
 
-DetailsCard.propTypes = {
+UserDetailsCard.propTypes = {
     details: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     setSelectedUser: PropTypes.func.isRequired,
@@ -325,39 +332,27 @@ DetailsCard.propTypes = {
     isVisibleDeleteUserModal: PropTypes.bool.isRequired,
 };
 
-function ToggleButton(toggleDetails, item, details) {
+function multiSelectColumnFilter(values, onChange) {
+    const uniqueValues = [...new Set(values.flat())];
     return (
-        <td className="py-2">
-            <CButton
-                color="primary"
-                variant="ghost"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                    toggleDetails(item.id);
-                }}
-            >
-                {details.includes(item.id) ? (
-                    <CIcon icon={cilChevronCircleUpAlt} title="Hide" />
-                ) : (
-                    <CIcon icon={cilChevronCircleDownAlt} title="See More" />
-                )}
-            </CButton>
-        </td>
+        <CMultiSelect
+            size="sm"
+            onChange={(selected) => {
+                const _selected = selected.map((element) => {
+                    return element.value;
+                });
+                onChange((item) => {
+                    return Array.isArray(_selected) && _selected.length
+                        ? _selected.includes(item.toString().toLowerCase())
+                        : true;
+                });
+            }}
+            options={uniqueValues.sort().map((element) => {
+                return {
+                    value: element.toString().toLowerCase(),
+                    text: element,
+                };
+            })}
+        />
     );
 }
-
-function SuccessToast({ message }) {
-    return (
-        <CToast visible={true} color="success" className="text-white align-items-center">
-            <div className="d-flex">
-                <CToastBody>{message}</CToastBody>
-                <CToastClose className="me-2 m-auto" white />
-            </div>
-        </CToast>
-    );
-}
-
-SuccessToast.propTypes = {
-    message: PropTypes.string.isRequired,
-};

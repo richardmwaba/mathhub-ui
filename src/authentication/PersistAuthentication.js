@@ -29,7 +29,7 @@ const PersistAuthentication = () => {
 
     return isLoading ? (
         <div className="d-flex justify-content-center">
-            <CSpinner />
+            <CSpinner variant="grow" />
         </div>
     ) : (
         <Outlet />

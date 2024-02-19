@@ -9,7 +9,7 @@ function getAllAssetTypes(axiosPrivate, controller, errorCallback) {
             assetTypes = assetTypesList.map((assetType) => {
                 return {
                     id: assetType.assetTypeId,
-                    type: assetType.typeName,
+                    name: assetType.typeName,
                     description: assetType.typeDescription,
                 };
             });
@@ -22,6 +22,32 @@ function getAllAssetTypes(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const AssetTypesService = { getAllAssetTypes };
+function createAssetType(newAssetType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/systemconfig/ops/assetTypes', newAssetType, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editAssetTypeForm(editedAssetType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/systemconfig/ops/assetTypes/${editedAssetType.assetTypeId}`, editedAssetType, {
+            signal: controller.signal,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const AssetTypesService = { createAssetType, editAssetTypeForm, getAllAssetTypes };
 
 export default AssetTypesService;
