@@ -9,7 +9,7 @@ function getAllSessionTypes(axiosPrivate, controller, errorCallback) {
             sessionTypes = sessionTypesList.map((sessionType) => {
                 return {
                     id: sessionType.sessionTypeId,
-                    type: sessionType.typeName,
+                    name: sessionType.typeName,
                     description: sessionType.typeDescription,
                 };
             });
@@ -22,6 +22,32 @@ function getAllSessionTypes(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const SessionTypeService = { getAllSessionTypes };
+function createSessionType(sessionType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/systemconfig/sis/sessionTypes', sessionType, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editSessionType(sessionType, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/systemconfig/sis/sessionTypes/${sessionType.sessionTypeId}`, sessionType, {
+            signal: controller.signal,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const SessionTypeService = { createSessionType, editSessionType, getAllSessionTypes };
 
 export default SessionTypeService;

@@ -1,36 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import {
-    CButton,
-    CCardBody,
-    CCollapse,
-    CFormCheck,
-    CFormLabel,
-    CSmartTable,
-} from '@coreui/react-pro';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from 'react';
+import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import SessionTypeService from 'src/api/system-config/sis/session-types.service';
+import SessionTypesService from 'src/api/system-config/sis/session-types.service';
+import CIcon from '@coreui/icons-react';
+import NewSessionTypeForm from './NewSessionTypeForm';
+import { SuccessToast } from 'src/components/common/SuccessToast';
+import EditSessionTypeForm from './EditSessionTypeForm';
+import { EditButton } from 'src/components/common/EditButton';
+import { cilPlus } from '@coreui/icons';
 
 export default function SessionTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
+    const controller = new AbortController();
 
-    const [selected, setSelected] = useState([]);
-    const [details, setDetails] = useState([]);
     const [sessionTypes, setSessionTypes] = useState([]);
+    const [createdSessionType, setCreatedSessionType] = useState({});
     const [error, setError] = useState('');
+    const [isMounted, setIsMounted] = useState(true);
+    const [isVisibleEditSessionTypeModal, setIsVisibleEditSessionTypeModal] = useState(false);
+    const [isVisibleNewSessionTypeModal, setIsVisibleNewSessionTypeModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [savedSessionType, setSavedSessionType] = useState({});
+    const [selectedSessionType, setSelectedSessionType] = useState({});
+    const [toast, setToast] = useState(0);
 
-    const sessionTypesWithSelect = sessionTypes?.map((sessionType) => {
-        const _selected = selected.includes(sessionType.id);
-        return {
-            ...sessionType,
-            sessionType,
-            _selected,
-            _classes: [sessionType._classes, _selected && 'table-selected'],
-        };
-    });
+    const sessionTypeActionSuccessToasterRef = useRef();
 
     const columns = [
-        { key: 'select', label: '', filter: false, sorter: false },
-        { key: 'type', label: 'Name', _style: { width: '40%' } },
+        { key: 'name', label: 'Name', _style: { width: '40%' } },
         {
             key: 'description',
             label: 'Description',
@@ -45,123 +43,126 @@ export default function SessionTypesGrid() {
         },
     ];
 
-    const toggleDetails = (index) => {
-        const position = details.indexOf(index);
-        let newDetails = details.slice();
-        if (position !== -1) {
-            newDetails.splice(position, 1);
-        } else {
-            newDetails = [...details, index];
-        }
-        setDetails(newDetails);
+    const getSessionTypes = async () => {
+        const response = await SessionTypesService.getAllSessionTypes(
+            axiosPrivate,
+            controller,
+            setError,
+        );
+        isMounted && setSessionTypes(response);
+        setLoading(false);
     };
 
-    const check = (e, id) => {
-        if (e.target.checked) {
-            setSelected([...selected, id]);
-        } else {
-            setSelected(selected.filter((itemId) => itemId !== id));
-        }
+    const setCreatedSessionTypeAndRefreshSessionTypes = (newSessionType) => {
+        setCreatedSessionType(newSessionType);
+        getSessionTypes();
     };
 
-    // get students data from api
+    const setSavedSessionTypeAndRefreshSessionTypes = (savedEditedSessionType) => {
+        setSavedSessionType(savedEditedSessionType);
+        getSessionTypes();
+    };
+
+    // get session types data from api
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getSessionTypes = async () => {
-            const response = await SessionTypeService.getAllSessionTypes(
-                axiosPrivate,
-                controller,
-                setError,
-            );
-            isMounted && setSessionTypes(response);
-        };
-
         getSessionTypes();
 
         return () => {
-            isMounted = false;
+            setIsMounted(false);
             controller.abort();
         };
-    }, [axiosPrivate]);
+    }, []);
 
-    return (
-        <CCardBody>
-            <CSmartTable
-                sorterValue={{ column: 'description', state: 'asc' }}
-                items={sessionTypesWithSelect}
-                columns={columns}
-                itemsPerPage={10}
-                columnFilter
-                columnSorter
-                tableFilter
-                cleaner
-                itemsPerPageSelect
-                pagination
-                scopedColumns={{
-                    select: (item) => {
-                        return (
-                            <td>
-                                <CFormCheck
-                                    id={`checkbox${item.id}`}
-                                    checked={item._selected}
-                                    onChange={(e) => check(e, item.id)}
-                                />
-                                <CFormLabel
-                                    variant="custom-checkbox"
-                                    htmlFor={`checkbox${item.id}`}
-                                />
-                            </td>
-                        );
-                    },
-                    show_details: (item) => {
-                        return ToggleButton(toggleDetails, item, details);
-                    },
-                    details: (item) => {
-                        return DetailsCard(details, item);
-                    },
-                }}
-                tableProps={{
-                    hover: true,
-                    responsive: true,
-                }}
+    useEffect(() => {
+        const sessionTypeSuccessfullyCreatedToast = (
+            <SuccessToast
+                message={`Session type ${createdSessionType?.typeName} has been created successfully`}
             />
-        </CCardBody>
-    );
-}
+        );
 
-function DetailsCard(details, item) {
+        if (createdSessionType?.typeName) {
+            setToast(sessionTypeSuccessfullyCreatedToast);
+        }
+    }, [createdSessionType]);
+
+    useEffect(() => {
+        const sessionTypeSuccessfullyEditedToast = (
+            <SuccessToast
+                message={`Session type ${savedSessionType?.typeName} has been updated successfully`}
+            />
+        );
+
+        if (savedSessionType?.typeName) {
+            setToast(sessionTypeSuccessfullyEditedToast);
+        }
+    }, [savedSessionType]);
+
     return (
-        <CCollapse visible={details.includes(item.id)}>
+        <>
             <CCardBody>
-                <h4>{item.username}</h4>
-                <p className="text-muted">User since: {item.registered}</p>
-                <CButton size="sm" color="info">
-                    User Settings
+                <CButton
+                    color="primary"
+                    className="mb-2"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsVisibleNewSessionTypeModal(!isVisibleNewSessionTypeModal)}
+                >
+                    <CIcon icon={cilPlus} title="Add New Session Type" /> Add New Session Type
                 </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                    Delete
-                </CButton>
+                <CSmartTable
+                    sorterValue={{ column: 'description', state: 'asc' }}
+                    items={sessionTypes}
+                    columns={columns}
+                    itemsPerPage={10}
+                    columnFilter
+                    columnSorter
+                    tableFilter
+                    loading={loading}
+                    cleaner
+                    itemsPerPageSelect
+                    pagination
+                    noItemsLabel={
+                        error
+                            ? `Could not retrieve session types due to ${error}. Please try again.`
+                            : 'No session types found'
+                    }
+                    scopedColumns={{
+                        show_details: (item) => (
+                            <EditButton
+                                item={item}
+                                setSelectedItem={setSelectedSessionType}
+                                isVisibleEditModal={isVisibleEditSessionTypeModal}
+                                setIsVisibleEditModal={setIsVisibleEditSessionTypeModal}
+                            />
+                        ),
+                    }}
+                    tableProps={{
+                        hover: true,
+                        responsive: true,
+                        striped: true,
+                    }}
+                />
             </CCardBody>
-        </CCollapse>
-    );
-}
-
-function ToggleButton(toggleDetails, item, details) {
-    return (
-        <td className="py-2">
-            <CButton
-                color="primary"
-                variant="outline"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                    toggleDetails(item.id);
-                }}
-            >
-                {details.includes(item.id) ? 'Hide' : 'Show'}
-            </CButton>
-        </td>
+            {isVisibleNewSessionTypeModal && (
+                <NewSessionTypeForm
+                    visibility={isVisibleNewSessionTypeModal}
+                    setSessionTypeModalVisibility={setIsVisibleNewSessionTypeModal}
+                    createdSessionTypeCallBack={setCreatedSessionTypeAndRefreshSessionTypes}
+                />
+            )}
+            {isVisibleEditSessionTypeModal && (
+                <EditSessionTypeForm
+                    sessionType={selectedSessionType}
+                    visibility={isVisibleEditSessionTypeModal}
+                    setEditSessionTypeModalVisibility={setIsVisibleEditSessionTypeModal}
+                    savedSessionTypeCallBack={setSavedSessionTypeAndRefreshSessionTypes}
+                />
+            )}
+            <CToaster
+                ref={sessionTypeActionSuccessToasterRef}
+                push={toast}
+                placement="bottom-end"
+            />
+        </>
     );
 }

@@ -18,38 +18,37 @@ import {
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
-import AssessmentTypesService from 'src/api/system-config/sis/assessment-types.service';
+import SessionTypesService from 'src/api/system-config/sis/session-types.service';
 
-export default function EditAssessmentTypeForm({
-    assessmentType,
+export default function EditSessionTypeForm({
+    sessionType,
     visibility,
-    setEditAssessmentTypeModalVisibility,
-    savedAssessmentTypeCallBack,
+    setEditSessionTypeModalVisibility,
+    savedSessionTypeCallBack,
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const assessmentTypeNameRef = useRef();
+    const sessionTypeNameRef = useRef();
     const errorRef = useRef();
-    const defaultAssessmentType = {
-        assessmentTypeId: assessmentType.id,
-        typeName: assessmentType.name,
-        typeDescription: assessmentType.description,
+    const defaultSessionType = {
+        sessionTypeId: sessionType.id,
+        typeName: sessionType.name,
+        typeDescription: sessionType.description,
     };
 
-    const [isEditAssessmentTypeFormValidated, setIsEditAssessmentTypeFormValidated] =
-        useState(false);
+    const [isEditSessionTypeFormValidated, setIsEditSessionTypeFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [editedAssessmentType, setEditedAssessmentType] = useState(defaultAssessmentType);
+    const [editedSessionType, setEditedSessionType] = useState(defaultSessionType);
 
     useEffect(() => {
-        assessmentTypeNameRef.current.focus();
-    }, [assessmentTypeNameRef]);
+        sessionTypeNameRef.current.focus();
+    }, [sessionTypeNameRef]);
 
-    const handleEditAssessmentType = async (event) => {
-        const editAssessmentTypeForm = event.currentTarget;
+    const handleEditSessionType = async (event) => {
+        const editSessionTypeForm = event.currentTarget;
 
-        if (editAssessmentTypeForm.checkValidity() === false) {
+        if (editSessionTypeForm.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         } else {
@@ -57,16 +56,16 @@ export default function EditAssessmentTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await AssessmentTypesService.editAssessmentType(
-                editedAssessmentType,
+            await SessionTypesService.editSessionType(
+                editedSessionType,
                 axiosPrivate,
                 controller,
                 setErrorMessage,
             ).then(
                 (response) => {
-                    setEditedAssessmentType(defaultAssessmentType);
-                    setEditAssessmentTypeModalVisibility(!visibility);
-                    savedAssessmentTypeCallBack(response);
+                    setEditedSessionType(defaultSessionType);
+                    setEditSessionTypeModalVisibility(!visibility);
+                    savedSessionTypeCallBack(response);
                 },
                 (error) => {
                     if (!error?.response) {
@@ -80,7 +79,7 @@ export default function EditAssessmentTypeForm({
         }
 
         setIsLoading(false);
-        setIsEditAssessmentTypeFormValidated(true);
+        setIsEditSessionTypeFormValidated(true);
     };
 
     return (
@@ -88,11 +87,11 @@ export default function EditAssessmentTypeForm({
             backdrop="static"
             alignment="center"
             visible={visibility}
-            onClose={() => setEditAssessmentTypeModalVisibility(!visibility)}
+            onClose={() => setEditSessionTypeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
         >
             <CModalHeader>
-                <CModalTitle id="StaticBackdropExampleLabel">New Assessment Type</CModalTitle>
+                <CModalTitle id="StaticBackdropExampleLabel">New Session Type</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CContainer>
@@ -102,29 +101,29 @@ export default function EditAssessmentTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the assessment type.
-                                            Please try again!
+                                            An error occured while saving the session type. Please
+                                            try again!
                                         </CFormText>
                                     )}
                                     <CForm
                                         className="needs-validation"
                                         noValidate
-                                        validated={isEditAssessmentTypeFormValidated}
-                                        onSubmit={handleEditAssessmentType}
-                                        id="editAssessmentTypeForm"
+                                        validated={isEditSessionTypeFormValidated}
+                                        onSubmit={handleEditSessionType}
+                                        id="editSessionTypeForm"
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Assessment Type Name"
+                                            placeholder="Session Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={assessmentTypeNameRef}
-                                            value={editedAssessmentType.typeName}
+                                            ref={sessionTypeNameRef}
+                                            value={editedSessionType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
-                                                setEditedAssessmentType((prev) => {
+                                                setEditedSessionType((prev) => {
                                                     return {
                                                         ...prev,
                                                         typeName: e.target.value,
@@ -134,14 +133,14 @@ export default function EditAssessmentTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Assessment Type Description"
+                                            placeholder="Session Type Description"
                                             autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedAssessmentType.typeDescription}
+                                            value={editedSessionType.typeDescription}
                                             onChange={(e) => {
-                                                setEditedAssessmentType((prev) => {
+                                                setEditedSessionType((prev) => {
                                                     return {
                                                         ...prev,
                                                         typeDescription: e.target.value,
@@ -157,28 +156,25 @@ export default function EditAssessmentTypeForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton
-                    color="secondary"
-                    onClick={() => setEditAssessmentTypeModalVisibility(false)}
-                >
+                <CButton color="secondary" onClick={() => setEditSessionTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
                 <CLoadingButton
                     color="primary"
-                    form="editAssessmentTypeForm"
+                    form="editSessionTypeForm"
                     loading={isLoading}
                     type="submit"
                 >
-                    Save Assessment Type
+                    Save Session Type
                 </CLoadingButton>
             </CModalFooter>
         </CModal>
     );
 }
 
-EditAssessmentTypeForm.propTypes = {
-    assessmentType: PropTypes.object.isRequired,
+EditSessionTypeForm.propTypes = {
+    sessionType: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
-    setEditAssessmentTypeModalVisibility: PropTypes.func.isRequired,
-    savedAssessmentTypeCallBack: PropTypes.func.isRequired,
+    setEditSessionTypeModalVisibility: PropTypes.func.isRequired,
+    savedSessionTypeCallBack: PropTypes.func.isRequired,
 };
