@@ -28,7 +28,7 @@ export default function EditIncomeTypeForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const incomeTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultIncomeType = {
         incomeTypeId: incomeType.id,
@@ -42,8 +42,8 @@ export default function EditIncomeTypeForm({
     const [editedIncomeType, setEditedIncomeType] = useState(defaultIncomeType);
 
     useEffect(() => {
-        typeNameRef.current.focus();
-    }, [typeNameRef]);
+        incomeTypeNameRef.current.focus();
+    }, [incomeTypeNameRef]);
 
     const handleEditIncomeType = async (event) => {
         const editIncomeTypeForm = event.currentTarget;
@@ -114,12 +114,12 @@ export default function EditIncomeTypeForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Income Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={incomeTypeNameRef}
                                             value={editedIncomeType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -133,8 +133,8 @@ export default function EditIncomeTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Income Type Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required

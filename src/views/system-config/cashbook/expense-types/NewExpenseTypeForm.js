@@ -27,7 +27,7 @@ export default function NewExpenseTypeForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const expenseTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultExpenseType = {
         typeName: '',
@@ -40,7 +40,7 @@ export default function NewExpenseTypeForm({
     const [newExpenseType, setNewExpenseType] = useState(defaultExpenseType);
 
     useEffect(() => {
-        typeNameRef.current.focus();
+        expenseTypeNameRef.current.focus();
     }, []);
 
     const handleCreateNewExpenseType = async (event) => {
@@ -112,12 +112,12 @@ export default function NewExpenseTypeForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Expense Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={expenseTypeNameRef}
                                             value={newExpenseType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -131,8 +131,8 @@ export default function NewExpenseTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Expense Type Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required

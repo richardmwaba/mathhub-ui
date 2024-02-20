@@ -28,7 +28,7 @@ export default function EditEquityTypeForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const equityTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultEquityType = {
         equityTypeId: equityType.id,
@@ -42,8 +42,8 @@ export default function EditEquityTypeForm({
     const [editedEquityType, setEditedEquityType] = useState(defaultEquityType);
 
     useEffect(() => {
-        typeNameRef.current.focus();
-    }, [typeNameRef]);
+        equityTypeNameRef.current.focus();
+    }, [equityTypeNameRef]);
 
     const handleEditEquityType = async (event) => {
         const editEquityTypeForm = event.currentTarget;
@@ -114,12 +114,12 @@ export default function EditEquityTypeForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Equity Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={equityTypeNameRef}
                                             value={editedEquityType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -133,8 +133,8 @@ export default function EditEquityTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Equity Type Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required

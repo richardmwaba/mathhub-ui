@@ -28,7 +28,7 @@ export default function EditAssetTypeForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const assetTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultAssetType = {
         assetTypeId: assetType.id,
@@ -42,8 +42,8 @@ export default function EditAssetTypeForm({
     const [editedAssetType, setEditedAssetType] = useState(defaultAssetType);
 
     useEffect(() => {
-        typeNameRef.current.focus();
-    }, [typeNameRef]);
+        assetTypeNameRef.current.focus();
+    }, [assetTypeNameRef]);
 
     const handleEditAssetType = async (event) => {
         const editAssetTypeForm = event.currentTarget;
@@ -114,12 +114,12 @@ export default function EditAssetTypeForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Asset Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={assetTypeNameRef}
                                             value={editedAssetType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -133,8 +133,8 @@ export default function EditAssetTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Asset Type Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required

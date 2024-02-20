@@ -27,7 +27,7 @@ export default function NewEquityTypeForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const equityTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultEquityType = {
         typeName: '',
@@ -40,7 +40,7 @@ export default function NewEquityTypeForm({
     const [newEquityType, setNewEquityType] = useState(defaultEquityType);
 
     useEffect(() => {
-        typeNameRef.current.focus();
+        equityTypeNameRef.current.focus();
     }, []);
 
     const handleCreateNewEquityType = async (event) => {
@@ -112,12 +112,12 @@ export default function NewEquityTypeForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Equity Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={equityTypeNameRef}
                                             value={newEquityType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -131,8 +131,8 @@ export default function NewEquityTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Equity Type Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required

@@ -28,7 +28,7 @@ export default function EditLiabilityTypeForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const liabilityTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultLiabilityType = {
         liabilityTypeId: liabilityType.id,
@@ -42,8 +42,8 @@ export default function EditLiabilityTypeForm({
     const [editedLiabilityType, setEditedLiabilityType] = useState(defaultLiabilityType);
 
     useEffect(() => {
-        typeNameRef.current.focus();
-    }, [typeNameRef]);
+        liabilityTypeNameRef.current.focus();
+    }, [liabilityTypeNameRef]);
 
     const handleEditLiabilityType = async (event) => {
         const editLiabilityTypeForm = event.currentTarget;
@@ -114,12 +114,12 @@ export default function EditLiabilityTypeForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Liability Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={liabilityTypeNameRef}
                                             value={editedLiabilityType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -133,8 +133,8 @@ export default function EditLiabilityTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Liability Type Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required
