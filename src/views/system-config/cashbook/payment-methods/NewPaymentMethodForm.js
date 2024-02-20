@@ -27,7 +27,7 @@ export default function NewPaymentMethodForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const paymentMethodNameRef = useRef();
     const errorRef = useRef();
     const defaultPaymentMethod = {
         typeName: '',
@@ -41,7 +41,7 @@ export default function NewPaymentMethodForm({
     const [newPaymentMethod, setNewPaymentMethod] = useState(defaultPaymentMethod);
 
     useEffect(() => {
-        typeNameRef.current.focus();
+        paymentMethodNameRef.current.focus();
     }, []);
 
     const handleCreateNewPaymentMethod = async (event) => {
@@ -90,7 +90,7 @@ export default function NewPaymentMethodForm({
             aria-labelledby="StaticBackdropExampleLabel"
         >
             <CModalHeader>
-                <CModalTitle id="StaticBackdropExampleLabel">New Asset Type</CModalTitle>
+                <CModalTitle id="StaticBackdropExampleLabel">New Payment Method</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CContainer>
@@ -100,8 +100,8 @@ export default function NewPaymentMethodForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new asset type. Please
-                                            try again!
+                                            An error occured while saving the new payment method.
+                                            Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -113,12 +113,12 @@ export default function NewPaymentMethodForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Payment Method Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={paymentMethodNameRef}
                                             value={newPaymentMethod.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -132,8 +132,8 @@ export default function NewPaymentMethodForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Payment Method Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required
@@ -164,7 +164,7 @@ export default function NewPaymentMethodForm({
                     loading={isLoading}
                     type="submit"
                 >
-                    Save Asset Type
+                    Save Payment Method
                 </CLoadingButton>
             </CModalFooter>
         </CModal>

@@ -76,7 +76,7 @@ export default function PaymentMethodsGrid() {
     useEffect(() => {
         const paymentMethodSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Asset type ${createdPaymentMethod?.typeName} has been created successfully`}
+                message={`Payment method ${createdPaymentMethod?.typeName} has been created successfully`}
             />
         );
 
@@ -88,7 +88,7 @@ export default function PaymentMethodsGrid() {
     useEffect(() => {
         const paymentMethodSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Asset type ${savedPaymentMethod?.typeName} has been updated successfully`}
+                message={`Payment method ${savedPaymentMethod?.typeName} has been updated successfully`}
             />
         );
 
@@ -109,7 +109,7 @@ export default function PaymentMethodsGrid() {
                         setIsVisibleNewPaymentMethodModal(!isVisibleNewPaymentMethodModal)
                     }
                 >
-                    <CIcon icon={cilPlus} title="Add New Asset Type" /> Add New Asset Type
+                    <CIcon icon={cilPlus} title="Add New Asset Type" /> Add New Payment Method
                 </CButton>
                 <CSmartTable
                     sorterValue={{ column: 'description', state: 'asc' }}
@@ -125,8 +125,8 @@ export default function PaymentMethodsGrid() {
                     pagination
                     noItemsLabel={
                         error
-                            ? `Could not retrieve asset types due to ${error}. Please try again.`
-                            : 'No asset types found'
+                            ? `Could not retrieve payment methods due to ${error}. Please try again.`
+                            : 'No payment methods found'
                     }
                     scopedColumns={{
                         show_details: (item) => (

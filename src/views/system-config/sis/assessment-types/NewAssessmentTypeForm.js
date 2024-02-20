@@ -27,7 +27,7 @@ export default function NewAssessmentTypeForm({
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const typeNameRef = useRef();
+    const assessmentTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultAssessmentType = {
         typeName: '',
@@ -41,7 +41,7 @@ export default function NewAssessmentTypeForm({
     const [newAssessmentType, setNewAssessmentType] = useState(defaultAssessmentType);
 
     useEffect(() => {
-        typeNameRef.current.focus();
+        assessmentTypeNameRef.current.focus();
     }, []);
 
     const handleCreateNewAssessmentType = async (event) => {
@@ -113,12 +113,12 @@ export default function NewAssessmentTypeForm({
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Name"
+                                            placeholder="Assessment Type Name"
                                             autoComplete="off"
                                             id="typeName"
                                             label="Name"
                                             required
-                                            ref={typeNameRef}
+                                            ref={assessmentTypeNameRef}
                                             value={newAssessmentType.typeName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
@@ -132,8 +132,8 @@ export default function NewAssessmentTypeForm({
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Type Description"
-                                            autoComplete="tyepDescription"
+                                            placeholder="Assessment Type Description"
+                                            autoComplete="off"
                                             id="typeDescription"
                                             label="Description"
                                             required

@@ -9,7 +9,7 @@ function getAllExamBoards(axiosPrivate, controller, errorCallback) {
             examBoards = examBoardsList.map((examBoard) => {
                 return {
                     id: examBoard.examBoardId,
-                    type: examBoard.examBoardName,
+                    name: examBoard.examBoardName,
                     description: examBoard.examBoardDescription,
                 };
             });
@@ -22,6 +22,32 @@ function getAllExamBoards(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const ExamBoardsService = { getAllExamBoards };
+function createExamBoard(newExamBoard, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/sis/examBoards', newExamBoard, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editExamBoard(editedExamBoard, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/sis/examBoards/${editedExamBoard.examBoardId}`, editedExamBoard, {
+            signal: controller.signal,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const ExamBoardsService = { createExamBoard, editExamBoard, getAllExamBoards };
 
 export default ExamBoardsService;

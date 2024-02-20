@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-    CButton,
-    CCardBody,
-    CCollapse,
-    CFormCheck,
-    CFormLabel,
-    CSmartTable,
-    CToaster,
-} from '@coreui/react-pro';
+import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import EquityTypesService from 'src/api/system-config/cashbook/equity-types.service';
 import { SuccessToast } from 'src/components/common/SuccessToast';
@@ -21,7 +13,6 @@ export default function EquityTypesGrid() {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
 
-    const [details, setDetails] = useState([]);
     const [createdEquityType, setCreatedEquityType] = useState({});
     const [isMounted, setIsMounted] = useState(true);
     const [equityTypes, setEquityTypes] = useState([]);

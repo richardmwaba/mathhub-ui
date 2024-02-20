@@ -18,37 +18,37 @@ import {
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
-import ExpenseTypesService from 'src/api/system-config/cashbook/expense-types.service';
+import ExamBoardsService from 'src/api/sis/exam-boards.service';
 
-export default function EditExpenseTypeForm({
-    expenseType,
+export default function EditExamBoardForm({
+    examBoard,
     visibility,
-    setEditExpenseTypeModalVisibility,
-    savedExpenseTypeCallBack,
+    setEditExamBoardModalVisibility,
+    savedExamBoardCallBack,
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
-    const expenseTypeNameRef = useRef();
-    const errorRef = useRef();
-    const defaultExpenseType = {
-        expenseTypeId: expenseType.id,
-        typeName: expenseType.name,
-        typeDescription: expenseType.description,
+    const defaultExamBoard = {
+        examBoardId: examBoard.id,
+        examBoardName: examBoard.name,
+        examBoardDescription: examBoard.description,
     };
+    const errorRef = useRef();
+    const examBoardNameRef = useRef();
 
-    const [isEditExpenseTypeFormValidated, setIsEditExpenseTypeFormValidated] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [editedExamBoard, setEditedExamBoard] = useState(defaultExamBoard);
     const [errorMessage, setErrorMessage] = useState('');
-    const [editedExpenseType, setEditedExpenseType] = useState(defaultExpenseType);
+    const [isEditExamBoardFormValidated, setIsEditExamBoardFormValidated] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        expenseTypeNameRef.current.focus();
-    }, [expenseTypeNameRef]);
+        examBoardNameRef.current.focus();
+    }, [examBoardNameRef]);
 
-    const handleEditExpenseType = async (event) => {
-        const editExpenseTypeForm = event.currentTarget;
+    const handleEditExamBoard = async (event) => {
+        const editExamBoardForm = event.currentTarget;
 
-        if (editExpenseTypeForm.checkValidity() === false) {
+        if (editExamBoardForm.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         } else {
@@ -56,16 +56,16 @@ export default function EditExpenseTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ExpenseTypesService.editExpenseType(
-                editedExpenseType,
+            await ExamBoardsService.editExamBoard(
+                editedExamBoard,
                 axiosPrivate,
                 controller,
                 setErrorMessage,
             ).then(
                 (response) => {
-                    setEditedExpenseType(defaultExpenseType);
-                    setEditExpenseTypeModalVisibility(!visibility);
-                    savedExpenseTypeCallBack(response);
+                    setEditedExamBoard(defaultExamBoard);
+                    setEditExamBoardModalVisibility(!visibility);
+                    savedExamBoardCallBack(response);
                 },
                 (error) => {
                     if (!error?.response) {
@@ -79,7 +79,7 @@ export default function EditExpenseTypeForm({
         }
 
         setIsLoading(false);
-        setIsEditExpenseTypeFormValidated(true);
+        setIsEditExamBoardFormValidated(true);
     };
 
     return (
@@ -87,11 +87,11 @@ export default function EditExpenseTypeForm({
             backdrop="static"
             alignment="center"
             visible={visibility}
-            onClose={() => setEditExpenseTypeModalVisibility(!visibility)}
+            onClose={() => setEditExamBoardModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
         >
             <CModalHeader>
-                <CModalTitle id="StaticBackdropExampleLabel">New Expense Type</CModalTitle>
+                <CModalTitle id="StaticBackdropExampleLabel">Edit Exam Board</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CContainer>
@@ -101,49 +101,49 @@ export default function EditExpenseTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the expense type. Please
-                                            try again!
+                                            An error occured while saving the exam board. Please try
+                                            again!
                                         </CFormText>
                                     )}
                                     <CForm
                                         className="needs-validation"
                                         noValidate
-                                        validated={isEditExpenseTypeFormValidated}
-                                        onSubmit={handleEditExpenseType}
-                                        id="editExpenseTypeForm"
+                                        validated={isEditExamBoardFormValidated}
+                                        onSubmit={handleEditExamBoard}
+                                        id="editExamBoardForm"
                                     >
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Expense Type Name"
+                                            placeholder="Exam Board Name"
                                             autoComplete="off"
-                                            id="typeName"
+                                            id="examBoardName"
                                             label="Name"
                                             required
-                                            ref={expenseTypeNameRef}
-                                            value={editedExpenseType.typeName}
+                                            ref={examBoardNameRef}
+                                            value={editedExamBoard.examBoardName}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
-                                                setEditedExpenseType((prev) => {
+                                                setEditedExamBoard((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        examBoardName: e.target.value,
                                                     };
                                                 });
                                             }}
                                         />
                                         <CFormInput
                                             className="mb-3"
-                                            placeholder="Expense Type Description"
+                                            placeholder="Exam Board Description"
                                             autoComplete="off"
-                                            id="typeDescription"
+                                            id="examBoardDescription"
                                             label="Description"
                                             required
-                                            value={editedExpenseType.typeDescription}
+                                            value={editedExamBoard.examBoardDescription}
                                             onChange={(e) => {
-                                                setEditedExpenseType((prev) => {
+                                                setEditedExamBoard((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        examBoardDescription: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -156,25 +156,25 @@ export default function EditExpenseTypeForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton color="secondary" onClick={() => setEditExpenseTypeModalVisibility(false)}>
+                <CButton color="secondary" onClick={() => setEditExamBoardModalVisibility(false)}>
                     Cancel
                 </CButton>
                 <CLoadingButton
                     color="primary"
-                    form="editExpenseTypeForm"
+                    form="editExamBoardForm"
                     loading={isLoading}
                     type="submit"
                 >
-                    Save Expense Type
+                    Save Exam Board
                 </CLoadingButton>
             </CModalFooter>
         </CModal>
     );
 }
 
-EditExpenseTypeForm.propTypes = {
-    expenseType: PropTypes.object.isRequired,
+EditExamBoardForm.propTypes = {
+    examBoard: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
-    setEditExpenseTypeModalVisibility: PropTypes.func.isRequired,
-    savedExpenseTypeCallBack: PropTypes.func.isRequired,
+    setEditExamBoardModalVisibility: PropTypes.func.isRequired,
+    savedExamBoardCallBack: PropTypes.func.isRequired,
 };
