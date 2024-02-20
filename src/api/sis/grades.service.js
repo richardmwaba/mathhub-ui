@@ -9,7 +9,7 @@ function getAllGrades(axiosPrivate, controller, errorCallback) {
             grades = gradesList.map((grade) => {
                 return {
                     id: grade.gradeId,
-                    type: grade.gradeName,
+                    name: grade.gradeName,
                     description: grade.gradeDescription,
                 };
             });
@@ -22,6 +22,30 @@ function getAllGrades(axiosPrivate, controller, errorCallback) {
         });
 }
 
-const GradesService = { getAllGrades };
+function createGrade(grade, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post('/sis/grades', grade, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function editGrade(grade, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/sis/grades/${grade.gradeId}`, grade, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+const GradesService = { createGrade, editGrade, getAllGrades };
 
 export default GradesService;
