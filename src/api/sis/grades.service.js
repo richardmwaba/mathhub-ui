@@ -6,13 +6,15 @@ function getAllGrades(axiosPrivate, controller, errorCallback) {
 
             const gradesList = response.data._embedded.gradeDtoList;
 
-            grades = gradesList.map((grade) => {
-                return {
-                    id: grade.gradeId,
-                    name: grade.gradeName,
-                    description: grade.gradeDescription,
-                };
-            });
+            grades = gradesList
+                .map((grade) => {
+                    return {
+                        id: grade.gradeId,
+                        name: Number.parseInt(grade.gradeName),
+                        description: grade.gradeDescription,
+                    };
+                })
+                .sort((a, b) => a.name - b.name);
 
             return grades;
         })

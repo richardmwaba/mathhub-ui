@@ -103,10 +103,10 @@ export default function GradesGrid() {
                     size="sm"
                     onClick={() => setIsVisibleNewGradeModal(!isVisibleNewGradeModal)}
                 >
-                    <CIcon icon={cilPlus} title="Add New Asset Type" /> Add New Grade
+                    <CIcon icon={cilPlus} title="Add New Grade Type" /> Add New Grade
                 </CButton>
                 <CSmartTable
-                    sorterValue={{ column: 'description', state: 'asc' }}
+                    sorterValue={{ column: 'name', state: 'asc' }}
                     items={grades}
                     columns={columns}
                     itemsPerPage={10}
