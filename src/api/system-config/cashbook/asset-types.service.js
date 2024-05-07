@@ -4,7 +4,7 @@ function getAllAssetTypes(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let assetTypes = [];
 
-            const assetTypesList = response.data._embedded.assetTypeDtoList;
+            const assetTypesList = response.data._embedded.assetTypeList;
 
             assetTypes = assetTypesList.map((assetType) => {
                 return {

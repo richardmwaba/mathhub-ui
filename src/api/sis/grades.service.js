@@ -4,15 +4,17 @@ function getAllGrades(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let grades = [];
 
-            const gradesList = response.data._embedded.gradeDtoList;
+            const gradesList = response.data._embedded.gradeList;
 
-            grades = gradesList.map((grade) => {
-                return {
-                    id: grade.gradeId,
-                    name: grade.gradeName,
-                    description: grade.gradeDescription,
-                };
-            });
+            grades = gradesList
+                .map((grade) => {
+                    return {
+                        id: grade.gradeId,
+                        name: Number.parseInt(grade.gradeName),
+                        description: grade.gradeDescription,
+                    };
+                })
+                .sort((a, b) => a.name - b.name);
 
             return grades;
         })

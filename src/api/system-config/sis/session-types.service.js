@@ -4,7 +4,7 @@ function getAllSessionTypes(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let sessionTypes = [];
 
-            const sessionTypesList = response.data._embedded.sessionTypeDtoList;
+            const sessionTypesList = response.data._embedded.sessionTypeList;
 
             sessionTypes = sessionTypesList.map((sessionType) => {
                 return {

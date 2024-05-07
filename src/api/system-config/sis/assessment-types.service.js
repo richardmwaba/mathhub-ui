@@ -4,7 +4,7 @@ function getAllAssessmentTypes(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let assessmentTypes = [];
 
-            const assessmentTypesList = response.data._embedded.assessmentTypeDtoList;
+            const assessmentTypesList = response.data._embedded.assessmentTypeList;
 
             assessmentTypes = assessmentTypesList.map((assessmentType) => {
                 return {

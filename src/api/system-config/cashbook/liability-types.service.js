@@ -4,7 +4,7 @@ function getAllLiabilityTypes(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let liabilityTypes = [];
 
-            const liabilityTypesList = response.data._embedded.liabilityTypeDtoList;
+            const liabilityTypesList = response.data._embedded.liabilityTypeList;
 
             liabilityTypes = liabilityTypesList.map((liabilityType) => {
                 return {
