@@ -4,7 +4,7 @@ function getAllExamBoards(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let examBoards = [];
 
-            const examBoardsList = response.data._embedded.examBoardDtoList;
+            const examBoardsList = response.data._embedded.examBoardList;
 
             examBoards = examBoardsList.map((examBoard) => {
                 return {

@@ -6,7 +6,7 @@ function getAllLessonRates(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let lessonRates = [];
 
-            const lessonRatesList = response.data._embedded.lessonRateDtoList;
+            const lessonRatesList = response.data._embedded.lessonRateList;
 
             lessonRates = lessonRatesList.map((lessonRate) => {
                 return {

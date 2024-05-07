@@ -4,7 +4,7 @@ function getAllPaymentMethods(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let paymentMethods = [];
 
-            const paymentMethodsList = response.data._embedded.paymentMethodDtoList;
+            const paymentMethodsList = response.data._embedded.paymentMethodList;
 
             paymentMethods = paymentMethodsList.map((paymentMethod) => {
                 return {

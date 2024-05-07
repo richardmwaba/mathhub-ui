@@ -4,7 +4,7 @@ function getAllIncomeTypes(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let incomeTypes = [];
 
-            const incomeTypesList = response.data._embedded.incomeTypeDtoList;
+            const incomeTypesList = response.data._embedded.incomeTypeList;
 
             incomeTypes = incomeTypesList.map((incomeType) => {
                 return {

@@ -62,14 +62,21 @@ function getSubjectById(subjectId, axiosPrivate, controller, errorCallback) {
 }
 
 function extractGrades(grades) {
-    return grades.map((grade) => Number.parseInt(grade.gradeName)).sort((a, b) => a - b);
+    return grades
+        .map((grade) => {
+            return {
+                id: grade.gradeId,
+                name: Number.parseInt(grade.gradeName),
+            };
+        })
+        .sort((a, b) => a.name - b.name);
 }
 
 function getAllSubjectComplexities() {
     return [
-        { value: 'LOW', label: 'Low' },
-        { value: 'MEDIUM', label: 'Medium' },
-        { value: 'HIGH', label: 'High' },
+        { value: 'Low', label: 'Low' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'High', label: 'High' },
     ];
 }
 

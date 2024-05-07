@@ -14,7 +14,8 @@ export default function SubjectsGrid() {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
 
-    const [subjects, setSubjects] = useState([]);
+    const [subjectsFromResponse, setSubjectsFromResponse] = useState([]);
+    const [subjectsToDisplay, setSubjectsToDisplay] = useState([]);
     const [createdSubject, setCreatedSubject] = useState({});
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(true);
@@ -50,7 +51,7 @@ export default function SubjectsGrid() {
 
     const getSubjects = async () => {
         const response = await SubjectsService.getAllSubjects(axiosPrivate, controller, setError);
-        isMounted && setSubjects(response);
+        isMounted && setSubjectsFromResponse(response);
         setLoading(false);
     };
 
@@ -73,6 +74,19 @@ export default function SubjectsGrid() {
             controller.abort();
         };
     }, []);
+
+    // transform subjects data to display
+    useEffect(() => {
+        const subjectsToDisplay = subjectsFromResponse.map((subject) => {
+            return {
+                id: subject.id,
+                name: subject.name,
+                grades: subject.grades.map((grade) => grade.name).join(', '),
+                complexity: subject.complexity,
+            };
+        });
+        setSubjectsToDisplay(subjectsToDisplay);
+    }, [subjectsFromResponse]);
 
     useEffect(() => {
         const subjectSuccessfullyCreatedToast = (
@@ -112,7 +126,7 @@ export default function SubjectsGrid() {
                 </CButton>
                 <CSmartTable
                     sorterValue={{ column: 'name', state: 'asc' }}
-                    items={subjects}
+                    items={subjectsToDisplay}
                     columns={columns}
                     itemsPerPage={10}
                     columnFilter
@@ -128,9 +142,11 @@ export default function SubjectsGrid() {
                             : 'No subjects found'
                     }
                     scopedColumns={{
-                        show_details: (item) => (
+                        show_details: (currentSubject) => (
                             <EditButton
-                                item={item}
+                                item={subjectsFromResponse.find(
+                                    (subject) => subject.id === currentSubject.id,
+                                )}
                                 setSelectedItem={setSelectedSubject}
                                 isVisibleEditModal={isVisibleEditSubjectModal}
                                 setIsVisibleEditModal={setIsVisibleEditSubjectModal}

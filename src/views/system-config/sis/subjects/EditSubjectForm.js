@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import {
     CButton,
@@ -16,6 +17,7 @@ import {
     CLoadingButton,
     CFormText,
     CFormSelect,
+    CMultiSelect,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
@@ -35,7 +37,8 @@ export default function EditSubjectForm({
     const defaultSubject = {
         subjectId: subject.id,
         subjectName: subject.name,
-        subjectGrade: subject.grade,
+        subjectGradeIds: subject.grades.map((grade) => grade.id),
+        subjectComplexity: subject.complexity,
     };
 
     const [allGrades, setAllGrades] = useState([]);
@@ -48,14 +51,15 @@ export default function EditSubjectForm({
 
     const getGrades = async () => {
         const grades = await GradesService.getAllGrades(axiosPrivate, controller, setErrorMessage);
+
         const allGrades = grades
             .map((grade) => {
-                if (grade.id === editedSubject.subjectGrade.id) {
-                    return { value: grade.id, label: grade.name, selected: true };
+                if (editedSubject.subjectGradeIds.includes(grade.id)) {
+                    return { value: grade.id, text: grade.name, selected: true };
                 }
-                return { value: grade.id, label: grade.name };
+                return { value: grade.id, text: grade.name };
             })
-            .sort((a, b) => a.label.localeCompare(b.label));
+            .sort((a, b) => a.text - b.text);
         isMounted && setAllGrades(allGrades);
     };
 
@@ -162,18 +166,23 @@ export default function EditSubjectForm({
                                                 });
                                             }}
                                         />
-                                        <CFormSelect
+                                        <CMultiSelect
                                             className="mb-3"
-                                            label="Grade"
+                                            label="Grades"
                                             options={allGrades}
-                                            placeholder="Select grade..."
+                                            placeholder="Select grades..."
                                             required
-                                            value={editedSubject.subjectGradeId}
-                                            onChange={(e) => {
+                                            feedbackInvalid="Select at least one grade"
+                                            onChange={(selectedGrades) => {
                                                 setEditedSubject((prev) => {
+                                                    const selectedGradesValues = selectedGrades.map(
+                                                        (selectedGrade) => {
+                                                            return selectedGrade.value;
+                                                        },
+                                                    );
                                                     return {
                                                         ...prev,
-                                                        subjectGradeId: e.target.value,
+                                                        subjectGradeIds: selectedGradesValues,
                                                     };
                                                 });
                                             }}

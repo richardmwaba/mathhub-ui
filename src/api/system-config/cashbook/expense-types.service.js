@@ -4,7 +4,7 @@ function getAllExpenseTypes(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let expenseTypes = [];
 
-            const expenseTypesList = response.data._embedded.expenseTypeDtoList;
+            const expenseTypesList = response.data._embedded.expenseTypeList;
 
             expenseTypes = expenseTypesList.map((expenseType) => {
                 return {

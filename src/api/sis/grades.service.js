@@ -4,7 +4,7 @@ function getAllGrades(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let grades = [];
 
-            const gradesList = response.data._embedded.gradeDtoList;
+            const gradesList = response.data._embedded.gradeList;
 
             grades = gradesList
                 .map((grade) => {

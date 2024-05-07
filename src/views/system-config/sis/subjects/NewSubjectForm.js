@@ -17,6 +17,7 @@ import {
     CLoadingButton,
     CFormText,
     CFormSelect,
+    CMultiSelect,
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
@@ -34,7 +35,7 @@ export default function NewSubjectForm({
     const errorRef = useRef();
     const defaultSubject = {
         subjectName: '',
-        subjectGradeId: '',
+        subjectGradeIds: [],
         subjectComplexity: '',
     };
 
@@ -49,7 +50,7 @@ export default function NewSubjectForm({
     const getGrades = async () => {
         const grades = await GradesService.getAllGrades(axiosPrivate, controller, setErrorMessage);
         const allGrades = grades.map((grade) => {
-            return { value: grade.id, label: grade.name };
+            return { value: grade.id, text: grade.name };
         });
         isMounted && setAllGrades(allGrades);
     };
@@ -70,10 +71,6 @@ export default function NewSubjectForm({
     useEffect(() => {
         setSubjectComplexities(SubjectsService.getAllSubjectComplexities());
     }, []);
-
-    useEffect(() => {
-        console.log(newSubject);
-    }, [newSubject]);
 
     const handleCreateNewSubject = async (event) => {
         const newSubjectForm = event.currentTarget;
@@ -161,17 +158,23 @@ export default function NewSubjectForm({
                                                 });
                                             }}
                                         />
-                                        <CFormSelect
+                                        <CMultiSelect
                                             className="mb-3"
-                                            label="Grade"
+                                            label="Grades"
                                             options={allGrades}
-                                            placeholder="Select grade..."
+                                            placeholder="Select grades..."
                                             required
-                                            onChange={(e) => {
+                                            feedbackInvalid="Select at least one grade"
+                                            onChange={(selectedGrades) => {
                                                 setNewSubject((prev) => {
+                                                    const selectedGradesValues = selectedGrades.map(
+                                                        (selectedGrade) => {
+                                                            return selectedGrade.value;
+                                                        },
+                                                    );
                                                     return {
                                                         ...prev,
-                                                        subjectGradeId: e.target.value,
+                                                        subjectGradeIds: selectedGradesValues,
                                                     };
                                                 });
                                             }}

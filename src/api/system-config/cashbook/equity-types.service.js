@@ -4,7 +4,7 @@ function getAllEquityTypes(axiosPrivate, controller, errorCallback) {
         .then((response) => {
             let equityTypes = [];
 
-            const equityTypesList = response.data._embedded.equityTypeDtoList;
+            const equityTypesList = response.data._embedded.equityTypeList;
 
             equityTypes = equityTypesList.map((equityType) => {
                 return {
