@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import {
-    CButton,
-    CCardBody,
-    CCollapse,
-    CFormCheck,
-    CFormLabel,
-    CSmartTable,
-} from '@coreui/react-pro';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from 'react';
+import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
+import { EditButton } from 'src/components/common/EditButton';
+import CIcon from '@coreui/icons-react';
+import { cilPlus } from '@coreui/icons';
+import { SuccessToast } from 'src/components/common/SuccessToast';
+import NewLessonRateForm from './NewLessonRateForm';
+import EditLessonRateForm from './EditLessonRateForm';
 import LessonRatesService from 'src/api/system-config/sis/lesson-rates.service';
+import DateUtils from 'src/utils/dateUtils';
 
 export default function LessonRatesGrid() {
     const axiosPrivate = useAxiosPrivate();
+    const controller = new AbortController();
 
-    const [selected, setSelected] = useState([]);
-    const [details, setDetails] = useState([]);
     const [lessonRates, setLessonRates] = useState([]);
+    const [createdLessonRate, setCreatedLessonRate] = useState({});
     const [error, setError] = useState('');
+    const [isMounted, setIsMounted] = useState(true);
+    const [isVisibleEditLessonRateModal, setIsVisibleEditLessonRateModal] = useState(false);
+    const [isVisibleNewLessonRateModal, setIsVisibleNewLessonRateModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [savedLessonRate, setSavedLessonRate] = useState({});
+    const [selectedLessonRate, setSelectedLessonRate] = useState({});
+    const [toast, setToast] = useState(0);
 
-    const lessonRatesWithSelect = lessonRates?.map((lessonRate) => {
-        const _selected = selected.includes(lessonRate.id);
-        return {
-            ...lessonRate,
-            lessonRate,
-            _selected,
-            _classes: [lessonRate._classes, _selected && 'table-selected'],
-        };
-    });
+    const subjectActionSuccessToasterRef = useRef();
 
     const columns = [
-        { key: 'select', label: '', filter: false, sorter: false },
         { key: 'subjectComplexity', label: 'Subject Complexity', _style: { width: '30%' } },
         {
             key: 'amountPerLesson',
@@ -50,123 +49,132 @@ export default function LessonRatesGrid() {
         },
     ];
 
-    const toggleDetails = (index) => {
-        const position = details.indexOf(index);
-        let newDetails = details.slice();
-        if (position !== -1) {
-            newDetails.splice(position, 1);
-        } else {
-            newDetails = [...details, index];
-        }
-        setDetails(newDetails);
+    const getLessonRates = async () => {
+        const response = await LessonRatesService.getAllLessonRates(
+            axiosPrivate,
+            controller,
+            setError,
+        );
+        isMounted && setLessonRates(response);
+        setLoading(false);
     };
 
-    const check = (e, id) => {
-        if (e.target.checked) {
-            setSelected([...selected, id]);
-        } else {
-            setSelected(selected.filter((itemId) => itemId !== id));
-        }
+    const setCreatedLessonRateAndRefreshLessonRates = (newLessonRate) => {
+        setCreatedLessonRate(newLessonRate);
+        getLessonRates();
     };
 
-    // get students data from api
+    const setSavedLessonRateAndRefreshLessonRates = (savedEditedLessonRate) => {
+        setSavedLessonRate(savedEditedLessonRate);
+        getLessonRates();
+    };
+
+    const formatLessonRates = (lessonRatesList) => {
+        return lessonRatesList.map((lessonRate) => {
+            return {
+                id: lessonRate.id,
+                amountPerLesson: lessonRate.amountPerLesson,
+                effectiveDate: DateUtils.formatDate(lessonRate.effectiveDate),
+                subjectComplexity: lessonRate.subjectComplexity,
+                expiryDate: DateUtils.formatDate(lessonRate.expiryDate),
+            };
+        });
+    };
+
+    // get lesson rates data from api
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getLessonRates = async () => {
-            const response = await LessonRatesService.getAllLessonRates(
-                axiosPrivate,
-                controller,
-                setError,
-            );
-            isMounted && setLessonRates(response);
-        };
-
         getLessonRates();
 
         return () => {
-            isMounted = false;
+            setIsMounted(false);
             controller.abort();
         };
-    }, [axiosPrivate]);
+    }, []);
+
+    useEffect(() => {
+        const subjectSuccessfullyCreatedToast = (
+            <SuccessToast message={`New lesson rate has been created successfully`} />
+        );
+
+        if (createdLessonRate?.amountPerLesson) {
+            setToast(subjectSuccessfullyCreatedToast);
+        }
+    }, [createdLessonRate]);
+
+    useEffect(() => {
+        const subjectSuccessfullyEditedToast = (
+            <SuccessToast message={`Lesson rate has been updated successfully`} />
+        );
+
+        if (savedLessonRate?.amountPerLesson) {
+            setToast(subjectSuccessfullyEditedToast);
+        }
+    }, [savedLessonRate]);
 
     return (
-        <CCardBody>
-            <CSmartTable
-                sorterValue={{ column: 'description', state: 'asc' }}
-                items={lessonRatesWithSelect}
-                columns={columns}
-                itemsPerPage={10}
-                columnFilter
-                columnSorter
-                tableFilter
-                cleaner
-                itemsPerPageSelect
-                pagination
-                scopedColumns={{
-                    select: (item) => {
-                        return (
-                            <td>
-                                <CFormCheck
-                                    id={`checkbox${item.id}`}
-                                    checked={item._selected}
-                                    onChange={(e) => check(e, item.id)}
-                                />
-                                <CFormLabel
-                                    variant="custom-checkbox"
-                                    htmlFor={`checkbox${item.id}`}
-                                />
-                            </td>
-                        );
-                    },
-                    show_details: (item) => {
-                        return ToggleButton(toggleDetails, item, details);
-                    },
-                    details: (item) => {
-                        return DetailsCard(details, item);
-                    },
-                }}
-                tableProps={{
-                    hover: true,
-                    responsive: true,
-                }}
-            />
-        </CCardBody>
-    );
-}
-
-function DetailsCard(details, item) {
-    return (
-        <CCollapse visible={details.includes(item.id)}>
+        <>
             <CCardBody>
-                <h4>{item.username}</h4>
-                <p className="text-muted">User since: {item.registered}</p>
-                <CButton size="sm" color="info">
-                    User Settings
+                <CButton
+                    color="primary"
+                    className="mb-2"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsVisibleNewLessonRateModal(!isVisibleNewLessonRateModal)}
+                >
+                    <CIcon icon={cilPlus} title="Add New Lesson Rate" /> Add New Lesson Rate
                 </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                    Delete
-                </CButton>
+                <CSmartTable
+                    sorterValue={{ column: 'name', state: 'asc' }}
+                    items={formatLessonRates(lessonRates)}
+                    columns={columns}
+                    itemsPerPage={10}
+                    columnFilter
+                    columnSorter
+                    tableFilter
+                    loading={loading}
+                    cleaner
+                    itemsPerPageSelect
+                    pagination
+                    noItemsLabel={
+                        error
+                            ? `Could not retrieve lesson rates due to ${error}. Please try again.`
+                            : 'No lesson rates found'
+                    }
+                    scopedColumns={{
+                        show_details: (currentLessonRate) => (
+                            <EditButton
+                                item={lessonRates.find(
+                                    (lessonRate) => lessonRate.id === currentLessonRate.id,
+                                )}
+                                setSelectedItem={setSelectedLessonRate}
+                                isVisibleEditModal={isVisibleEditLessonRateModal}
+                                setIsVisibleEditModal={setIsVisibleEditLessonRateModal}
+                            />
+                        ),
+                    }}
+                    tableProps={{
+                        hover: true,
+                        responsive: true,
+                        striped: true,
+                    }}
+                />
             </CCardBody>
-        </CCollapse>
-    );
-}
-
-function ToggleButton(toggleDetails, item, details) {
-    return (
-        <td className="py-2">
-            <CButton
-                color="primary"
-                variant="outline"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                    toggleDetails(item.id);
-                }}
-            >
-                {details.includes(item.id) ? 'Hide' : 'Show'}
-            </CButton>
-        </td>
+            {isVisibleNewLessonRateModal && (
+                <NewLessonRateForm
+                    visibility={isVisibleNewLessonRateModal}
+                    setLessonRateModalVisibility={setIsVisibleNewLessonRateModal}
+                    createdLessonRateCallBack={setCreatedLessonRateAndRefreshLessonRates}
+                />
+            )}
+            {isVisibleEditLessonRateModal && (
+                <EditLessonRateForm
+                    lessonRate={selectedLessonRate}
+                    visibility={isVisibleEditLessonRateModal}
+                    setEditLessonRateModalVisibility={setIsVisibleEditLessonRateModal}
+                    savedLessonRateCallBack={setSavedLessonRateAndRefreshLessonRates}
+                />
+            )}
+            <CToaster ref={subjectActionSuccessToasterRef} push={toast} placement="bottom-end" />
+        </>
     );
 }
