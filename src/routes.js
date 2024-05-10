@@ -34,12 +34,9 @@ const SessionTypes = React.lazy(() =>
 const Subjects = React.lazy(() => import('./views/system-config/sis/subjects/SubjectsPage'));
 const Users = React.lazy(() => import('./views/system-config/users/UsersPage'));
 
-const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
-
 const routes = [
     { path: '/', exact: true, name: 'Home' },
     { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-    { path: '/theme', name: 'Theme', element: Colors, exact: true },
     { path: '/students', name: 'Students', element: Students, exact: true },
     { path: '/students/enrolment', name: 'Enrolment', element: Students, exact: true },
     { path: '/system-config', name: 'Configuration', element: PaymentMethods, exact: true },
