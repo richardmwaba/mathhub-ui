@@ -1,26 +1,17 @@
 import React from 'react';
 import CIcon from '@coreui/icons-react';
 import {
-    cilBell,
+    cilBank,
+    cilBarChart,
     cilBook,
-    cilCalculator,
-    cilCalendar,
+    cilBuilding,
+    cilChartLine,
     cilChartPie,
-    cilCursor,
-    cilDrop,
-    cilEnvelopeOpen,
-    cilGrid,
-    cilLayers,
-    cilMap,
+    cilCreditCard,
     cilMoney,
-    cilNotes,
-    cilPencil,
     cilPeople,
-    cilPuzzle,
     cilSchool,
     cilSpeedometer,
-    cilSpreadsheet,
-    cilStar,
 } from '@coreui/icons';
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro';
 
@@ -47,6 +38,42 @@ const _nav = [
     {
         component: CNavTitle,
         name: 'Cash Book',
+    },
+    {
+        component: CNavItem,
+        name: 'Summary',
+        to: '/system-config/asset-types',
+        icon: <CIcon icon={cilBarChart} customClassName="nav-icon" />,
+    },
+    {
+        component: CNavItem,
+        name: 'Assets',
+        to: '/cashbook/assets',
+        icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
+    },
+    {
+        component: CNavItem,
+        name: 'Equity',
+        to: '/system-config/asset-types',
+        icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
+    },
+    {
+        component: CNavItem,
+        name: 'Expenses',
+        to: '/system-config/asset-types',
+        icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
+    },
+    {
+        component: CNavItem,
+        name: 'Income',
+        to: '/system-config/asset-types',
+        icon: <CIcon icon={cilBank} customClassName="nav-icon" />,
+    },
+    {
+        component: CNavItem,
+        name: 'Liabilities',
+        to: '/system-config/asset-types',
+        icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
     },
     {
         component: CNavTitle,
