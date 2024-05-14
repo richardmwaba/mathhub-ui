@@ -5,7 +5,6 @@ import {
     cilBarChart,
     cilBook,
     cilBuilding,
-    cilChartLine,
     cilChartPie,
     cilCreditCard,
     cilMoney,
@@ -54,7 +53,7 @@ const _nav = [
     {
         component: CNavItem,
         name: 'Equity',
-        to: '/system-config/asset-types',
+        to: '/cashbook/equities',
         icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
     },
     {

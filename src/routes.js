@@ -4,6 +4,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 const Students = React.lazy(() => import('./views/students/StudentsPage'));
 const CashbookSummary = React.lazy(() => import('./views/cashbook/summary/CashbookSummaryPage'));
 const Assets = React.lazy(() => import('./views/cashbook/business-assets/AssetsPage'));
+const Equities = React.lazy(() => import('./views/cashbook/equity/EquitiesPage'));
 const PaymentMethods = React.lazy(() =>
     import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
 );
@@ -43,6 +44,7 @@ const routes = [
     { path: '/students/enrolment', name: 'Enrolment', element: Students, exact: true },
     { path: '/cashbook', name: 'Cashbook', element: CashbookSummary, exact: true },
     { path: '/cashbook/assets', name: 'Assets', element: Assets, exact: true },
+    { path: '/cashbook/equities', name: 'Equities', element: Equities, exact: true },
     { path: '/system-config', name: 'Configuration', element: PaymentMethods, exact: true },
     {
         path: '/system-config/payment-methods',

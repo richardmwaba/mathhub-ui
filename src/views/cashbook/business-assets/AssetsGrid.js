@@ -74,7 +74,7 @@ export default function AssetsGrid() {
             return {
                 id: asset.id,
                 narration: asset.narration,
-                assetType: asset.assetType.typename,
+                assetType: asset.assetType.typeName,
                 amount: asset.amount,
                 paymentMethod: asset.paymentMethod.typeName,
                 createdBy: asset.createdBy,
