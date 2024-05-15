@@ -71,7 +71,7 @@ const _nav = [
     {
         component: CNavItem,
         name: 'Liabilities',
-        to: '/system-config/asset-types',
+        to: '/cashbook/liabilities',
         icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
     },
     {

@@ -6,6 +6,7 @@ const CashbookSummary = React.lazy(() => import('./views/cashbook/summary/Cashbo
 const Assets = React.lazy(() => import('./views/cashbook/business-assets/AssetsPage'));
 const Expenses = React.lazy(() => import('./views/cashbook/expenses/ExpensesPage'));
 const Incomes = React.lazy(() => import('./views/cashbook/incomes/IncomesPage'));
+const Liabilities = React.lazy(() => import('./views/cashbook/liabilities/LiabilitiesPage'));
 const Equities = React.lazy(() => import('./views/cashbook/equity/EquitiesPage'));
 const PaymentMethods = React.lazy(() =>
     import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
@@ -49,6 +50,7 @@ const routes = [
     { path: '/cashbook/equities', name: 'Equities', element: Equities, exact: true },
     { path: '/cashbook/expenses', name: 'Expenses', element: Expenses, exact: true },
     { path: '/cashbook/incomes', name: 'Incomes', element: Incomes, exact: true },
+    { path: '/cashbook/liabilities', name: 'Liabilities', element: Liabilities, exact: true },
     { path: '/system-config', name: 'Configuration', element: PaymentMethods, exact: true },
     {
         path: '/system-config/payment-methods',
