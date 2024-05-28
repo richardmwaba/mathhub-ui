@@ -1,43 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import {
-    CCardBody,
-    CButton,
-    CCollapse,
-    CFormCheck,
-    CFormLabel,
-    CSmartTable,
-} from '@coreui/react-pro';
+import { CCardBody, CButton, CSmartTable } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
 import { cilArrowThickToBottom } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import StudentsService from 'src/api/sis/students.service.js';
+import { ViewDetailsButton } from 'src/components/common/ViewDetailsButton';
 
 export default function StudentsGrid() {
     const axiosPrivate = useAxiosPrivate();
 
-    const [selected, setSelected] = useState([]);
-    const [loading, setLoading] = useState();
-    const [details, setDetails] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [currentItems, setCurrentItems] = useState([]);
     const [students, setStudents] = useState([]);
+    const [selectedStudent, setSelectedStudent] = useState({});
     const [error, setError] = useState('');
-
-    const studentsWithSelect = students?.map((student) => {
-        const _selected = selected.includes(student.id);
-        return {
-            ...student,
-            subject: student,
-            _selected,
-            _classes: [student._classes, _selected && 'table-selected'],
-        };
-    });
 
     const csvContent = currentItems.map((item) => Object.values(item).join(',')).join('\n');
 
     const csvCode = 'data:text/csv;charset=utf-8,SEP=,%0A' + encodeURIComponent(csvContent);
 
     const columns = [
-        { key: 'select', label: '', filter: false, sorter: false },
         {
             key: 'name',
             label: 'Name',
@@ -45,7 +27,7 @@ export default function StudentsGrid() {
         },
         {
             key: 'gender',
-            label: 'Genger',
+            label: 'Gender',
             _style: { width: '10%' },
         },
         {
@@ -82,25 +64,6 @@ export default function StudentsGrid() {
         },
     ];
 
-    const toggleDetails = (index) => {
-        const position = details.indexOf(index);
-        let newDetails = details.slice();
-        if (position !== -1) {
-            newDetails.splice(position, 1);
-        } else {
-            newDetails = [...details, index];
-        }
-        setDetails(newDetails);
-    };
-
-    const check = (e, id) => {
-        if (e.target.checked) {
-            setSelected([...selected, id]);
-        } else {
-            setSelected(selected.filter((itemId) => itemId !== id));
-        }
-    };
-
     // get students data from api
     useEffect(() => {
         let isMounted = true;
@@ -116,6 +79,7 @@ export default function StudentsGrid() {
         };
 
         getStudents();
+        setLoading(false);
 
         return () => {
             isMounted = false;
@@ -123,93 +87,85 @@ export default function StudentsGrid() {
         };
     }, [axiosPrivate]);
 
+    const studentsSummary = students.map((student) => {
+        const parent = getStudentsParent(student.parents)[0];
+        return {
+            id: student.id,
+            name: getStudentsFullname(student.firstName, student.middleName, student.lastName),
+            gender: student.gender,
+            grade: student.grade.gradeName,
+            syllabus: student.examBoard.examBoardName,
+            phone_number: getStudentsMobileNumber(student.phoneNumbers),
+            parents_name: parent.parents_name,
+            parents_email: parent.parents_email,
+        };
+    });
+
     return (
         <CCardBody>
             <CButton
                 color="primary"
                 className="mb-2"
+                variant="outline"
+                size="sm"
                 href={csvCode}
-                download="coreui-table-data.csv"
+                download="users-data.csv"
                 target="_blank"
             >
                 <CIcon icon={cilArrowThickToBottom} title="Download file" /> (.csv)
             </CButton>
             <CSmartTable
                 sorterValue={{ column: 'name', state: 'asc' }}
+                items={studentsSummary}
                 columns={columns}
                 itemsPerPage={10}
                 columnFilter
                 columnSorter
-                items={studentsWithSelect}
-                itemsPerPageSelect
                 tableFilter
-                cleaner
                 loading={loading}
+                cleaner
+                itemsPerPageSelect
                 pagination
+                noItemsLabel={
+                    error
+                        ? `Could not retrieve students due to ${error}. Please try again.`
+                        : 'No students found'
+                }
                 scopedColumns={{
-                    select: (item) => {
-                        return GridCheckBox(item, check);
-                    },
-                    show_details: (item) => {
-                        return ToggleButton(toggleDetails, item, details);
-                    },
-                    details: (item) => {
-                        return DetailsCard(details, item);
-                    },
+                    show_details: (currentStudent) => (
+                        <ViewDetailsButton
+                            item={students.find((student) => student.id === currentStudent.id)}
+                            setSelectedItem={setSelectedStudent}
+                        />
+                    ),
                 }}
                 tableProps={{
                     hover: true,
                     responsive: true,
+                    striped: true,
                 }}
             />
         </CCardBody>
     );
 }
 
-function GridCheckBox(item, check) {
-    return (
-        <td>
-            <CFormCheck
-                id={`checkbox${item.id}`}
-                checked={item._selected}
-                onChange={(e) => check(e, item.id)}
-            />
-            <CFormLabel variant="custom-checkbox" htmlFor={`checkbox${item.id}`} />
-        </td>
-    );
+function getStudentsFullname(firstName, middleName, lastName) {
+    return middleName ? `${firstName} ${middleName} ${lastName}` : `${firstName} ${lastName}`;
 }
 
-function DetailsCard(details, item) {
-    return (
-        <CCollapse visible={details.includes(item.id)}>
-            <CCardBody>
-                <h4>{item.username}</h4>
-                <p className="text-muted">User since: {item.registered}</p>
-                <CButton size="sm" color="info">
-                    User Settings
-                </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                    Delete
-                </CButton>
-            </CCardBody>
-        </CCollapse>
-    );
+function getStudentsMobileNumber(phoneNumbers) {
+    return phoneNumbers.map((phoneNumber) => {
+        return phoneNumber.type === 'MOBILE'
+            ? `${phoneNumber.countryCode} ${phoneNumber.number}`
+            : null;
+    });
 }
 
-function ToggleButton(toggleDetails, item, details) {
-    return (
-        <td className="py-2">
-            <CButton
-                color="primary"
-                variant="outline"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                    toggleDetails(item.id);
-                }}
-            >
-                {details.includes(item.id) ? 'Hide' : 'Show'}
-            </CButton>
-        </td>
-    );
+function getStudentsParent(parents) {
+    return parents.map((parent) => {
+        return {
+            parents_name: `${parent.firstName} ${parent.lastName}`,
+            parents_email: parent.email,
+        };
+    });
 }
