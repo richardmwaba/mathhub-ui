@@ -208,28 +208,27 @@ export default function UserRegistrationForm({
                                                 }}
                                             />
                                         </CInputGroup>
-                                        <CInputGroup className="mb-3">
-                                            <CMultiSelect
-                                                options={allUserRoles}
-                                                placeholder="Select user roles..."
-                                                required
-                                                feedbackInvalid="Select at least one user role."
-                                                onChange={(selectedUserRoles) => {
-                                                    setNewUser((prev) => {
-                                                        const selectedUserRolesValues =
-                                                            selectedUserRoles.map(
-                                                                (selectedUserRole) => {
-                                                                    return selectedUserRole.value;
-                                                                },
-                                                            );
-                                                        return {
-                                                            ...prev,
-                                                            userRoles: selectedUserRolesValues,
-                                                        };
-                                                    });
-                                                }}
-                                            />
-                                        </CInputGroup>
+                                        <CMultiSelect
+                                            className="mb-3"
+                                            options={allUserRoles}
+                                            placeholder="Select user roles..."
+                                            required
+                                            feedbackInvalid="Select at least one user role."
+                                            onChange={(selectedUserRoles) => {
+                                                setNewUser((prev) => {
+                                                    const selectedUserRolesValues =
+                                                        selectedUserRoles.map(
+                                                            (selectedUserRole) => {
+                                                                return selectedUserRole.value;
+                                                            },
+                                                        );
+                                                    return {
+                                                        ...prev,
+                                                        userRoles: selectedUserRolesValues,
+                                                    };
+                                                });
+                                            }}
+                                        />
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText>@</CInputGroupText>
                                             <CFormInput

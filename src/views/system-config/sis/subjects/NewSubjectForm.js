@@ -50,7 +50,7 @@ export default function NewSubjectForm({
     const getGrades = async () => {
         const grades = await GradesService.getAllGrades(axiosPrivate, controller, setErrorMessage);
         const allGrades = grades.map((grade) => {
-            return { value: grade.id, text: grade.name };
+            return { value: grade.id, label: grade.name };
         });
         isMounted && setAllGrades(allGrades);
     };

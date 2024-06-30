@@ -55,11 +55,11 @@ export default function EditSubjectForm({
         const allGrades = grades
             .map((grade) => {
                 if (editedSubject.subjectGradeIds.includes(grade.id)) {
-                    return { value: grade.id, text: grade.name, selected: true };
+                    return { value: grade.id, label: grade.name, selected: true };
                 }
-                return { value: grade.id, text: grade.name };
+                return { value: grade.id, label: grade.name };
             })
-            .sort((a, b) => a.text - b.text);
+            .sort((a, b) => a.label - b.label);
         isMounted && setAllGrades(allGrades);
     };
 

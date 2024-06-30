@@ -95,7 +95,7 @@ export default function UserEditForm({
                 if (editedUser.userRoles.includes(userRole.value)) {
                     const updatedUserRole = {
                         value: userRole.value,
-                        text: userRole.text,
+                        label: userRole.label,
                         selected: true,
                     };
                     return updatedUserRole;
@@ -260,28 +260,27 @@ export default function UserEditForm({
                                                 placeholder="Phone Number"
                                             />
                                         </CInputGroup>
-                                        <CInputGroup className="mb-3">
-                                            <CMultiSelect
-                                                options={allUserRoles}
-                                                placeholder="Select user roles..."
-                                                required
-                                                feedbackInvalid="Select at least one user role."
-                                                onChange={(selectedUserRoles) => {
-                                                    setEditedUser((prev) => {
-                                                        const selectedUserRolesValues =
-                                                            selectedUserRoles.map(
-                                                                (selectedUserRole) => {
-                                                                    return selectedUserRole.value;
-                                                                },
-                                                            );
-                                                        return {
-                                                            ...prev,
-                                                            roles: selectedUserRolesValues,
-                                                        };
-                                                    });
-                                                }}
-                                            />
-                                        </CInputGroup>
+                                        <CMultiSelect
+                                            className="mb-3"
+                                            options={allUserRoles}
+                                            placeholder="Select user roles..."
+                                            required
+                                            feedbackInvalid="Select at least one user role."
+                                            onChange={(selectedUserRoles) => {
+                                                setEditedUser((prev) => {
+                                                    const selectedUserRolesValues =
+                                                        selectedUserRoles.map(
+                                                            (selectedUserRole) => {
+                                                                return selectedUserRole.value;
+                                                            },
+                                                        );
+                                                    return {
+                                                        ...prev,
+                                                        roles: selectedUserRolesValues,
+                                                    };
+                                                });
+                                            }}
+                                        />
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText title="Email">@</CInputGroupText>
                                             <CFormInput

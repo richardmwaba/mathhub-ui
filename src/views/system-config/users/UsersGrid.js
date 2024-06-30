@@ -350,7 +350,7 @@ function multiSelectColumnFilter(values, onChange) {
             options={uniqueValues.sort().map((element) => {
                 return {
                     value: element.toString().toLowerCase(),
-                    text: element,
+                    label: element,
                 };
             })}
         />
