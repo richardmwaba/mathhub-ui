@@ -12,8 +12,6 @@ import {
     CModal,
     CModalBody,
     CModalFooter,
-    CModalHeader,
-    CModalTitle,
     CRow,
     CLoadingButton,
     CFormText,

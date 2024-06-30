@@ -1,70 +1,82 @@
-// stylelint-disable scss/dollar-variable-default
-$enable-elevations:  false;
-$enable-ltr:         true;
-$enable-rtl:         true;
-$mobile-breakpoint:  lg !default;
+// Variable overrides
+//
+// If you want to customize your project please add your variables below.
 
-$font-size-base: .9375rem;
+$enable-deprecation-messages: false !default;
 
-$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+$primary:   #239cfc !default;
+$success:   #51cc8a !default;
+$danger:    #ef376e !default;
+$warning:   #fc0 !default;
+$info:      #747af2 !default;
 
-$border-color-translucent:  rgba($black, .0875);
+$primary-text-emphasis:   shade-color($primary, 60%) !default;
+$success-text-emphasis:   shade-color($success, 60%) !default;
+$info-text-emphasis:      shade-color($info, 60%) !default;
+$warning-text-emphasis:   shade-color($warning, 60%) !default;
+$danger-text-emphasis:    shade-color($danger, 60%) !default;
 
-$breadcrumb-divider-color:  $text-disabled;
-$breadcrumb-active-color:   $text-disabled;
+$primary-bg-subtle:       tint-color($primary, 80%) !default;
+$success-bg-subtle:       tint-color($success, 80%) !default;
+$info-bg-subtle:          tint-color($info, 80%) !default;
+$warning-bg-subtle:       tint-color($warning, 80%) !default;
+$danger-bg-subtle:        tint-color($danger, 80%) !default;
 
-$card-border-width: 0;
-$card-cap-bg: transparent;
-$card-cap-padding-y: .75rem;
+$primary-border-subtle:   tint-color($primary, 60%) !default;
+$success-border-subtle:   tint-color($success, 60%) !default;
+$info-border-subtle:      tint-color($info, 60%) !default;
+$warning-border-subtle:   tint-color($warning, 60%) !default;
+$danger-border-subtle:    tint-color($danger, 60%) !default;
 
-$dropdown-padding-y:         .75rem;
-$dropdown-item-padding-y:    $spacer * .5;
-$dropdown-item-padding-x:    $spacer;
-$dropdown-header-padding-x:  $dropdown-item-padding-x;
-$dropdown-header-padding-y:  $dropdown-padding-y;
-$dropdown-link-hover-bg:     $gray-100;
+$primary-gradient: (
+  "start":  tint-color($primary, 30%),
+  "stop":   shade-color($primary, 10%)
+) !default;
 
-$footer-bg:  $white;
+$danger-gradient: (
+  "start":  tint-color($danger, 30%),
+  "stop":   shade-color($danger, 10%)
+) !default;
 
-$header-color:                $medium-emphasis-inverse;
-$header-hover-color:          $high-emphasis-inverse;
-$header-active-color:         $high-emphasis-inverse;
-$header-toggler-color:        $medium-emphasis-inverse;
-$header-toggler-hover-color:  $high-emphasis-inverse;
+$warning-gradient: (
+  "start":  tint-color($warning, 30%),
+  "stop":   shade-color($warning, 10%)
+) !default;
 
-$sidebar-width:  18rem;
+$success-gradient: (
+  "start":  tint-color($success, 30%),
+  "stop":   shade-color($success, 10%)
+) !default;
+
+$info-gradient: (
+  "start":  tint-color($info, 30%),
+  "stop":   shade-color($info, 10%)
+) !default;
+
+$font-size-base:            .9375rem !default;
+$border-color-translucent:  rgba(#080a0c, .0875) !default;
+$footer-bg:                 var(--cui-body-bg) !default;
+$table-cell-padding-y:      .75rem !default;
+$table-cell-padding-x:      .75rem !default;
+
+$sidebar-width:  18rem !default;
 $sidebar-widths: (
   sm: 14rem,
   lg: 24rem,
   xl: 26rem
-);
+) !default;
 
-$sidebar-brand-bg:             rgba($black, .15);
+$sidebar-padding-x:            1.5rem !default;
+$sidebar-brand-color:          var(--cui-body-color-dark) !default;
+$sidebar-toggler-color:        var(--cui-tertiary-color-dark) !default;
+$sidebar-toggler-hover-color:  var(--cui-secondary-color-dark) !default;
+$sidebar-toggler-focus-color:  var(--cui-secondary-color-dark) !default;
 
-$sidebar-nav-link-padding-y:   .75rem;
-$sidebar-nav-link-padding-x:   1.5rem;
-$sidebar-nav-link-hover-bg:    rgba($black, .05);
-$sidebar-nav-link-active-bg:   rgba($black, .05);
-$sidebar-nav-link-icon-color:  $disabled-inverse;
+$sidebar-nav-padding-y:        1rem !default;
+$sidebar-nav-padding-x:        1rem !default;
 
-$sidebar-light-nav-link-active-icon-color: $primary;
-$sidebar-light-nav-link-hover-bg:          $primary;
-$sidebar-light-nav-link-hover-color:       $high-emphasis-inverse;
-$sidebar-light-nav-link-hover-icon-color:  $high-emphasis-inverse;
-
-$sidebar-light-nav-group-bg:                     transparent;
-$sidebar-light-nav-group-toggle-show-color:      $sidebar-light-nav-link-color;
-
-$sidebar-light-nav-group-indicator-hover-color:  $sidebar-light-nav-link-hover-color;
-$sidebar-light-nav-group-indicator-hover-icon:   url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$sidebar-light-nav-group-indicator-hover-color}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
-
-$sidebar-light-toggler-bg:                       transparent;
-$sidebar-light-toggler-hover-bg:                 transparent;
-$sidebar-light-toggler-indicator-color:          $medium-emphasis-inverse;
-$sidebar-light-toggler-indicator-icon:           url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-light-toggler-indicator-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E");
-$sidebar-light-toggler-indicator-hover-color:    $sidebar-light-nav-link-hover-color;
-$sidebar-light-toggler-indicator-hover-icon:     url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-light-toggler-indicator-hover-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E");
-
-
-$table-cell-padding-y:  .75rem;
-$table-cell-padding-x:  .75rem;
+$header-color:                var(--cui-secondary-color-dark) !default;
+$header-hover-color:          var(--cui-body-color-dark) !default;
+$header-active-color:         var(--cui-body-color-dark) !default;
+$header-toggler-color:        var(--cui-secondary-color-dark) !default;
+$header-toggler-hover-color:  var(--cui-body-color-dark) !default;

@@ -1,4 +1,3 @@
-import DateUtils from 'src/utils/dateUtils';
 import TextUtils from 'src/utils/textUtils';
 
 function getAllLessonRates(axiosPrivate, controller, errorCallback) {

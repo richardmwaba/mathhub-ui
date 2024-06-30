@@ -1,9 +1,9 @@
-import { createStore } from 'redux';
+import { legacy_createStore as createStore } from 'redux';
 
 const initialState = {
     sidebarShow: true,
     asideShow: false,
-    theme: 'default',
+    theme: 'light',
 };
 
 const changeState = (state = initialState, { type, ...rest }) => {

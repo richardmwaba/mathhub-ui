@@ -1,16 +1,20 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react-pro';
+import {
+    CCloseButton,
+    CSidebar,
+    CSidebarBrand,
+    CSidebarHeader,
+    CSidebarToggler,
+} from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
 
 import { AppSidebarNav } from './AppSidebarNav';
 
-import { logoMain } from 'src/assets/brand/mathhub-logo';
+import { logo } from 'src/assets/brand/mathhub-logo';
 import { sygnet } from 'src/assets/brand/sygnet';
-
-import SimpleBar from 'simplebar-react';
-import 'simplebar/dist/simplebar.min.css';
 
 // sidebar nav config
 import navigation from '../_nav';
@@ -30,18 +34,21 @@ const AppSidebar = () => {
                 dispatch({ type: 'set', sidebarShow: visible });
             }}
         >
-            <CSidebarBrand className="d-none d-md-flex" to="/">
-                <CIcon className="sidebar-brand-full" icon={logoMain} height={35} />
-                <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
+            <CSidebarHeader className="bg-primary border-bottom">
+                <CSidebarBrand as={NavLink} to="/">
+                    <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
+                    <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} />
+                </CSidebarBrand>
+                <CCloseButton
+                    className="d-lg-none"
+                    dark
+                    onClick={() => dispatch({ type: 'set', sidebarShow: false })}
+                />
                 <CSidebarToggler
                     onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
                 />
-            </CSidebarBrand>
-            <CSidebarNav>
-                <SimpleBar>
-                    <AppSidebarNav items={navigation} />
-                </SimpleBar>
-            </CSidebarNav>
+            </CSidebarHeader>
+            <AppSidebarNav items={navigation} />
         </CSidebar>
     );
 };
