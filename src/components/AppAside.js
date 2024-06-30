@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
     CAvatar,
     CCloseButton,
@@ -26,6 +27,7 @@ import {
     cilSpeech,
 } from '@coreui/icons';
 
+import avatar1 from './../assets/images/avatars/1.jpg';
 import avatar2 from './../assets/images/avatars/2.jpg';
 import avatar3 from './../assets/images/avatars/3.jpg';
 import avatar4 from './../assets/images/avatars/4.jpg';
@@ -37,11 +39,13 @@ import avatar8 from './../assets/images/avatars/8.jpg';
 const AppAside = () => {
     const dispatch = useDispatch();
     const asideShow = useSelector((state) => state.asideShow);
+    const { t } = useTranslation();
 
     const [activeKey, setActiveKey] = useState(1);
 
     return (
         <CSidebar
+            className="border-start"
             colorScheme="light"
             size="lg"
             overlaid
@@ -51,8 +55,8 @@ const AppAside = () => {
                 dispatch({ type: 'set', asideShow: visible });
             }}
         >
-            <CSidebarHeader className="bg-transparent p-0">
-                <CNav variant="underline">
+            <CSidebarHeader className="p-0 position-relative">
+                <CNav className="w-100" variant="underline-border">
                     <CNavItem>
                         <CNavLink
                             href="#"
@@ -62,7 +66,7 @@ const AppAside = () => {
                                 setActiveKey(1);
                             }}
                         >
-                            <CIcon icon={cilList} alt="CoreUI Icons List" />
+                            <CIcon icon={cilList} />
                         </CNavLink>
                     </CNavItem>
                     <CNavItem>
@@ -74,7 +78,7 @@ const AppAside = () => {
                                 setActiveKey(2);
                             }}
                         >
-                            <CIcon icon={cilSpeech} alt="CoreUI Icons Speech" />
+                            <CIcon icon={cilSpeech} />
                         </CNavLink>
                     </CNavItem>
                     <CNavItem>
@@ -86,29 +90,30 @@ const AppAside = () => {
                                 setActiveKey(3);
                             }}
                         >
-                            <CIcon icon={cilSettings} alt="CoreUI Icons Settings" />
+                            <CIcon icon={cilSettings} />
                         </CNavLink>
                     </CNavItem>
-                    <CNavItem className="ms-auto me-2 d-flex align-items-center">
-                        <CCloseButton onClick={() => dispatch({ type: 'set', asideShow: false })} />
-                    </CNavItem>
                 </CNav>
+                <CCloseButton
+                    className="position-absolute top-50 end-0 translate-middle my-0"
+                    onClick={() => dispatch({ type: 'set', asideShow: false })}
+                />
             </CSidebarHeader>
             <CTabContent>
                 <CTabPane visible={activeKey === 1}>
                     <CListGroup flush>
-                        <CListGroupItem className="list-group-item border-start-4 border-start-secondary bg-light dark:bg-white dark:bg-opacity-10 dark:text-medium-emphasis text-center fw-bold text-medium-emphasis text-uppercase small">
-                            Today
+                        <CListGroupItem className="list-group-item border-start-4 border-start-secondary bg-body-secondary text-center fw-semibold text-body-secondary text-uppercase small">
+                            {t('today')}
                         </CListGroupItem>
                         <CListGroupItem href="#" className="border-start-4 border-start-warning">
                             <CAvatar src={avatar7} size="lg" className="float-end" />
                             <div>
                                 Meeting with <strong>Lucas</strong>
                             </div>
-                            <small className="text-medium-emphasis me-3">
+                            <small className="text-body-secondary me-3">
                                 <CIcon icon={cilCalendar} /> 1 - 3pm
                             </small>
-                            <small className="text-medium-emphasis">
+                            <small className="text-body-secondary">
                                 <CIcon icon={cilLocationPin} /> Palo Alto, CA
                             </small>
                         </CListGroupItem>
@@ -117,28 +122,24 @@ const AppAside = () => {
                             <div>
                                 Skype with <strong>Megan</strong>
                             </div>
-                            <small className="text-medium-emphasis me-3">
+                            <small className="text-body-secondary me-3">
                                 <CIcon icon={cilCalendar} /> 4 - 5pm
                             </small>
-                            <small className="text-medium-emphasis">
+                            <small className="text-body-secondary">
                                 <CIcon icon={cibSkype} /> On-line
                             </small>
                         </CListGroupItem>
-                        <CListGroupItem className="border-start-4 border-start-secondary bg-light dark:bg-white dark:bg-opacity-10 dark:text-medium-emphasis text-center fw-bold text-medium-emphasis text-uppercase small">
-                            Tomorrow
+                        <CListGroupItem className="border-start-4 border-start-secondary bg-body-secondary text-center fw-semibold text-body-secondary text-uppercase small">
+                            {t('tomorrow')}
                         </CListGroupItem>
-                        <CListGroupItem
-                            accent="danger"
-                            href="#"
-                            className="border-start-4 border-start-danger"
-                        >
+                        <CListGroupItem href="#" className="border-start-4 border-start-danger">
                             <div>
                                 New UI Project - <strong>deadline</strong>
                             </div>
-                            <small className="text-medium-emphasis me-3">
+                            <small className="text-body-secondary me-3">
                                 <CIcon icon={cilCalendar} /> 10 - 11pm
                             </small>
-                            <small className="text-medium-emphasis">
+                            <small className="text-body-secondary">
                                 <CIcon icon={cilHome} /> creativeLabs HQ
                             </small>
                             <div className="/avatars-stack mt-2">
@@ -153,10 +154,10 @@ const AppAside = () => {
                             <div>
                                 <strong>#10 Startups.Garden</strong> Meetup
                             </div>
-                            <small className="text-medium-emphasis me-3">
+                            <small className="text-body-secondary me-3">
                                 <CIcon icon={cilCalendar} /> 1 - 3pm
                             </small>
-                            <small className="text-medium-emphasis">
+                            <small className="text-body-secondary">
                                 <CIcon icon={cilLocationPin} /> Palo Alto, CA
                             </small>
                         </CListGroupItem>
@@ -167,10 +168,10 @@ const AppAside = () => {
                             <div>
                                 <strong>Team meeting</strong>
                             </div>
-                            <small className="text-medium-emphasis me-3">
+                            <small className="text-body-secondary me-3">
                                 <CIcon icon={cilCalendar} /> 4 - 6pm
                             </small>
-                            <small className="text-medium-emphasis">
+                            <small className="text-body-secondary">
                                 <CIcon icon={cilHome} /> creativeLabs HQ
                             </small>
                             <div className="/avatars-stack mt-2">
@@ -185,91 +186,125 @@ const AppAside = () => {
                         </CListGroupItem>
                     </CListGroup>
                 </CTabPane>
-
                 <CTabPane className="p-3" visible={activeKey === 2}>
-                    <div className="message">
-                        <div className="py-3 pb-5 me-3 float-start">
-                            <CAvatar src={avatar7} status="success" size="md" />
+                    <div className="d-flex">
+                        <CAvatar
+                            className="flex-shrink-0 my-3 me-3"
+                            size="md"
+                            src={avatar1}
+                            status="success"
+                        />
+                        <div style={{ minWidth: 0 }}>
+                            <div className="d-flex justify-content-between text-body-secondary small">
+                                <div>Jessica Williams</div>
+                                <div>Just now</div>
+                            </div>
+                            <div className="fw-semibold text-truncate">
+                                <span className="text-danger">!</span> Urgent: System Maintenance
+                                Tonight
+                            </div>
+                            <div className="small text-body-secondary mt-1">
+                                Attention team, we&#39;ll be conducting critical system maintenance
+                                tonight from 10 PM to 2 AM. Plan accordingly...
+                            </div>
                         </div>
-                        <div>
-                            <small className="text-medium-emphasis">Lukasz Holeczek</small>
-                            <small className="text-medium-emphasis float-end mt-1">1:52 PM</small>
-                        </div>
-                        <div className="text-truncate fw-semibold">Lorem ipsum dolor sit amet</div>
-                        <small className="text-medium-emphasis">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt...
-                        </small>
                     </div>
                     <hr />
-                    <div className="message">
-                        <div className="py-3 pb-5 me-3 float-start">
-                            <CAvatar src={avatar7} status="success" size="md" />
+                    <div className="d-flex">
+                        <CAvatar
+                            className="flex-shrink-0 my-3 me-3"
+                            size="md"
+                            src={avatar2}
+                            status="success"
+                        />
+                        <div style={{ minWidth: 0 }}>
+                            <div className="d-flex justify-content-between text-body-secondary small">
+                                <div>Richard Johnson</div>
+                                <div>5 minutes ago</div>
+                            </div>
+                            <div className="fw-semibold text-truncate">
+                                Social Media Campaign Launch
+                            </div>
+                            <div className="small text-body-secondary mt-1">
+                                Exciting news! Our new social media campaign goes live tomorrow.
+                                Brace yourselves for engagement...
+                            </div>
                         </div>
-                        <div>
-                            <small className="text-medium-emphasis">Lukasz Holeczek</small>
-                            <small className="text-medium-emphasis float-end mt-1">1:52 PM</small>
-                        </div>
-                        <div className="text-truncate fw-semibold">Lorem ipsum dolor sit amet</div>
-                        <small className="text-medium-emphasis">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt...
-                        </small>
                     </div>
                     <hr />
-                    <div className="message">
-                        <div className="py-3 pb-5 me-3 float-start">
-                            <CAvatar src={avatar7} status="success" size="md" />
+                    <div className="d-flex">
+                        <CAvatar
+                            className="flex-shrink-0 my-3 me-3"
+                            size="md"
+                            src={avatar4}
+                            status="success"
+                        />
+                        <div style={{ minWidth: 0 }}>
+                            <div className="d-flex justify-content-between text-body-secondary small">
+                                <div>Angela Rodriguez</div>
+                                <div>1:52 PM</div>
+                            </div>
+                            <div className="fw-semibold text-truncate">
+                                <span className="text-danger">!</span> Project Update: Milestone
+                                Achieved
+                            </div>
+                            <div className="small text-body-secondary mt-1">
+                                Kudos on hitting sales targets last quarter! Let&#39;s keep the
+                                momentum. New goals, new victories ahead...
+                            </div>
                         </div>
-                        <div>
-                            <small className="text-medium-emphasis">Lukasz Holeczek</small>
-                            <small className="text-medium-emphasis float-end mt-1">1:52 PM</small>
-                        </div>
-                        <div className="text-truncate fw-semibold">Lorem ipsum dolor sit amet</div>
-                        <small className="text-medium-emphasis">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt...
-                        </small>
                     </div>
                     <hr />
-                    <div className="message">
-                        <div className="py-3 pb-5 me-3 float-start">
-                            <CAvatar src={avatar7} status="success" size="md" />
+                    <div className="d-flex">
+                        <CAvatar
+                            className="flex-shrink-0 my-3 me-3"
+                            size="md"
+                            src={avatar5}
+                            status="success"
+                        />
+                        <div style={{ minWidth: 0 }}>
+                            <div className="d-flex justify-content-between text-body-secondary small">
+                                <div>Jane Lewis</div>
+                                <div>4:03 PM</div>
+                            </div>
+                            <div className="fw-semibold text-truncate">Inventory Checkpoint</div>
+                            <div className="small text-body-secondary mt-1">
+                                Team, it&#39;s time for our monthly inventory check. Accurate counts
+                                ensure smooth operations. Let&#39;s nail it...
+                            </div>
                         </div>
-                        <div>
-                            <small className="text-medium-emphasis">Lukasz Holeczek</small>
-                            <small className="text-medium-emphasis float-end mt-1">1:52 PM</small>
-                        </div>
-                        <div className="text-truncate fw-semibold">Lorem ipsum dolor sit amet</div>
-                        <small className="text-medium-emphasis">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt...
-                        </small>
                     </div>
                     <hr />
-                    <div className="message">
-                        <div className="py-3 pb-5 me-3 float-start">
-                            <CAvatar src={avatar7} status="success" size="md" />
+                    <div className="d-flex">
+                        <CAvatar
+                            className="flex-shrink-0 my-3 me-3"
+                            size="md"
+                            src={avatar3}
+                            status="success"
+                        />
+                        <div style={{ minWidth: 0 }}>
+                            <div className="d-flex justify-content-between text-body-secondary small">
+                                <div>Ryan Miller</div>
+                                <div>3 days ago</div>
+                            </div>
+                            <div className="fw-semibold text-truncate">
+                                Customer Feedback Results
+                            </div>
+                            <div className="small text-body-secondary mt-1">
+                                Our latest customer feedback is in. Let&#39;s analyze and discuss
+                                improvements for an even better service...
+                            </div>
                         </div>
-                        <div>
-                            <small className="text-medium-emphasis">Lukasz Holeczek</small>
-                            <small className="text-medium-emphasis float-end mt-1">1:52 PM</small>
-                        </div>
-                        <div className="text-truncate fw-semibold">Lorem ipsum dolor sit amet</div>
-                        <small className="text-medium-emphasis">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt...
-                        </small>
                     </div>
                 </CTabPane>
                 <CTabPane className="p-3" visible={activeKey === 3}>
-                    <h6>Settings</h6>
+                    <h6>{t('settings')}</h6>
                     <div>
                         <div className="clearfix mt-4">
                             <CFormSwitch size="lg" label="Option 1" id="Option1" defaultChecked />
                         </div>
                         <div>
-                            <small className="text-medium-emphasis">
+                            <small className="text-body-secondary">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             </small>
@@ -280,7 +315,7 @@ const AppAside = () => {
                             <CFormSwitch size="lg" label="Option 2" id="fOption2" />
                         </div>
                         <div>
-                            <small className="text-medium-emphasis">
+                            <small className="text-body-secondary">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             </small>
@@ -297,35 +332,32 @@ const AppAside = () => {
                         </div>
                     </div>
                     <hr />
-                    <h6>System Utilization</h6>
-                    <div className="text-uppercase mb-1 mt-4">
-                        <small>
-                            <b>CPU Usage</b>
-                        </small>
+                    <h6>{t('systemUtilization')}</h6>
+                    <div className="text-uppercase small fw-semibold  mb-1 mt-4">
+                        {t('cpuUsage')}
                     </div>
                     <CProgress thin color="info-gradient" value={25} />
-                    <small className="text-medium-emphasis">348 Processes. 1/4 Cores.</small>
-                    <div className="text-uppercase mb-1 mt-2">
-                        <small>
-                            <b>Memory Usage</b>
-                        </small>
+                    <div className="text-body-secondary small">
+                        {t('cpuUsageDescription', {
+                            number_of_processes: 348,
+                            number_of_cores: '1/4',
+                        })}
+                    </div>
+                    <div className="text-uppercase small fw-semibold mb-1 mt-2">
+                        {t('memoryUsage')}
                     </div>
                     <CProgress thin color="warning-gradient" value={70} />
-                    <small className="text-medium-emphasis">11444GB/16384MB</small>
-                    <div className="text-uppercase mb-1 mt-2">
-                        <small>
-                            <b>SSD 1 Usage</b>
-                        </small>
+                    <div className="text-body-secondary small">11444GB/16384MB</div>
+                    <div className="text-uppercase small fw-semibold mb-1 mt-2">
+                        {t('ssdUsage')}
                     </div>
                     <CProgress thin color="danger-gradient" value={95} />
-                    <small className="text-medium-emphasis">243GB/256GB</small>
-                    <div className="text-uppercase mb-1 mt-2">
-                        <small>
-                            <b>SSD 2 Usage</b>
-                        </small>
+                    <div className="text-body-secondary small">243GB/256GB</div>
+                    <div className="text-uppercase small fw-semibold mb-1 mt-2">
+                        {t('ssdUsage')}
                     </div>
                     <CProgress thin color="success-gradient" value={10} />
-                    <small className="text-medium-emphasis">25GB/256GB</small>
+                    <div className="text-body-secondary small">25GB/256GB</div>
                 </CTabPane>
             </CTabContent>
         </CSidebar>

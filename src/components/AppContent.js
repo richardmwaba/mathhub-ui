@@ -8,15 +8,9 @@ import AppBreadcrumb from './AppBreadcrumb';
 
 const AppContent = () => {
     return (
-        <CContainer fluid>
+        <CContainer fluid className="px-4">
             <AppBreadcrumb />
-            <Suspense
-                fallback={
-                    <div className="text-center">
-                        <CSpinner variant="grow" color="primary" />
-                    </div>
-                }
-            >
+            <Suspense fallback={<CSpinner variant="grow" color="primary" />}>
                 <Routes>
                     {routes.map((route, idx) => {
                         return (

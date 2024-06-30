@@ -1,4 +1,4 @@
-export const logoMain = [
+export const logo = [
     '720 154',
     `
   <title>Math Hub Logo</title>

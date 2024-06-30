@@ -8,41 +8,56 @@ const Expenses = React.lazy(() => import('./views/cashbook/expenses/ExpensesPage
 const Incomes = React.lazy(() => import('./views/cashbook/incomes/IncomesPage'));
 const Liabilities = React.lazy(() => import('./views/cashbook/liabilities/LiabilitiesPage'));
 const Equities = React.lazy(() => import('./views/cashbook/equity/EquitiesPage'));
-const PaymentMethods = React.lazy(() =>
-    import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
+const PaymentMethods = React.lazy(
+    () => import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
 );
-const AssetTypes = React.lazy(() =>
-    import('./views/system-config/cashbook/asset-types/AssetTypesPage'),
+const AssetTypes = React.lazy(
+    () => import('./views/system-config/cashbook/asset-types/AssetTypesPage'),
 );
-const EquityTypes = React.lazy(() =>
-    import('./views/system-config/cashbook/equity-types/EquityTypesPage'),
+const EquityTypes = React.lazy(
+    () => import('./views/system-config/cashbook/equity-types/EquityTypesPage'),
 );
-const ExpenseTypes = React.lazy(() =>
-    import('./views/system-config/cashbook/expense-types/ExpenseTypesPage'),
+const ExpenseTypes = React.lazy(
+    () => import('./views/system-config/cashbook/expense-types/ExpenseTypesPage'),
 );
-const IncomeTypes = React.lazy(() =>
-    import('./views/system-config/cashbook/income-types/IncomeTypesPage'),
+const IncomeTypes = React.lazy(
+    () => import('./views/system-config/cashbook/income-types/IncomeTypesPage'),
 );
-const LiabilityTypes = React.lazy(() =>
-    import('./views/system-config/cashbook/liability-types/LiabilityTypesPage'),
+const LiabilityTypes = React.lazy(
+    () => import('./views/system-config/cashbook/liability-types/LiabilityTypesPage'),
 );
-const AssessmentTypes = React.lazy(() =>
-    import('./views/system-config/sis/assessment-types/AssessmentTypesPage'),
+const AssessmentTypes = React.lazy(
+    () => import('./views/system-config/sis/assessment-types/AssessmentTypesPage'),
 );
 const ExamBoards = React.lazy(() => import('./views/system-config/sis/exam-boards/ExamBoardsPage'));
 const Grades = React.lazy(() => import('./views/system-config/sis/grades/GradesPage'));
-const LessonRates = React.lazy(() =>
-    import('./views/system-config/sis/lesson-rates/LessonRatesPage'),
+const LessonRates = React.lazy(
+    () => import('./views/system-config/sis/lesson-rates/LessonRatesPage'),
 );
-const SessionTypes = React.lazy(() =>
-    import('./views/system-config/sis/session-types/SessionTypesPage'),
+const SessionTypes = React.lazy(
+    () => import('./views/system-config/sis/session-types/SessionTypesPage'),
 );
 const Subjects = React.lazy(() => import('./views/system-config/sis/subjects/SubjectsPage'));
 const Users = React.lazy(() => import('./views/system-config/users/UsersPage'));
 
+// Notifications
+const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'));
+const Badges = React.lazy(() => import('./views/notifications/badges/Badges'));
+
+// Plugins
+const Charts = React.lazy(() => import('./views/plugins/charts/Charts'));
+
+const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
+
+const Invoice = React.lazy(() => import('./views/apps/invoicing/Invoice'));
+
 const routes = [
     { path: '/', exact: true, name: 'Home' },
-    { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+    {
+        path: '/dashboard',
+        name: 'Dashboard',
+        element: Dashboard,
+    },
     { path: '/students', name: 'Students', element: Students, exact: true },
     { path: '/students/enrolment', name: 'Enrolment', element: Students, exact: true },
     { path: '/cashbook', name: 'Cashbook', element: CashbookSummary, exact: true },
@@ -130,6 +145,32 @@ const routes = [
         element: Users,
         exact: true,
     },
+    {
+        path: '/notifications',
+        name: 'Notifications',
+        element: Alerts,
+        exact: true,
+    },
+    { path: '/notifications/alerts', name: 'Alerts', element: Alerts },
+    { path: '/notifications/badges', name: 'Badges', element: Badges },
+    {
+        path: '/plugins/charts',
+        name: 'Charts',
+        element: Charts,
+    },
+    { path: '/widgets', name: 'Widgets', element: Widgets },
+    {
+        path: '/apps',
+        name: 'Apps',
+        element: Invoice,
+        exact: true,
+    },
+    { path: '/apps/invoicing', name: 'Invoice', element: Invoice, exact: true },
+    { path: '/apps/invoicing/invoice', name: 'Invoice', element: Invoice },
+    { path: '/apps/email', name: 'Email', exact: true },
+    { path: '/apps/email/inbox', name: 'Inbox', exact: true },
+    { path: '/apps/email/compose', name: 'Compose', exact: true },
+    { path: '/apps/email/message', name: 'Message', exact: true },
 ];
 
 export default routes;

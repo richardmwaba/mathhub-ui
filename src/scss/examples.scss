@@ -1,38 +1,26 @@
+/* stylelint-disable scss/selector-no-redundant-nesting-selector */
+
+$enable-deprecation-messages: false !default;
+
+@import "@coreui/coreui-pro/scss/functions";
+@import "@coreui/coreui-pro/scss/variables";
+@import "@coreui/coreui-pro/scss/mixins";
+
 .example {
   &:not(:first-child) {
     margin-top: 1.5rem;
   }
 
   .tab-content {
-    background-color: $light-50 !important;
-
-    @at-root .dark-theme & {
-      background-color: rgba(255, 255, 255, .1) !important;
-    }
+    background-color: var(--#{$prefix}tertiary-bg);
   }
 
-  code[class*="language-"],
-  pre[class*="language-"] {
-    font-size: .875rem !important;
-  }
-
-  :not(pre) > code[class*="language-"],
-  pre[class*="language-"] {
-    background: transparent;
-  }
-
-  & + p,
-  & + h2,
-  & + h3,
-  & + h4,
-  & + h5,
-  & + h6 {
+  & + p {
     margin-top: 1.5rem;
   }
 
   // Components examples
-  .preview,
-  .preview .col {
+  .preview {
     + p {
       margin-top: 2rem;
     }
@@ -66,6 +54,8 @@
     }
 
     // Buttons
+    .col > .btn,
+    .col-auto > .btn,
     > .btn,
     > .btn-group {
       margin: .25rem .125rem;
@@ -109,6 +99,13 @@
     .pagination {
       margin-top: .5rem;
       margin-bottom: .5rem;
+    }
+
+    .docs-example-modal {
+      .modal {
+        position: static;
+        display: block;
+      }
     }
   }
 }
