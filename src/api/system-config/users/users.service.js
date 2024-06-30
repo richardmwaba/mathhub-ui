@@ -71,11 +71,11 @@ function deleteUser(userId, axiosPrivate, controller, errorCallback) {
 
 function getAllUserRoles() {
     return [
-        { value: 'Administrator', text: 'Administrator' },
-        { value: 'Teacher', text: 'Teacher' },
-        { value: 'Student', text: 'Student' },
-        { value: 'Parent', text: 'Parent' },
-        { value: 'Cashier', text: 'Cashier' },
+        { value: 'Administrator', label: 'Administrator' },
+        { value: 'Teacher', label: 'Teacher' },
+        { value: 'Student', label: 'Student' },
+        { value: 'Parent', label: 'Parent' },
+        { value: 'Cashier', label: 'Cashier' },
     ];
 }
 
