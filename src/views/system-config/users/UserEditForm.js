@@ -19,6 +19,7 @@ import {
     CLoadingButton,
     CMultiSelect,
     CFormText,
+    CFormSelect,
 } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
 import {
@@ -27,6 +28,7 @@ import {
     cilLockLocked,
     cilPhone,
     cilUser,
+    cilWc,
 } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
@@ -55,6 +57,7 @@ export default function UserEditForm({
         username: user.username,
         firstName: usersNames[0],
         lastName: usersNames[usersNames.length - 1],
+        gender: user.gender,
         middleName: usersNames.length === 3 ? usersNames[1] : '',
         phoneNumber: user.phoneNumber,
         email: user.email,
@@ -62,6 +65,7 @@ export default function UserEditForm({
     };
 
     const [allUserRoles, setAllUserRoles] = useState([]);
+    const [genderOptions, setGenderOptions] = useState([]);
     const [isEditUserFormValidated, setIsEditUserFormValidated] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [isValidPassword, setIsValidPassword] = useState(false);
@@ -93,14 +97,29 @@ export default function UserEditForm({
         setAllUserRoles(() => {
             return UsersService.getAllUserRoles().map((userRole) => {
                 if (editedUser.userRoles.includes(userRole.value)) {
-                    const updatedUserRole = {
+                    return {
                         value: userRole.value,
                         label: userRole.label,
                         selected: true,
                     };
-                    return updatedUserRole;
                 }
                 return userRole;
+            });
+        });
+    }, []);
+
+    useEffect(() => {
+        setGenderOptions(() => {
+            return UsersService.getGenderOptions().map((genderOption) => {
+                if (editedUser.gender === genderOption.value) {
+                    return {
+                        value: genderOption.value,
+                        label: genderOption.label,
+                        selected: true,
+                    };
+                }
+
+                return genderOption;
             });
         });
     }, []);
@@ -235,6 +254,28 @@ export default function UserEditForm({
                                                         return {
                                                             ...prev,
                                                             lastName: e.target.value,
+                                                        };
+                                                    });
+                                                }}
+                                            />
+                                        </CInputGroup>
+                                        <CInputGroup className="mb-3">
+                                            <CInputGroupText>
+                                                <CIcon icon={cilWc} />
+                                            </CInputGroupText>
+                                            <CFormSelect
+                                                placeholder="Select gender..."
+                                                autoComplete="off"
+                                                options={genderOptions}
+                                                id="gender"
+                                                required
+                                                feedbackInvalid="Select a gender option."
+                                                value={editedUser.gender}
+                                                onChange={(e) => {
+                                                    setEditedUser((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            gender: e.target.value,
                                                         };
                                                     });
                                                 }}

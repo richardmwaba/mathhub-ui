@@ -15,7 +15,7 @@ export function ViewDetailsButton({ item, setSelectedItem }) {
                     setSelectedItem(item);
                 }}
             >
-                <CIcon icon={cilInfo} title={`View ${item.name}`} />
+                <CIcon icon={cilInfo} title={`View ${item.firstName}`} />
             </CButton>
         </td>
     );

@@ -18,9 +18,10 @@ import {
     CLoadingButton,
     CMultiSelect,
     CFormText,
+    CFormSelect,
 } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
-import { cilLockLocked, cilUser } from '@coreui/icons';
+import { cilLockLocked, cilUser, cilWc } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
 import PropTypes from 'prop-types';
@@ -38,12 +39,15 @@ export default function UserRegistrationForm({
         username: '',
         firstName: '',
         lastName: '',
+        gender: '',
         email: '',
         password: '',
         userRoles: [],
     };
 
-    const [allUserRoles, setAllUserRoles] = useState([]);
+    const allUserRoles = UsersService.getAllUserRoles();
+    const genderOptions = UsersService.getGenderOptions();
+
     const [isCreateUserFormValidated, setIsCreateUserFormValidated] = useState(false);
     const [isValidUsername, setIsValidUsername] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(false);
@@ -75,10 +79,6 @@ export default function UserRegistrationForm({
             setIsValidMatchPassword(confirmPassword === newUser.password);
         }
     }, [confirmPassword, newUser.password]);
-
-    useEffect(() => {
-        setAllUserRoles(UsersService.getAllUserRoles());
-    }, []);
 
     const handleCreateUser = async (event) => {
         const newUserForm = event.currentTarget;
@@ -203,6 +203,27 @@ export default function UserRegistrationForm({
                                                         return {
                                                             ...prev,
                                                             lastName: e.target.value,
+                                                        };
+                                                    });
+                                                }}
+                                            />
+                                        </CInputGroup>
+                                        <CInputGroup className="mb-3">
+                                            <CInputGroupText>
+                                                <CIcon icon={cilWc} />
+                                            </CInputGroupText>
+                                            <CFormSelect
+                                                placeholder="Select gender..."
+                                                autoComplete="off"
+                                                options={genderOptions}
+                                                id="gender"
+                                                required
+                                                feedbackInvalid="Select a gender option."
+                                                onChange={(e) => {
+                                                    setNewUser((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            gender: e.target.value,
                                                         };
                                                     });
                                                 }}

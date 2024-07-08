@@ -20,6 +20,7 @@ function getAllUsers(axiosPrivate, controller, errorCallback) {
                     username: user.username,
                     name: fullName,
                     email: user.email,
+                    gender: user.gender,
                     phoneNumber: user.phoneNumber,
                     userRoles: userRoles,
                 };
@@ -72,13 +73,31 @@ function deleteUser(userId, axiosPrivate, controller, errorCallback) {
 function getAllUserRoles() {
     return [
         { value: 'Administrator', label: 'Administrator' },
-        { value: 'Teacher', label: 'Teacher' },
-        { value: 'Student', label: 'Student' },
-        { value: 'Parent', label: 'Parent' },
+        { value: 'Guest', label: 'Guest' },
         { value: 'Cashier', label: 'Cashier' },
+        { value: 'Parent', label: 'Parent' },
+        { value: 'Student', label: 'Student' },
+        { value: 'Teacher', label: 'Teacher' },
     ];
 }
 
-const UsersService = { createUser, editUser, deleteUser, getAllUsers, getAllUserRoles };
+function getGenderOptions() {
+    return [
+        { value: '', label: 'Select your gender...' },
+        { value: 'Male', label: 'Male' },
+        { value: 'Female', label: 'Female' },
+        { value: 'Other', label: 'Other' },
+        { value: 'Prefer not to say', label: 'Prefer not to say' },
+    ];
+}
+
+const UsersService = {
+    createUser,
+    editUser,
+    deleteUser,
+    getAllUsers,
+    getAllUserRoles,
+    getGenderOptions,
+};
 
 export default UsersService;
