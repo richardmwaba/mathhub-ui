@@ -55,12 +55,17 @@ export default function UsersGrid() {
         {
             key: 'name',
             label: 'Name',
-            _style: { width: '30%' },
+            _style: { width: '25%' },
         },
         {
             key: 'email',
             label: 'Email',
             _style: { width: '20%' },
+        },
+        {
+            key: 'gender',
+            label: 'Gender',
+            _style: { width: '10%' },
         },
         {
             key: 'phoneNumber',
@@ -70,7 +75,7 @@ export default function UsersGrid() {
         {
             key: 'userRoles',
             label: 'User Roles',
-            _style: { width: '30%' },
+            _style: { width: '25%' },
             filter: (values, onChange) => multiSelectColumnFilter(values, onChange),
         },
         {

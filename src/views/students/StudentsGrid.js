@@ -93,11 +93,11 @@ export default function StudentsGrid() {
             id: student.id,
             name: getStudentsFullname(student.firstName, student.middleName, student.lastName),
             gender: student.gender,
-            grade: student.grade.gradeName,
-            syllabus: student.examBoard.examBoardName,
+            grade: student.grade ? student.grade.gradeName : '',
+            syllabus: student.examBoard ? student.examBoard.examBoardName : '',
             phone_number: getStudentsMobileNumber(student.phoneNumbers),
-            parents_name: parent.parents_name,
-            parents_email: parent.parents_email,
+            parents_name: parent ? parent.parents_name : '',
+            parents_email: parent ? parent.parents_email : '',
         };
     });
 
