@@ -4,17 +4,15 @@ import StudentsGrid from './StudentsGrid';
 
 const StudentsPage = () => {
     return (
-        <CContainer fluid>
-            <CRow>
-                <CCol xs={{ cols: 12 }}>
-                    <CCard className="mb-4">
-                        <CCardBody>
-                            <StudentsGrid />
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-            </CRow>
-        </CContainer>
+        <CRow>
+            <CCol xs={{ cols: 12 }}>
+                <CCard className="mb-4">
+                    <CCardBody>
+                        <StudentsGrid />
+                    </CCardBody>
+                </CCard>
+            </CCol>
+        </CRow>
     );
 };
 

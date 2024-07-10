@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-function formatDate(date) {
-    return moment(date).format('ddd, DD MMM YYYY HH:mm');
+function formatDate(date, format = 'ddd, DD MMM YYYY HH:mm') {
+    return moment(date).format(format);
 }
 
 function addOneYearToDate(date) {

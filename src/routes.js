@@ -1,13 +1,21 @@
+import { exact } from 'prop-types';
 import React from 'react';
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
+
+// Enrolment
 const Students = React.lazy(() => import('./views/students/StudentsPage'));
+const StudentDetails = React.lazy(() => import('./views/students/StudentDetails'));
+
+// Cashbook
 const CashbookSummary = React.lazy(() => import('./views/cashbook/summary/CashbookSummaryPage'));
 const Assets = React.lazy(() => import('./views/cashbook/business-assets/AssetsPage'));
 const Expenses = React.lazy(() => import('./views/cashbook/expenses/ExpensesPage'));
 const Incomes = React.lazy(() => import('./views/cashbook/incomes/IncomesPage'));
 const Liabilities = React.lazy(() => import('./views/cashbook/liabilities/LiabilitiesPage'));
 const Equities = React.lazy(() => import('./views/cashbook/equity/EquitiesPage'));
+
+// System Configuration
 const PaymentMethods = React.lazy(
     () => import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
 );
@@ -60,6 +68,12 @@ const routes = [
     },
     { path: '/students', name: 'Students', element: Students, exact: true },
     { path: '/students/enrolment', name: 'Enrolment', element: Students, exact: true },
+    {
+        path: '/students/enrolment/:name',
+        name: 'Student Details',
+        element: StudentDetails,
+        exact: true,
+    },
     { path: '/cashbook', name: 'Cashbook', element: CashbookSummary, exact: true },
     { path: '/cashbook/assets', name: 'Assets', element: Assets, exact: true },
     { path: '/cashbook/equities', name: 'Equities', element: Equities, exact: true },
