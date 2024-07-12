@@ -76,11 +76,11 @@ export default function AssetTypesGrid() {
     useEffect(() => {
         const assetTypeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Asset type ${createdAssetType?.typeName} has been created successfully`}
+                message={`Asset type ${createdAssetType?.name} has been created successfully`}
             />
         );
 
-        if (createdAssetType?.typeName) {
+        if (createdAssetType?.name) {
             setToast(assetTypeSuccessfullyCreatedToast);
         }
     }, [createdAssetType]);
@@ -88,11 +88,11 @@ export default function AssetTypesGrid() {
     useEffect(() => {
         const assetTypeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Asset type ${savedAssetType?.typeName} has been updated successfully`}
+                message={`Asset type ${savedAssetType?.name} has been updated successfully`}
             />
         );
 
-        if (savedAssetType?.typeName) {
+        if (savedAssetType?.name) {
             setToast(assetTypeSuccessfullyEditedToast);
         }
     }, [savedAssetType]);

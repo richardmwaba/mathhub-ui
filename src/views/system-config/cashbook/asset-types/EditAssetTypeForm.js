@@ -31,9 +31,9 @@ export default function EditAssetTypeForm({
     const assetTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultAssetType = {
-        assetTypeId: assetType.id,
-        typeName: assetType.name,
-        typeDescription: assetType.description,
+        id: assetType.id,
+        name: assetType.name,
+        description: assetType.description,
     };
 
     const [isEditAssetTypeFormValidated, setIsEditAssetTypeFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditAssetTypeForm({
                                             label="Name"
                                             required
                                             ref={assetTypeNameRef}
-                                            value={editedAssetType.typeName}
+                                            value={editedAssetType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedAssetType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditAssetTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedAssetType.typeDescription}
+                                            value={editedAssetType.description}
                                             onChange={(e) => {
                                                 setEditedAssetType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

@@ -30,8 +30,8 @@ export default function NewAssetTypeForm({
     const typeNameRef = useRef();
     const errorRef = useRef();
     const defaultAssetType = {
-        typeName: '',
-        typeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreateAssetTypeFormValidated, setIsCreateAssetTypeFormValidated] = useState(false);
@@ -118,13 +118,13 @@ export default function NewAssetTypeForm({
                                             label="Name"
                                             required
                                             ref={typeNameRef}
-                                            value={newAssetType.typeName}
+                                            value={newAssetType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewAssetType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -136,12 +136,12 @@ export default function NewAssetTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={newAssetType.typeDescription}
+                                            value={newAssetType.description}
                                             onChange={(e) => {
                                                 setNewAssetType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

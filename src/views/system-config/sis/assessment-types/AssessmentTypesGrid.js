@@ -76,11 +76,11 @@ export default function AssessmentTypesGrid() {
     useEffect(() => {
         const assessmentTypeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Assessment type ${createdAssessmentType?.typeName} has been created successfully`}
+                message={`Assessment type ${createdAssessmentType?.name} has been created successfully`}
             />
         );
 
-        if (createdAssessmentType?.typeName) {
+        if (createdAssessmentType?.name) {
             setToast(assessmentTypeSuccessfullyCreatedToast);
         }
     }, [createdAssessmentType]);
@@ -88,11 +88,11 @@ export default function AssessmentTypesGrid() {
     useEffect(() => {
         const assessmentTypeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Assessment type ${savedAssessmentType?.typeName} has been updated successfully`}
+                message={`Assessment type ${savedAssessmentType?.name} has been updated successfully`}
             />
         );
 
-        if (savedAssessmentType?.typeName) {
+        if (savedAssessmentType?.name) {
             setToast(assessmentTypeSuccessfullyEditedToast);
         }
     }, [savedAssessmentType]);

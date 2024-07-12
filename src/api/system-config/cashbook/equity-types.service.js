@@ -2,19 +2,7 @@ function getAllEquityTypes(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/systemconfig/ops/equityTypes', { signal: controller.signal })
         .then((response) => {
-            let equityTypes = [];
-
-            const equityTypesList = response.data._embedded.equityTypeList;
-
-            equityTypes = equityTypesList.map((equityType) => {
-                return {
-                    id: equityType.equityTypeId,
-                    name: equityType.typeName,
-                    description: equityType.typeDescription,
-                };
-            });
-
-            return equityTypes;
+            return response.data._embedded.equityTypeList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -36,7 +24,7 @@ function createEquityType(newEquityType, axiosPrivate, controller, errorCallback
 
 function editEquityType(editedEquityType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/systemconfig/ops/equityTypes/${editedEquityType.equityTypeId}`, editedEquityType, {
+        .put(`/systemconfig/ops/equityTypes/${editedEquityType.id}`, editedEquityType, {
             signal: controller.signal,
         })
         .then((response) => {

@@ -2,19 +2,7 @@ function getAllLiabilityTypes(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/systemconfig/ops/liabilityTypes', { signal: controller.signal })
         .then((response) => {
-            let liabilityTypes = [];
-
-            const liabilityTypesList = response.data._embedded.liabilityTypeList;
-
-            liabilityTypes = liabilityTypesList.map((liabilityType) => {
-                return {
-                    id: liabilityType.liabilityTypeId,
-                    name: liabilityType.typeName,
-                    description: liabilityType.typeDescription,
-                };
-            });
-
-            return liabilityTypes;
+            return response.data._embedded.liabilityTypeList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -37,7 +25,7 @@ function createLiabilityType(newLiabilityType, axiosPrivate, controller, errorCa
 function editLiabilityType(editedLiabilityType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .put(
-            `/systemconfig/ops/liabilityTypes/${editedLiabilityType.liabilityTypeId}`,
+            `/systemconfig/ops/liabilityTypes/${editedLiabilityType.id}`,
             editedLiabilityType,
             {
                 signal: controller.signal,

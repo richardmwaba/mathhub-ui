@@ -28,21 +28,16 @@ import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 import ExpenseTypesService from 'src/api/system-config/cashbook/expense-types.service';
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 
-export default function EditExpenseForm({
-    expense,
-    visibility,
-    setEditExpenseModalVisibility,
-    savedExpenseCallBack,
-}) {
+export default function EditExpenseForm({ expense, visibility, setEditExpenseModalVisibility, savedExpenseCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const expenseNameRef = useRef();
     const errorRef = useRef();
     const defaultExpense = {
-        expenseId: expense.id,
+        id: expense.id,
         narration: expense.narration,
-        expenseTypeId: expense.expenseType.expenseTypeId,
-        paymentMethodId: expense.paymentMethod.paymentMethodId,
+        expenseTypeId: expense.type.id,
+        paymentMethodId: expense.paymentMethod.id,
         amount: `${expense.amount}`,
     };
 
@@ -59,11 +54,7 @@ export default function EditExpenseForm({
     }, [expenseNameRef]);
 
     const getExpenseTypes = async () => {
-        const expenseTypes = await ExpenseTypesService.getAllExpenseTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const expenseTypes = await ExpenseTypesService.getAllExpenseTypes(axiosPrivate, controller, setErrorMessage);
         const allExpenseTypes = expenseTypes.map((expenseType) => {
             return { value: expenseType.id, label: expenseType.name };
         });
@@ -101,12 +92,7 @@ export default function EditExpenseForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ExpensesService.editExpense(
-                editedExpense,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await ExpensesService.editExpense(editedExpense, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedExpense(defaultExpense);
                     setEditExpenseModalVisibility(!visibility);
@@ -164,8 +150,7 @@ export default function EditExpenseForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the expense type. Please
-                                            try again!
+                                            An error occured while saving the expense type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -236,9 +221,7 @@ export default function EditExpenseForm({
                                             className="mb-3"
                                             placeholder="Select payment method..."
                                             autoComplete="off"
-                                            options={paymentMethodsWithPlaceholder(
-                                                allPaymentMethods,
-                                            )}
+                                            options={paymentMethodsWithPlaceholder(allPaymentMethods)}
                                             id="paymentMethod"
                                             label="Payment Method"
                                             required
@@ -263,12 +246,7 @@ export default function EditExpenseForm({
                 <CButton color="secondary" onClick={() => setEditExpenseModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editExpenseForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editExpenseForm" loading={isLoading} type="submit">
                     Save Expense
                 </CLoadingButton>
             </CModalFooter>

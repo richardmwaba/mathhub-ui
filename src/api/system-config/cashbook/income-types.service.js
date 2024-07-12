@@ -2,19 +2,7 @@ function getAllIncomeTypes(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/systemconfig/ops/incomeTypes', { signal: controller.signal })
         .then((response) => {
-            let incomeTypes = [];
-
-            const incomeTypesList = response.data._embedded.incomeTypeList;
-
-            incomeTypes = incomeTypesList.map((incomeType) => {
-                return {
-                    id: incomeType.incomeTypeId,
-                    name: incomeType.typeName,
-                    description: incomeType.typeDescription,
-                };
-            });
-
-            return incomeTypes;
+            return response.data._embedded.incomeTypeList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -36,7 +24,7 @@ function createIncomeType(newIncomeType, axiosPrivate, controller, errorCallback
 
 function editIncomeType(editedIncomeType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/systemconfig/ops/incomeTypes/${editedIncomeType.incomeTypeId}`, editedIncomeType, {
+        .put(`/systemconfig/ops/incomeTypes/${editedIncomeType.id}`, editedIncomeType, {
             signal: controller.signal,
         })
         .then((response) => {

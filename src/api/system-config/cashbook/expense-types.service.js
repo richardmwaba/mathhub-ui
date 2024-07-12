@@ -2,19 +2,7 @@ function getAllExpenseTypes(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/systemconfig/ops/expenseTypes', { signal: controller.signal })
         .then((response) => {
-            let expenseTypes = [];
-
-            const expenseTypesList = response.data._embedded.expenseTypeList;
-
-            expenseTypes = expenseTypesList.map((expenseType) => {
-                return {
-                    id: expenseType.expenseTypeId,
-                    name: expenseType.typeName,
-                    description: expenseType.typeDescription,
-                };
-            });
-
-            return expenseTypes;
+            return response.data._embedded.expenseTypeList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -37,7 +25,7 @@ function createExpenseType(newExpenseType, axiosPrivate, controller, errorCallba
 function editExpenseType(editedExpenseType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .put(
-            `/systemconfig/ops/expenseTypes/${editedExpenseType.expenseTypeId}`,
+            `/systemconfig/ops/expenseTypes/${editedExpenseType.id}`,
             editedExpenseType,
             {
                 signal: controller.signal,

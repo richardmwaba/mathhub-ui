@@ -28,11 +28,7 @@ import ExpenseTypesService from 'src/api/system-config/cashbook/expense-types.se
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
-export default function NewExpenseForm({
-    visibility,
-    setExpenseModalVisibility,
-    createdExpenseCallBack,
-}) {
+export default function NewExpenseForm({ visibility, setExpenseModalVisibility, createdExpenseCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const expenseNameRef = useRef();
@@ -57,18 +53,11 @@ export default function NewExpenseForm({
     }, []);
 
     const getExpenseTypes = async () => {
-        const expenseTypes = await ExpenseTypesService.getAllExpenseTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const expenseTypes = await ExpenseTypesService.getAllExpenseTypes(axiosPrivate, controller, setErrorMessage);
         const allExpenseTypes = expenseTypes.map((expenseType) => {
             return { value: expenseType.id, label: expenseType.name };
         });
-        const expenseTypesWithPlaceholder = [
-            { value: '', label: 'Select expense type...' },
-            ...allExpenseTypes,
-        ];
+        const expenseTypesWithPlaceholder = [{ value: '', label: 'Select expense type...' }, ...allExpenseTypes];
         isMounted && setAllExpenseTypes(expenseTypesWithPlaceholder);
     };
 
@@ -81,10 +70,7 @@ export default function NewExpenseForm({
         const allPaymentMethods = paymentMethods.map((paymentMethod) => {
             return { value: paymentMethod.id, label: paymentMethod.name };
         });
-        const paymentMethodsWithPlaceholder = [
-            { value: '', label: 'Select payment method...' },
-            ...allPaymentMethods,
-        ];
+        const paymentMethodsWithPlaceholder = [{ value: '', label: 'Select payment method...' }, ...allPaymentMethods];
         isMounted && setAllPaymentMethods(paymentMethodsWithPlaceholder);
     };
 
@@ -99,12 +85,7 @@ export default function NewExpenseForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ExpensesService.createExpense(
-                newExpense,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await ExpensesService.createExpense(newExpense, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewExpense(defaultExpense);
                     setExpenseModalVisibility(!visibility);
@@ -162,8 +143,7 @@ export default function NewExpenseForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new expense. Please
-                                            try again!
+                                            An error occured while saving the new expense. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -259,12 +239,7 @@ export default function NewExpenseForm({
                 <CButton color="secondary" onClick={() => setExpenseModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewExpenseForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewExpenseForm" loading={isLoading} type="submit">
                     Save Expense
                 </CLoadingButton>
             </CModalFooter>

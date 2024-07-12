@@ -2,19 +2,7 @@ function getAllAssessmentTypes(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/systemconfig/sis/assessmentTypes', { signal: controller.signal })
         .then((response) => {
-            let assessmentTypes = [];
-
-            const assessmentTypesList = response.data._embedded.assessmentTypeList;
-
-            assessmentTypes = assessmentTypesList.map((assessmentType) => {
-                return {
-                    id: assessmentType.assessmentTypeId,
-                    name: assessmentType.typeName,
-                    description: assessmentType.typeDescription,
-                };
-            });
-
-            return assessmentTypes;
+            return response.data._embedded.assessmentTypeList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -37,7 +25,7 @@ function createAssessmentType(newAssessmentType, axiosPrivate, controller, error
 function editAssessmentType(editedAssessmentType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .put(
-            `/systemconfig/sis/assessmentTypes/${editedAssessmentType.assessmentTypeId}`,
+            `/systemconfig/sis/assessmentTypes/${editedAssessmentType.id}`,
             editedAssessmentType,
             {
                 signal: controller.signal,

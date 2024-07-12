@@ -76,11 +76,11 @@ export default function SessionTypesGrid() {
     useEffect(() => {
         const sessionTypeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Session type ${createdSessionType?.typeName} has been created successfully`}
+                message={`Session type ${createdSessionType?.name} has been created successfully`}
             />
         );
 
-        if (createdSessionType?.typeName) {
+        if (createdSessionType?.name) {
             setToast(sessionTypeSuccessfullyCreatedToast);
         }
     }, [createdSessionType]);
@@ -88,11 +88,11 @@ export default function SessionTypesGrid() {
     useEffect(() => {
         const sessionTypeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Session type ${savedSessionType?.typeName} has been updated successfully`}
+                message={`Session type ${savedSessionType?.name} has been updated successfully`}
             />
         );
 
-        if (savedSessionType?.typeName) {
+        if (savedSessionType?.name) {
             setToast(sessionTypeSuccessfullyEditedToast);
         }
     }, [savedSessionType]);

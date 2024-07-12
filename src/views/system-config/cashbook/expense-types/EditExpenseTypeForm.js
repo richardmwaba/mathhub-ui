@@ -31,9 +31,9 @@ export default function EditExpenseTypeForm({
     const expenseTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultExpenseType = {
-        expenseTypeId: expenseType.id,
-        typeName: expenseType.name,
-        typeDescription: expenseType.description,
+        id: expenseType.id,
+        name: expenseType.name,
+        description: expenseType.description,
     };
 
     const [isEditExpenseTypeFormValidated, setIsEditExpenseTypeFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditExpenseTypeForm({
                                             label="Name"
                                             required
                                             ref={expenseTypeNameRef}
-                                            value={editedExpenseType.typeName}
+                                            value={editedExpenseType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedExpenseType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditExpenseTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedExpenseType.typeDescription}
+                                            value={editedExpenseType.description}
                                             onChange={(e) => {
                                                 setEditedExpenseType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

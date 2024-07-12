@@ -25,9 +25,8 @@ const StudentEnrolmentInfo = ({ student }) => {
                 <CRow>
                     <CCol xs={12} md={9} xl={9}>
                         <p>
-                            Enrolment information and options to manage it. You can see a summary of
-                            all the lessons you are enrolled in, add lessons or remove existing
-                            ones.
+                            Enrolment information and options to manage it. You can see a summary of all the classes you
+                            are enrolled in, add classes or remove existing ones.
                         </p>
                     </CCol>
                 </CRow>
@@ -35,17 +34,17 @@ const StudentEnrolmentInfo = ({ student }) => {
                     <CCol xs={12} md={9} xl={9}>
                         <CCard className="mb-4">
                             <CCardBody>
-                                <CCardTitle className="fs-5">Enrolled Lessons</CCardTitle>
+                                <CCardTitle className="fs-5">Enrolled Classes</CCardTitle>
                                 <CAccordion flush>
-                                    {isEmpty(student.lessons) ? (
-                                        <p>Not enrolled on any lessons currently.</p>
+                                    {isEmpty(student.classes) ? (
+                                        <p>Not enrolled on any classes currently.</p>
                                     ) : (
-                                        student.lessons.map((lesson) => {
+                                        student.classes.map((aClass) => {
                                             return (
-                                                <CAccordionItem key={lesson.id} itemKey={lesson.id}>
+                                                <CAccordionItem key={aClass.id} itemKey={aClass.id}>
                                                     <CAccordionHeader>
                                                         <CFormLabel className="col-sm-2 fw-semibold">
-                                                            {lesson.subject.subjectName}
+                                                            {aClass.subject.name}
                                                         </CFormLabel>
                                                     </CAccordionHeader>
                                                     <CAccordionBody>
@@ -60,7 +59,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id="occurence"
-                                                                    defaultValue={`${lesson.occurrence} total lessons`}
+                                                                    defaultValue={`${aClass.occurrence} total lessons`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -77,7 +76,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id="duration"
-                                                                    defaultValue={`${lesson.lessonDuration} ${lesson.lessonPeriod}`}
+                                                                    defaultValue={`${aClass.duration} ${aClass.period}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -94,7 +93,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id="startDate"
-                                                                    defaultValue={`${DateUtils.formatDate(lesson.startDate, 'DD MMM YYYY')}`}
+                                                                    defaultValue={`${DateUtils.formatDate(aClass.startDate, 'DD MMM YYYY')}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -111,14 +110,13 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id="cost"
-                                                                    defaultValue={`K${lesson.lessonRateAmount * lesson.lessonDuration}`}
+                                                                    defaultValue={`K${aClass.cost * aClass.duration}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
                                                             </CCol>
                                                         </CRow>
-                                                        {lesson.lessonPaymentStatus ===
-                                                            'UNPAID' && (
+                                                        {aClass.paymentStatus === 'UNPAID' && (
                                                             <CButton
                                                                 className="mt-3"
                                                                 color="danger"

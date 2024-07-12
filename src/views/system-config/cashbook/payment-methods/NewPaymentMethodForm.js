@@ -30,8 +30,8 @@ export default function NewPaymentMethodForm({
     const paymentMethodNameRef = useRef();
     const errorRef = useRef();
     const defaultPaymentMethod = {
-        typeName: '',
-        typeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreatePaymentMethodFormValidated, setIsCreatePaymentMethodFormValidated] =
@@ -119,13 +119,13 @@ export default function NewPaymentMethodForm({
                                             label="Name"
                                             required
                                             ref={paymentMethodNameRef}
-                                            value={newPaymentMethod.typeName}
+                                            value={newPaymentMethod.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewPaymentMethod((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -137,12 +137,12 @@ export default function NewPaymentMethodForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={newPaymentMethod.typeDescription}
+                                            value={newPaymentMethod.description}
                                             onChange={(e) => {
                                                 setNewPaymentMethod((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

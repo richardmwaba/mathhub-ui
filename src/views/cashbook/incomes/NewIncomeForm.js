@@ -28,11 +28,7 @@ import IncomeTypesService from 'src/api/system-config/cashbook/income-types.serv
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
-export default function NewIncomeForm({
-    visibility,
-    setIncomeModalVisibility,
-    createdIncomeCallBack,
-}) {
+export default function NewIncomeForm({ visibility, setIncomeModalVisibility, createdIncomeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const incomeNameRef = useRef();
@@ -57,18 +53,11 @@ export default function NewIncomeForm({
     }, []);
 
     const getIncomeTypes = async () => {
-        const incomeTypes = await IncomeTypesService.getAllIncomeTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const incomeTypes = await IncomeTypesService.getAllIncomeTypes(axiosPrivate, controller, setErrorMessage);
         const allIncomeTypes = incomeTypes.map((incomeType) => {
             return { value: incomeType.id, label: incomeType.name };
         });
-        const incomeTypesWithPlaceholder = [
-            { value: '', label: 'Select income type...' },
-            ...allIncomeTypes,
-        ];
+        const incomeTypesWithPlaceholder = [{ value: '', label: 'Select income type...' }, ...allIncomeTypes];
         isMounted && setAllIncomeTypes(incomeTypesWithPlaceholder);
     };
 
@@ -81,10 +70,7 @@ export default function NewIncomeForm({
         const allPaymentMethods = paymentMethods.map((paymentMethod) => {
             return { value: paymentMethod.id, label: paymentMethod.name };
         });
-        const paymentMethodsWithPlaceholder = [
-            { value: '', label: 'Select payment method...' },
-            ...allPaymentMethods,
-        ];
+        const paymentMethodsWithPlaceholder = [{ value: '', label: 'Select payment method...' }, ...allPaymentMethods];
         isMounted && setAllPaymentMethods(paymentMethodsWithPlaceholder);
     };
 
@@ -99,12 +85,7 @@ export default function NewIncomeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await IncomesService.createIncome(
-                newIncome,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await IncomesService.createIncome(newIncome, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewIncome(defaultIncome);
                     setIncomeModalVisibility(!visibility);
@@ -162,8 +143,7 @@ export default function NewIncomeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new income. Please try
-                                            again!
+                                            An error occured while saving the new income. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -259,12 +239,7 @@ export default function NewIncomeForm({
                 <CButton color="secondary" onClick={() => setIncomeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewIncomeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewIncomeForm" loading={isLoading} type="submit">
                     Save Income
                 </CLoadingButton>
             </CModalFooter>

@@ -53,7 +53,7 @@ export default function UserEditForm({
     const usersNames = user.name.split(' ');
 
     const defaultUser = {
-        userId: user.id,
+        id: user.id,
         username: user.username,
         firstName: usersNames[0],
         lastName: usersNames[usersNames.length - 1],
@@ -61,7 +61,7 @@ export default function UserEditForm({
         middleName: usersNames.length === 3 ? usersNames[1] : '',
         phoneNumber: user.phoneNumber,
         email: user.email,
-        userRoles: user.userRoles,
+        roles: user.roles,
     };
 
     const [allUserRoles, setAllUserRoles] = useState([]);
@@ -95,15 +95,15 @@ export default function UserEditForm({
 
     useEffect(() => {
         setAllUserRoles(() => {
-            return UsersService.getAllUserRoles().map((userRole) => {
-                if (editedUser.userRoles.includes(userRole.value)) {
+            return UsersService.getAllUserRoles().map((role) => {
+                if (editedUser.roles.includes(role.value)) {
                     return {
-                        value: userRole.value,
-                        label: userRole.label,
+                        value: role.value,
+                        label: role.label,
                         selected: true,
                     };
                 }
-                return userRole;
+                return role;
             });
         });
     }, []);

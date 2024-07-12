@@ -30,8 +30,8 @@ export default function NewLiabilityTypeForm({
     const liabilityTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultLiabilityType = {
-        typeName: '',
-        typeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreateLiabilityTypeFormValidated, setIsCreateLiabilityTypeFormValidated] =
@@ -119,13 +119,13 @@ export default function NewLiabilityTypeForm({
                                             label="Name"
                                             required
                                             ref={liabilityTypeNameRef}
-                                            value={newLiabilityType.typeName}
+                                            value={newLiabilityType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewLiabilityType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -137,12 +137,12 @@ export default function NewLiabilityTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={newLiabilityType.typeDescription}
+                                            value={newLiabilityType.description}
                                             onChange={(e) => {
                                                 setNewLiabilityType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

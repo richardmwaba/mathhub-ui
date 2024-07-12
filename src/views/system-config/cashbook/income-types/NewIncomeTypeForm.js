@@ -30,8 +30,8 @@ export default function NewIncomeTypeForm({
     const incomeTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultIncomeType = {
-        typeName: '',
-        typeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreateIncomeTypeFormValidated, setIsCreateIncomeTypeFormValidated] = useState(false);
@@ -118,13 +118,13 @@ export default function NewIncomeTypeForm({
                                             label="Name"
                                             required
                                             ref={incomeTypeNameRef}
-                                            value={newIncomeType.typeName}
+                                            value={newIncomeType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewIncomeType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -136,12 +136,12 @@ export default function NewIncomeTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={newIncomeType.typeDescription}
+                                            value={newIncomeType.description}
                                             onChange={(e) => {
                                                 setNewIncomeType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

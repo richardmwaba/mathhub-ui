@@ -73,8 +73,8 @@ export default function UsersGrid() {
             _style: { width: '20%' },
         },
         {
-            key: 'userRoles',
-            label: 'User Roles',
+            key: 'roles',
+            label: 'Roles',
             _style: { width: '25%' },
             filter: (values, onChange) => multiSelectColumnFilter(values, onChange),
         },
@@ -139,9 +139,7 @@ export default function UsersGrid() {
 
     useEffect(() => {
         const userSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`User ${createdUser?.firstName} has been created successfully`}
-            />
+            <SuccessToast message={`User ${createdUser?.firstName} has been created successfully`} />
         );
 
         if (createdUser?.firstName) {
@@ -151,9 +149,7 @@ export default function UsersGrid() {
 
     useEffect(() => {
         const userSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`User ${savedEditedUser?.firstName} has been updated successfully`}
-            />
+            <SuccessToast message={`User ${savedEditedUser?.firstName} has been updated successfully`} />
         );
 
         if (savedEditedUser?.firstName) {
@@ -208,9 +204,7 @@ export default function UsersGrid() {
                     loading={loading}
                     pagination
                     noItemsLabel={
-                        error
-                            ? `Could not retrieve users due to ${error}. Please try again.`
-                            : 'No users found'
+                        error ? `Could not retrieve users due to ${error}. Please try again.` : 'No users found'
                     }
                     scopedColumns={{
                         show_details: (user) => {
@@ -288,10 +282,7 @@ function UserDetailsCard({
                             </CTableDataCell>
                             <CTableDataCell>
                                 <div>{user.username}</div>
-                                <div
-                                    className="small text-disabled text-nowrap"
-                                    style={{ marginLeft: -10 }}
-                                >
+                                <div className="small text-disabled text-nowrap" style={{ marginLeft: -10 }}>
                                     <span>
                                         <CButton
                                             color="primary"
@@ -352,12 +343,14 @@ function multiSelectColumnFilter(values, onChange) {
                         : true;
                 });
             }}
-            options={uniqueValues.sort().map((element) => {
-                return {
-                    value: element.toString().toLowerCase(),
-                    label: element,
-                };
-            })}
+            options={uniqueValues
+                .toSorted((a, b) => a < b)
+                .map((element) => {
+                    return {
+                        value: element.toString().toLowerCase(),
+                        label: element,
+                    };
+                })}
         />
     );
 }

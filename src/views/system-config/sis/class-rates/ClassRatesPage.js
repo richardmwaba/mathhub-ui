@@ -1,6 +1,6 @@
 import React from 'react';
 import { CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react-pro';
-import LessonRatesGrid from './LessonRatesGrid';
+import ClassRatesGrid from './ClassRatesGrid';
 
 const LessonRatesPage = () => {
     return (
@@ -8,7 +8,7 @@ const LessonRatesPage = () => {
             <CCol xs={{ cols: 12 }}>
                 <CCard className="mb-4">
                     <CCardBody>
-                        <LessonRatesGrid />
+                        <ClassRatesGrid />
                     </CCardBody>
                 </CCard>
             </CCol>

@@ -76,11 +76,11 @@ export default function ExamBoardsGrid() {
     useEffect(() => {
         const examBoardSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Exam board ${createdExamBoard?.examBoardName} has been created successfully`}
+                message={`Exam board ${createdExamBoard?.name} has been created successfully`}
             />
         );
 
-        if (createdExamBoard?.examBoardName) {
+        if (createdExamBoard?.name) {
             setToast(examBoardSuccessfullyCreatedToast);
         }
     }, [createdExamBoard]);
@@ -88,11 +88,11 @@ export default function ExamBoardsGrid() {
     useEffect(() => {
         const examBoardSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Exam board ${savedExamBoard?.examBoardName} has been updated successfully`}
+                message={`Exam board ${savedExamBoard?.name} has been updated successfully`}
             />
         );
 
-        if (savedExamBoard?.examBoardName) {
+        if (savedExamBoard?.name) {
             setToast(examBoardSuccessfullyEditedToast);
         }
     }, [savedExamBoard]);

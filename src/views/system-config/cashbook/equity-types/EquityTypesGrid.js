@@ -76,11 +76,11 @@ export default function EquityTypesGrid() {
     useEffect(() => {
         const equityTypeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Equity type ${createdEquityType?.typeName} has been created successfully`}
+                message={`Equity type ${createdEquityType?.name} has been created successfully`}
             />
         );
 
-        if (createdEquityType?.typeName) {
+        if (createdEquityType?.name) {
             setToast(equityTypeSuccessfullyCreatedToast);
         }
     }, [createdEquityType]);
@@ -88,11 +88,11 @@ export default function EquityTypesGrid() {
     useEffect(() => {
         const equityTypeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Equity type ${savedEquityType?.typeName} has been updated successfully`}
+                message={`Equity type ${savedEquityType?.name} has been updated successfully`}
             />
         );
 
-        if (savedEquityType?.typeName) {
+        if (savedEquityType?.name) {
             setToast(equityTypeSuccessfullyEditedToast);
         }
     }, [savedEquityType]);

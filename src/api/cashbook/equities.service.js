@@ -2,22 +2,7 @@ function getAllEquity(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/ops/equity', { signal: controller.signal })
         .then((response) => {
-            let equities = [];
-
-            const equityList = response.data._embedded.equityList;
-
-            equities = equityList.map((equity) => {
-                return {
-                    id: equity.equityId,
-                    paymentMethod: equity.paymentMethod,
-                    narration: equity.narration,
-                    equityType: equity.equityType,
-                    amount: equity.amount,
-                    createdBy: equity.createdBy,
-                };
-            });
-
-            return equities;
+            return response.data._embedded.equityList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -39,7 +24,7 @@ function createEquity(newEquity, axiosPrivate, controller, errorCallback) {
 
 function editEquity(editedEquity, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/ops/equity/${editedEquity.equityId}`, editedEquity, {
+        .put(`/ops/equity/${editedEquity.id}`, editedEquity, {
             signal: controller.signal,
         })
         .then((response) => {
@@ -51,9 +36,9 @@ function editEquity(editedEquity, axiosPrivate, controller, errorCallback) {
         });
 }
 
-function deleteEquity(equityId, axiosPrivate, controller, errorCallback) {
+function deleteEquity(id, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .delete(`/ops/equity/${equityId}`, { signal: controller.signal })
+        .delete(`/ops/equity/${id}`, { signal: controller.signal })
         .then((response) => {
             return response.data;
         })

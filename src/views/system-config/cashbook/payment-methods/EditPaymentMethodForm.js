@@ -31,9 +31,9 @@ export default function EditPaymentMethodForm({
     const paymentMethodNameRef = useRef();
     const errorRef = useRef();
     const defaultPaymentMethod = {
-        paymentMethodId: paymentMethod.id,
-        typeName: paymentMethod.name,
-        typeDescription: paymentMethod.description,
+        id: paymentMethod.id,
+        name: paymentMethod.name,
+        description: paymentMethod.description,
     };
 
     const [isEditPaymentMethodFormValidated, setIsEditPaymentMethodFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditPaymentMethodForm({
                                             label="Name"
                                             required
                                             ref={paymentMethodNameRef}
-                                            value={editedPaymentMethod.typeName}
+                                            value={editedPaymentMethod.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedPaymentMethod((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditPaymentMethodForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedPaymentMethod.typeDescription}
+                                            value={editedPaymentMethod.description}
                                             onChange={(e) => {
                                                 setEditedPaymentMethod((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

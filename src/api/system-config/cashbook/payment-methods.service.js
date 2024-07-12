@@ -2,19 +2,7 @@ function getAllPaymentMethods(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/systemconfig/ops/paymentMethods', { signal: controller.signal })
         .then((response) => {
-            let paymentMethods = [];
-
-            const paymentMethodsList = response.data._embedded.paymentMethodList;
-
-            paymentMethods = paymentMethodsList.map((paymentMethod) => {
-                return {
-                    id: paymentMethod.paymentMethodId,
-                    name: paymentMethod.typeName,
-                    description: paymentMethod.typeDescription,
-                };
-            });
-
-            return paymentMethods;
+            return response.data._embedded.paymentMethodList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -37,7 +25,7 @@ function createPaymentMethod(newPaymentMethod, axiosPrivate, controller, errorCa
 function editPaymentMethod(editedPaymentMethod, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .put(
-            `/systemconfig/ops/paymentMethods/${editedPaymentMethod.paymentMethodId}`,
+            `/systemconfig/ops/paymentMethods/${editedPaymentMethod.id}`,
             editedPaymentMethod,
             {
                 signal: controller.signal,

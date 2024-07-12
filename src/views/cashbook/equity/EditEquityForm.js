@@ -28,21 +28,16 @@ import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 import EquityTypesService from 'src/api/system-config/cashbook/equity-types.service';
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 
-export default function EditEquityForm({
-    equity,
-    visibility,
-    setEditEquityModalVisibility,
-    savedEquityCallBack,
-}) {
+export default function EditEquityForm({ equity, visibility, setEditEquityModalVisibility, savedEquityCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const equityNameRef = useRef();
     const errorRef = useRef();
     const defaultEquity = {
-        equityId: equity.id,
+        id: equity.id,
         narration: equity.narration,
-        equityTypeId: equity.equityType.equityTypeId,
-        paymentMethodId: equity.paymentMethod.paymentMethodId,
+        equityTypeId: equity.type.id,
+        paymentMethodId: equity.paymentMethod.id,
         amount: `${equity.amount}`,
     };
 
@@ -59,11 +54,7 @@ export default function EditEquityForm({
     }, [equityNameRef]);
 
     const getEquityTypes = async () => {
-        const equityTypes = await EquityTypesService.getAllEquityTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const equityTypes = await EquityTypesService.getAllEquityTypes(axiosPrivate, controller, setErrorMessage);
         const allEquityTypes = equityTypes.map((equityType) => {
             return { value: equityType.id, label: equityType.name };
         });
@@ -101,12 +92,7 @@ export default function EditEquityForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await EquitiesService.editEquity(
-                editedEquity,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await EquitiesService.editEquity(editedEquity, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedEquity(defaultEquity);
                     setEditEquityModalVisibility(!visibility);
@@ -164,8 +150,7 @@ export default function EditEquityForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the equity type. Please
-                                            try again!
+                                            An error occured while saving the equity type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -236,9 +221,7 @@ export default function EditEquityForm({
                                             className="mb-3"
                                             placeholder="Select payment method..."
                                             autoComplete="off"
-                                            options={paymentMethodsWithPlaceholder(
-                                                allPaymentMethods,
-                                            )}
+                                            options={paymentMethodsWithPlaceholder(allPaymentMethods)}
                                             id="paymentMethod"
                                             label="Payment Method"
                                             required
@@ -263,12 +246,7 @@ export default function EditEquityForm({
                 <CButton color="secondary" onClick={() => setEditEquityModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editEquityForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editEquityForm" loading={isLoading} type="submit">
                     Save Equity
                 </CLoadingButton>
             </CModalFooter>

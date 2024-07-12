@@ -29,9 +29,9 @@ export default function EditExamBoardForm({
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const defaultExamBoard = {
-        examBoardId: examBoard.id,
-        examBoardName: examBoard.name,
-        examBoardDescription: examBoard.description,
+        id: examBoard.id,
+        name: examBoard.name,
+        description: examBoard.description,
     };
     const errorRef = useRef();
     const examBoardNameRef = useRef();
@@ -120,13 +120,13 @@ export default function EditExamBoardForm({
                                             label="Name"
                                             required
                                             ref={examBoardNameRef}
-                                            value={editedExamBoard.examBoardName}
+                                            value={editedExamBoard.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedExamBoard((prev) => {
                                                     return {
                                                         ...prev,
-                                                        examBoardName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditExamBoardForm({
                                             id="examBoardDescription"
                                             label="Description"
                                             required
-                                            value={editedExamBoard.examBoardDescription}
+                                            value={editedExamBoard.description}
                                             onChange={(e) => {
                                                 setEditedExamBoard((prev) => {
                                                     return {
                                                         ...prev,
-                                                        examBoardDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

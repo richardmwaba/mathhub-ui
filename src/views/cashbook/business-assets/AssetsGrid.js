@@ -30,7 +30,7 @@ export default function AssetsGrid() {
     const columns = [
         { key: 'narration', label: 'Name', _style: { width: '30%' } },
         {
-            key: 'assetType',
+            key: 'type',
             label: 'Asset Type',
             _style: { width: '30%' },
         },
@@ -74,9 +74,9 @@ export default function AssetsGrid() {
             return {
                 id: asset.id,
                 narration: asset.narration,
-                assetType: asset.assetType.typeName,
+                type: asset.type.name,
                 amount: asset.amount,
-                paymentMethod: asset.paymentMethod.typeName,
+                paymentMethod: asset.paymentMethod.name,
                 createdBy: asset.createdBy,
             };
         });
@@ -93,9 +93,7 @@ export default function AssetsGrid() {
     }, []);
 
     useEffect(() => {
-        const assetSuccessfullyCreatedToast = (
-            <SuccessToast message={'New asset has been created successfully'} />
-        );
+        const assetSuccessfullyCreatedToast = <SuccessToast message={'New asset has been created successfully'} />;
 
         if (createdAsset?.narration) {
             setToast(assetSuccessfullyCreatedToast);
@@ -103,9 +101,7 @@ export default function AssetsGrid() {
     }, [createdAsset]);
 
     useEffect(() => {
-        const assetSuccessfullyEditedToast = (
-            <SuccessToast message={'Asset has been updated successfully'} />
-        );
+        const assetSuccessfullyEditedToast = <SuccessToast message={'Asset has been updated successfully'} />;
 
         if (savedAsset?.narration) {
             setToast(assetSuccessfullyEditedToast);
@@ -137,9 +133,7 @@ export default function AssetsGrid() {
                     itemsPerPageSelect
                     pagination
                     noItemsLabel={
-                        error
-                            ? `Could not retrieve assets due to ${error}. Please try again.`
-                            : 'No assets found'
+                        error ? `Could not retrieve assets due to ${error}. Please try again.` : 'No assets found'
                     }
                     scopedColumns={{
                         show_details: (item) => (

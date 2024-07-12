@@ -30,8 +30,8 @@ export default function NewExpenseTypeForm({
     const expenseTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultExpenseType = {
-        typeName: '',
-        typeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreateExpenseTypeFormValidated, setIsCreateExpenseTypeFormValidated] = useState(false);
@@ -118,13 +118,13 @@ export default function NewExpenseTypeForm({
                                             label="Name"
                                             required
                                             ref={expenseTypeNameRef}
-                                            value={newExpenseType.typeName}
+                                            value={newExpenseType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewExpenseType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -136,12 +136,12 @@ export default function NewExpenseTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={newExpenseType.typeDescription}
+                                            value={newExpenseType.description}
                                             onChange={(e) => {
                                                 setNewExpenseType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

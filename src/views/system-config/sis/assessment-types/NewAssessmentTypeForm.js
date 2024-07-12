@@ -30,8 +30,8 @@ export default function NewAssessmentTypeForm({
     const assessmentTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultAssessmentType = {
-        typeName: '',
-        typeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreateAssessmentTypeFormValidated, setIsCreateAssessmentTypeFormValidated] =
@@ -119,13 +119,13 @@ export default function NewAssessmentTypeForm({
                                             label="Name"
                                             required
                                             ref={assessmentTypeNameRef}
-                                            value={newAssessmentType.typeName}
+                                            value={newAssessmentType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewAssessmentType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -137,12 +137,12 @@ export default function NewAssessmentTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={newAssessmentType.typeDescription}
+                                            value={newAssessmentType.description}
                                             onChange={(e) => {
                                                 setNewAssessmentType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

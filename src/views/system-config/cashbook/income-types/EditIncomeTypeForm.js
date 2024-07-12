@@ -31,9 +31,9 @@ export default function EditIncomeTypeForm({
     const incomeTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultIncomeType = {
-        incomeTypeId: incomeType.id,
-        typeName: incomeType.name,
-        typeDescription: incomeType.description,
+        id: incomeType.id,
+        name: incomeType.name,
+        description: incomeType.description,
     };
 
     const [isEditIncomeTypeFormValidated, setIsEditIncomeTypeFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditIncomeTypeForm({
                                             label="Name"
                                             required
                                             ref={incomeTypeNameRef}
-                                            value={editedIncomeType.typeName}
+                                            value={editedIncomeType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedIncomeType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditIncomeTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedIncomeType.typeDescription}
+                                            value={editedIncomeType.description}
                                             onChange={(e) => {
                                                 setEditedIncomeType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

@@ -31,9 +31,9 @@ export default function EditLiabilityTypeForm({
     const liabilityTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultLiabilityType = {
-        liabilityTypeId: liabilityType.id,
-        typeName: liabilityType.name,
-        typeDescription: liabilityType.description,
+        id: liabilityType.id,
+        name: liabilityType.name,
+        description: liabilityType.description,
     };
 
     const [isEditLiabilityTypeFormValidated, setIsEditLiabilityTypeFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditLiabilityTypeForm({
                                             label="Name"
                                             required
                                             ref={liabilityTypeNameRef}
-                                            value={editedLiabilityType.typeName}
+                                            value={editedLiabilityType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedLiabilityType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditLiabilityTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedLiabilityType.typeDescription}
+                                            value={editedLiabilityType.description}
                                             onChange={(e) => {
                                                 setEditedLiabilityType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

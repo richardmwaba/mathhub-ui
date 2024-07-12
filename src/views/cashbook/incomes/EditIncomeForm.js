@@ -28,21 +28,16 @@ import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 import IncomeTypesService from 'src/api/system-config/cashbook/income-types.service';
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 
-export default function EditIncomeForm({
-    income,
-    visibility,
-    setEditIncomeModalVisibility,
-    savedIncomeCallBack,
-}) {
+export default function EditIncomeForm({ income, visibility, setEditIncomeModalVisibility, savedIncomeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const incomeNameRef = useRef();
     const errorRef = useRef();
     const defaultIncome = {
-        incomeId: income.id,
+        id: income.id,
         narration: income.narration,
-        incomeTypeId: income.incomeType.incomeTypeId,
-        paymentMethodId: income.paymentMethod.paymentMethodId,
+        incomeTypeId: income.type.id,
+        paymentMethodId: income.paymentMethod.id,
         amount: `${income.amount}`,
     };
 
@@ -59,11 +54,7 @@ export default function EditIncomeForm({
     }, [incomeNameRef]);
 
     const getIncomeTypes = async () => {
-        const incomeTypes = await IncomeTypesService.getAllIncomeTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const incomeTypes = await IncomeTypesService.getAllIncomeTypes(axiosPrivate, controller, setErrorMessage);
         const allIncomeTypes = incomeTypes.map((incomeType) => {
             return { value: incomeType.id, label: incomeType.name };
         });
@@ -101,12 +92,7 @@ export default function EditIncomeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await IncomesService.editIncome(
-                editedIncome,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await IncomesService.editIncome(editedIncome, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedIncome(defaultIncome);
                     setEditIncomeModalVisibility(!visibility);
@@ -164,8 +150,7 @@ export default function EditIncomeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the income type. Please
-                                            try again!
+                                            An error occured while saving the income type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -236,9 +221,7 @@ export default function EditIncomeForm({
                                             className="mb-3"
                                             placeholder="Select payment method..."
                                             autoComplete="off"
-                                            options={paymentMethodsWithPlaceholder(
-                                                allPaymentMethods,
-                                            )}
+                                            options={paymentMethodsWithPlaceholder(allPaymentMethods)}
                                             id="paymentMethod"
                                             label="Payment Method"
                                             required
@@ -263,12 +246,7 @@ export default function EditIncomeForm({
                 <CButton color="secondary" onClick={() => setEditIncomeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editIncomeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editIncomeForm" loading={isLoading} type="submit">
                     Save Income
                 </CLoadingButton>
             </CModalFooter>

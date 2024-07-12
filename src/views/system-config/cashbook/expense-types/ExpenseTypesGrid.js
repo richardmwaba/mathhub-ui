@@ -76,11 +76,11 @@ export default function ExpenseTypesGrid() {
     useEffect(() => {
         const expenseTypeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Expense type ${createdExpenseType?.typeName} has been created successfully`}
+                message={`Expense type ${createdExpenseType?.name} has been created successfully`}
             />
         );
 
-        if (createdExpenseType?.typeName) {
+        if (createdExpenseType?.name) {
             setToast(expenseTypeSuccessfullyCreatedToast);
         }
     }, [createdExpenseType]);
@@ -88,11 +88,11 @@ export default function ExpenseTypesGrid() {
     useEffect(() => {
         const expenseTypeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Expense type ${savedExpenseType?.typeName} has been updated successfully`}
+                message={`Expense type ${savedExpenseType?.name} has been updated successfully`}
             />
         );
 
-        if (savedExpenseType?.typeName) {
+        if (savedExpenseType?.name) {
             setToast(expenseTypeSuccessfullyEditedToast);
         }
     }, [savedExpenseType]);

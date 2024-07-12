@@ -31,9 +31,9 @@ export default function EditGradeForm({
     const gradeNameRef = useRef();
     const errorRef = useRef();
     const defaultGrade = {
-        gradeId: grade.id,
-        gradeName: grade.name,
-        gradeDescription: grade.description,
+        id: grade.id,
+        name: grade.name,
+        description: grade.description,
     };
 
     const [isEditGradeFormValidated, setIsEditGradeFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditGradeForm({
                                             label="Name"
                                             required
                                             ref={gradeNameRef}
-                                            value={editedGrade.gradeName}
+                                            value={editedGrade.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedGrade((prev) => {
                                                     return {
                                                         ...prev,
-                                                        gradeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditGradeForm({
                                             id="gradeDescription"
                                             label="Description"
                                             required
-                                            value={editedGrade.gradeDescription}
+                                            value={editedGrade.description}
                                             onChange={(e) => {
                                                 setEditedGrade((prev) => {
                                                     return {
                                                         ...prev,
-                                                        gradeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

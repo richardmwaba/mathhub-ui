@@ -30,7 +30,7 @@ export default function LiabilitiesGrid() {
     const columns = [
         { key: 'narration', label: 'Name', _style: { width: '30%' } },
         {
-            key: 'liabilityType',
+            key: 'type',
             label: 'Liability Type',
             _style: { width: '30%' },
         },
@@ -78,9 +78,9 @@ export default function LiabilitiesGrid() {
             return {
                 id: liability.id,
                 narration: liability.narration,
-                liabilityType: liability.liabilityType.typeName,
+                type: liability.type.name,
                 amount: liability.amount,
-                paymentMethod: liability.paymentMethod.typeName,
+                paymentMethod: liability.paymentMethod.name,
                 createdBy: liability.createdBy,
             };
         });

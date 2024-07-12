@@ -9,9 +9,9 @@ function getAllGrades(axiosPrivate, controller, errorCallback) {
             grades = gradesList
                 .map((grade) => {
                     return {
-                        id: grade.gradeId,
-                        name: Number.parseInt(grade.gradeName),
-                        description: grade.gradeDescription,
+                        id: grade.id,
+                        name: Number.parseInt(grade.name),
+                        description: grade.description,
                     };
                 })
                 .sort((a, b) => a.name - b.name);
@@ -38,7 +38,7 @@ function createGrade(grade, axiosPrivate, controller, errorCallback) {
 
 function editGrade(grade, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/sis/grades/${grade.gradeId}`, grade, { signal: controller.signal })
+        .put(`/sis/grades/${grade.id}`, grade, { signal: controller.signal })
         .then((response) => {
             return response.data;
         })

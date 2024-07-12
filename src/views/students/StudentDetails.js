@@ -74,11 +74,7 @@ const StudentDetails = () => {
                             >
                                 <StudentEnrolmentInfo student={student} />
                             </CTabPane>
-                            <CTabPane
-                                role="tabpanel"
-                                aria-labelledby="finances-tab"
-                                visible={activeTab === 'finances'}
-                            >
+                            <CTabPane role="tabpanel" aria-labelledby="finances-tab" visible={activeTab === 'finances'}>
                                 <StudentFinances student={student} />
                             </CTabPane>
                             <CTabPane

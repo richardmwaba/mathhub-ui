@@ -77,11 +77,7 @@ export default function StudentsGrid() {
         const controller = new AbortController();
 
         const getStudents = async () => {
-            const response = await StudentsService.getAllStudents(
-                axiosPrivate,
-                controller,
-                setError,
-            );
+            const response = await StudentsService.getAllStudents(axiosPrivate, controller, setError);
             isMounted && setStudents(response) && setCurrentItems(response);
         };
 
@@ -105,14 +101,14 @@ export default function StudentsGrid() {
             dateOfBirth: student.dateOfBirth,
             gender: student.gender,
             email: student.email,
-            gradeName: student.grade ? student.grade.gradeName : '',
-            syllabus: student.examBoard ? student.examBoard.examBoardName : '',
+            gradeName: student.grade ? student.grade.name : '',
+            syllabus: student.examBoard ? student.examBoard.name : '',
             mobileNumber: getStudentsMobileNumber(student.phoneNumbers),
             parentName: parent ? parent.parentName : '',
             parentEmail: parent ? parent.parentEmail : '',
             parents: student.parents,
             grade: student.grade,
-            lessons: student.lessons,
+            classes: student.classes,
             addresses: student.addresses,
             examBoard: student.examBoard,
             phoneNumbers: student.phoneNumbers,
@@ -147,9 +143,7 @@ export default function StudentsGrid() {
                 itemsPerPageSelect
                 pagination
                 noItemsLabel={
-                    error
-                        ? `Could not retrieve students due to ${error}. Please try again.`
-                        : 'No students found'
+                    error ? `Could not retrieve students due to ${error}. Please try again.` : 'No students found'
                 }
                 onRowClick={(student) => handleRowClick(student)}
                 scopedColumns={{
@@ -177,9 +171,7 @@ function getStudentsFullname(firstName, middleName, lastName) {
 
 function getStudentsMobileNumber(phoneNumbers) {
     return phoneNumbers.map((phoneNumber) => {
-        return phoneNumber.type === 'MOBILE'
-            ? `${phoneNumber.countryCode} ${phoneNumber.number}`
-            : null;
+        return phoneNumber.type === 'MOBILE' ? `${phoneNumber.countryCode} ${phoneNumber.number}` : null;
     });
 }
 

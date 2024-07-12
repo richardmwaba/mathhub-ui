@@ -2,19 +2,7 @@ function getAllExamBoards(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/sis/examBoards', { signal: controller.signal })
         .then((response) => {
-            let examBoards = [];
-
-            const examBoardsList = response.data._embedded.examBoardList;
-
-            examBoards = examBoardsList.map((examBoard) => {
-                return {
-                    id: examBoard.examBoardId,
-                    name: examBoard.examBoardName,
-                    description: examBoard.examBoardDescription,
-                };
-            });
-
-            return examBoards;
+            return response.data._embedded.examBoardList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -36,7 +24,7 @@ function createExamBoard(newExamBoard, axiosPrivate, controller, errorCallback) 
 
 function editExamBoard(editedExamBoard, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/sis/examBoards/${editedExamBoard.examBoardId}`, editedExamBoard, {
+        .put(`/sis/examBoards/${editedExamBoard.id}`, editedExamBoard, {
             signal: controller.signal,
         })
         .then((response) => {

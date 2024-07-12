@@ -16,35 +16,17 @@ const Liabilities = React.lazy(() => import('./views/cashbook/liabilities/Liabil
 const Equities = React.lazy(() => import('./views/cashbook/equity/EquitiesPage'));
 
 // System Configuration
-const PaymentMethods = React.lazy(
-    () => import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
-);
-const AssetTypes = React.lazy(
-    () => import('./views/system-config/cashbook/asset-types/AssetTypesPage'),
-);
-const EquityTypes = React.lazy(
-    () => import('./views/system-config/cashbook/equity-types/EquityTypesPage'),
-);
-const ExpenseTypes = React.lazy(
-    () => import('./views/system-config/cashbook/expense-types/ExpenseTypesPage'),
-);
-const IncomeTypes = React.lazy(
-    () => import('./views/system-config/cashbook/income-types/IncomeTypesPage'),
-);
-const LiabilityTypes = React.lazy(
-    () => import('./views/system-config/cashbook/liability-types/LiabilityTypesPage'),
-);
-const AssessmentTypes = React.lazy(
-    () => import('./views/system-config/sis/assessment-types/AssessmentTypesPage'),
-);
+const PaymentMethods = React.lazy(() => import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'));
+const AssetTypes = React.lazy(() => import('./views/system-config/cashbook/asset-types/AssetTypesPage'));
+const EquityTypes = React.lazy(() => import('./views/system-config/cashbook/equity-types/EquityTypesPage'));
+const ExpenseTypes = React.lazy(() => import('./views/system-config/cashbook/expense-types/ExpenseTypesPage'));
+const IncomeTypes = React.lazy(() => import('./views/system-config/cashbook/income-types/IncomeTypesPage'));
+const LiabilityTypes = React.lazy(() => import('./views/system-config/cashbook/liability-types/LiabilityTypesPage'));
+const AssessmentTypes = React.lazy(() => import('./views/system-config/sis/assessment-types/AssessmentTypesPage'));
 const ExamBoards = React.lazy(() => import('./views/system-config/sis/exam-boards/ExamBoardsPage'));
 const Grades = React.lazy(() => import('./views/system-config/sis/grades/GradesPage'));
-const LessonRates = React.lazy(
-    () => import('./views/system-config/sis/lesson-rates/LessonRatesPage'),
-);
-const SessionTypes = React.lazy(
-    () => import('./views/system-config/sis/session-types/SessionTypesPage'),
-);
+const ClassRates = React.lazy(() => import('./views/system-config/sis/class-rates/ClassRatesPage'));
+const SessionTypes = React.lazy(() => import('./views/system-config/sis/session-types/SessionTypesPage'));
 const Subjects = React.lazy(() => import('./views/system-config/sis/subjects/SubjectsPage'));
 const Users = React.lazy(() => import('./views/system-config/users/UsersPage'));
 
@@ -136,9 +118,9 @@ const routes = [
         exact: true,
     },
     {
-        path: '/system-config/lesson-rates',
-        name: 'Lesson Rates',
-        element: LessonRates,
+        path: '/system-config/class-rates',
+        name: 'Class Rates',
+        element: ClassRates,
         exact: true,
     },
     {
