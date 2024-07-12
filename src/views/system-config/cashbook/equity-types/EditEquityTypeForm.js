@@ -31,9 +31,9 @@ export default function EditEquityTypeForm({
     const equityTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultEquityType = {
-        equityTypeId: equityType.id,
-        typeName: equityType.name,
-        typeDescription: equityType.description,
+        id: equityType.id,
+        name: equityType.name,
+        description: equityType.description,
     };
 
     const [isEditEquityTypeFormValidated, setIsEditEquityTypeFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditEquityTypeForm({
                                             label="Name"
                                             required
                                             ref={equityTypeNameRef}
-                                            value={editedEquityType.typeName}
+                                            value={editedEquityType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedEquityType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditEquityTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedEquityType.typeDescription}
+                                            value={editedEquityType.description}
                                             onChange={(e) => {
                                                 setEditedEquityType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

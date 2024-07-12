@@ -16,11 +16,7 @@ const useRefreshToken = () => {
         try {
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken !== null || refreshToken !== undefined) {
-                const response = await axios.post(
-                    '/auth/refresh',
-                    { refreshToken: refreshToken },
-                    headers,
-                );
+                const response = await axios.post('/auth/refresh', { refreshToken: refreshToken }, headers);
                 setAuthentication((prev) => {
                     return {
                         ...prev,

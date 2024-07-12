@@ -30,8 +30,8 @@ export default function NewGradeForm({
     const gradeNameRef = useRef();
     const errorRef = useRef();
     const defaultGrade = {
-        gradeName: '',
-        gradeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreateGradeFormValidated, setIsCreateGradeFormValidated] = useState(false);
@@ -118,13 +118,13 @@ export default function NewGradeForm({
                                             label="Name"
                                             required
                                             ref={gradeNameRef}
-                                            value={newGrade.gradeName}
+                                            value={newGrade.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewGrade((prev) => {
                                                     return {
                                                         ...prev,
-                                                        gradeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -136,12 +136,12 @@ export default function NewGradeForm({
                                             id="gradeDescription"
                                             label="Description"
                                             required
-                                            value={newGrade.gradeDescription}
+                                            value={newGrade.description}
                                             onChange={(e) => {
                                                 setNewGrade((prev) => {
                                                     return {
                                                         ...prev,
-                                                        gradeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

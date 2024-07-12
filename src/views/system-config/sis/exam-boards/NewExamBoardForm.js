@@ -28,8 +28,8 @@ export default function NewExamBoardForm({
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const defaultExamBoard = {
-        examBoardName: '',
-        examBoardDescription: '',
+        name: '',
+        description: '',
     };
     const errorRef = useRef();
     const examBoardNameRef = useRef();
@@ -118,13 +118,13 @@ export default function NewExamBoardForm({
                                             label="Name"
                                             required
                                             ref={examBoardNameRef}
-                                            value={newExamBoard.examBoardName}
+                                            value={newExamBoard.name}
                                             aria-describedby="ezamBoardNameInputGroup"
                                             onChange={(e) => {
                                                 setNewExamBoard((prev) => {
                                                     return {
                                                         ...prev,
-                                                        examBoardName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -136,12 +136,12 @@ export default function NewExamBoardForm({
                                             id="examBoardDescription"
                                             label="Description"
                                             required
-                                            value={newExamBoard.examBoardDescription}
+                                            value={newExamBoard.description}
                                             onChange={(e) => {
                                                 setNewExamBoard((prev) => {
                                                     return {
                                                         ...prev,
-                                                        examBoardDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

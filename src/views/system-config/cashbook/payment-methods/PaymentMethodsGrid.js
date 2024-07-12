@@ -76,11 +76,11 @@ export default function PaymentMethodsGrid() {
     useEffect(() => {
         const paymentMethodSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Payment method ${createdPaymentMethod?.typeName} has been created successfully`}
+                message={`Payment method ${createdPaymentMethod?.name} has been created successfully`}
             />
         );
 
-        if (createdPaymentMethod?.typeName) {
+        if (createdPaymentMethod?.name) {
             setToast(paymentMethodSuccessfullyCreatedToast);
         }
     }, [createdPaymentMethod]);
@@ -88,11 +88,11 @@ export default function PaymentMethodsGrid() {
     useEffect(() => {
         const paymentMethodSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Payment method ${savedPaymentMethod?.typeName} has been updated successfully`}
+                message={`Payment method ${savedPaymentMethod?.name} has been updated successfully`}
             />
         );
 
-        if (savedPaymentMethod?.typeName) {
+        if (savedPaymentMethod?.name) {
             setToast(paymentMethodSuccessfullyEditedToast);
         }
     }, [savedPaymentMethod]);

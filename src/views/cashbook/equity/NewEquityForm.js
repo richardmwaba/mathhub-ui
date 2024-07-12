@@ -28,11 +28,7 @@ import EquityTypesService from 'src/api/system-config/cashbook/equity-types.serv
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
-export default function NewEquityForm({
-    visibility,
-    setEquityModalVisibility,
-    createdEquityCallBack,
-}) {
+export default function NewEquityForm({ visibility, setEquityModalVisibility, createdEquityCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const equityNameRef = useRef();
@@ -57,18 +53,11 @@ export default function NewEquityForm({
     }, []);
 
     const getEquityTypes = async () => {
-        const equityTypes = await EquityTypesService.getAllEquityTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const equityTypes = await EquityTypesService.getAllEquityTypes(axiosPrivate, controller, setErrorMessage);
         const allEquityTypes = equityTypes.map((equityType) => {
             return { value: equityType.id, label: equityType.name };
         });
-        const equityTypesWithPlaceholder = [
-            { value: '', label: 'Select equity type...' },
-            ...allEquityTypes,
-        ];
+        const equityTypesWithPlaceholder = [{ value: '', label: 'Select equity type...' }, ...allEquityTypes];
         isMounted && setAllEquityTypes(equityTypesWithPlaceholder);
     };
 
@@ -81,10 +70,7 @@ export default function NewEquityForm({
         const allPaymentMethods = paymentMethods.map((paymentMethod) => {
             return { value: paymentMethod.id, label: paymentMethod.name };
         });
-        const paymentMethodsWithPlaceholder = [
-            { value: '', label: 'Select payment method...' },
-            ...allPaymentMethods,
-        ];
+        const paymentMethodsWithPlaceholder = [{ value: '', label: 'Select payment method...' }, ...allPaymentMethods];
         isMounted && setAllPaymentMethods(paymentMethodsWithPlaceholder);
     };
 
@@ -99,12 +85,7 @@ export default function NewEquityForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await EquitiesService.createEquity(
-                newEquity,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await EquitiesService.createEquity(newEquity, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewEquity(defaultEquity);
                     setEquityModalVisibility(!visibility);
@@ -162,8 +143,7 @@ export default function NewEquityForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new equity. Please try
-                                            again!
+                                            An error occured while saving the new equity. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -259,12 +239,7 @@ export default function NewEquityForm({
                 <CButton color="secondary" onClick={() => setEquityModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewEquityForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewEquityForm" loading={isLoading} type="submit">
                     Save Equity
                 </CLoadingButton>
             </CModalFooter>

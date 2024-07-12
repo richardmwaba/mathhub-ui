@@ -28,11 +28,7 @@ import AssetTypesService from 'src/api/system-config/cashbook/asset-types.servic
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
-export default function NewAssetForm({
-    visibility,
-    setAssetModalVisibility,
-    createdAssetCallBack,
-}) {
+export default function NewAssetForm({ visibility, setAssetModalVisibility, createdAssetCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const assetNameRef = useRef();
@@ -57,18 +53,11 @@ export default function NewAssetForm({
     }, []);
 
     const getAssetTypes = async () => {
-        const assetTypes = await AssetTypesService.getAllAssetTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const assetTypes = await AssetTypesService.getAllAssetTypes(axiosPrivate, controller, setErrorMessage);
         const allAssetTypes = assetTypes.map((assetType) => {
             return { value: assetType.id, label: assetType.name };
         });
-        const assetTypesWithPlaceholder = [
-            { value: '', label: 'Select asset type...' },
-            ...allAssetTypes,
-        ];
+        const assetTypesWithPlaceholder = [{ value: '', label: 'Select asset type...' }, ...allAssetTypes];
         isMounted && setAllAssetTypes(assetTypesWithPlaceholder);
     };
 
@@ -81,10 +70,7 @@ export default function NewAssetForm({
         const allPaymentMethods = paymentMethods.map((paymentMethod) => {
             return { value: paymentMethod.id, label: paymentMethod.name };
         });
-        const paymentMethodsWithPlaceholder = [
-            { value: '', label: 'Select payment method...' },
-            ...allPaymentMethods,
-        ];
+        const paymentMethodsWithPlaceholder = [{ value: '', label: 'Select payment method...' }, ...allPaymentMethods];
         isMounted && setAllPaymentMethods(paymentMethodsWithPlaceholder);
     };
 
@@ -99,12 +85,7 @@ export default function NewAssetForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await AssetsService.createAsset(
-                newAsset,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await AssetsService.createAsset(newAsset, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewAsset(defaultAsset);
                     setAssetModalVisibility(!visibility);
@@ -162,8 +143,7 @@ export default function NewAssetForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new asset. Please try
-                                            again!
+                                            An error occured while saving the new asset. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -259,12 +239,7 @@ export default function NewAssetForm({
                 <CButton color="secondary" onClick={() => setAssetModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewAssetForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewAssetForm" loading={isLoading} type="submit">
                     Save Asset
                 </CLoadingButton>
             </CModalFooter>

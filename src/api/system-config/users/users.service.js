@@ -7,8 +7,8 @@ function getAllUsers(axiosPrivate, controller, errorCallback) {
             const usersList = response.data._embedded.userList;
 
             users = usersList.map((user) => {
-                const userRoles = user.userRoles.map((userRole) => {
-                    return userRole.role;
+                const roles = user.roles.map((role) => {
+                    return role.name;
                 });
 
                 const fullName = user.middleName
@@ -16,13 +16,13 @@ function getAllUsers(axiosPrivate, controller, errorCallback) {
                     : `${user.firstName} ${user.lastName}`;
 
                 return {
-                    id: user.userId,
+                    id: user.id,
                     username: user.username,
                     name: fullName,
                     email: user.email,
                     gender: user.gender,
                     phoneNumber: user.phoneNumber,
-                    userRoles: userRoles,
+                    roles: roles,
                 };
             });
 
@@ -48,7 +48,7 @@ function createUser(newUser, axiosPrivate, controller, errorCallback) {
 
 function editUser(editedUser, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/ops/users/${editedUser.userId}`, editedUser, { signal: controller.signal })
+        .put(`/ops/users/${editedUser.id}`, editedUser, { signal: controller.signal })
         .then((response) => {
             return response.data;
         })
@@ -58,9 +58,9 @@ function editUser(editedUser, axiosPrivate, controller, errorCallback) {
         });
 }
 
-function deleteUser(userId, axiosPrivate, controller, errorCallback) {
+function deleteUser(id, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .delete(`/ops/users/${userId}`, { signal: controller.signal })
+        .delete(`/ops/users/${id}`, { signal: controller.signal })
         .then((response) => {
             return response;
         })

@@ -39,7 +39,7 @@ export default function EditLiabilityForm({
     const liabilityNameRef = useRef();
     const errorRef = useRef();
     const defaultLiability = {
-        liabilityId: liability.id,
+        id: liability.id,
         narration: liability.narration,
         liabilityTypeId: liability.liabilityType.liabilityTypeId,
         paymentMethodId: liability.paymentMethod.paymentMethodId,

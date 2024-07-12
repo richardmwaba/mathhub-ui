@@ -2,19 +2,7 @@ function getAllAssetTypes(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/systemconfig/ops/assetTypes', { signal: controller.signal })
         .then((response) => {
-            let assetTypes = [];
-
-            const assetTypesList = response.data._embedded.assetTypeList;
-
-            assetTypes = assetTypesList.map((assetType) => {
-                return {
-                    id: assetType.assetTypeId,
-                    name: assetType.typeName,
-                    description: assetType.typeDescription,
-                };
-            });
-
-            return assetTypes;
+            return response.data._embedded.assetTypeList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -36,7 +24,7 @@ function createAssetType(newAssetType, axiosPrivate, controller, errorCallback) 
 
 function editAssetType(editedAssetType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/systemconfig/ops/assetTypes/${editedAssetType.assetTypeId}`, editedAssetType, {
+        .put(`/systemconfig/ops/assetTypes/${editedAssetType.id}`, editedAssetType, {
             signal: controller.signal,
         })
         .then((response) => {

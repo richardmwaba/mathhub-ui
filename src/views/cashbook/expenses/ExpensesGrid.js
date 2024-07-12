@@ -30,7 +30,7 @@ export default function ExpensesGrid() {
     const columns = [
         { key: 'narration', label: 'Name', _style: { width: '30%' } },
         {
-            key: 'expenseType',
+            key: 'type',
             label: 'Expense Type',
             _style: { width: '30%' },
         },
@@ -74,9 +74,9 @@ export default function ExpensesGrid() {
             return {
                 id: expense.id,
                 narration: expense.narration,
-                expenseType: expense.expenseType.typeName,
+                type: expense.type.name,
                 amount: expense.amount,
-                paymentMethod: expense.paymentMethod.typeName,
+                paymentMethod: expense.paymentMethod.name,
                 createdBy: expense.createdBy,
             };
         });
@@ -93,9 +93,7 @@ export default function ExpensesGrid() {
     }, []);
 
     useEffect(() => {
-        const expenseSuccessfullyCreatedToast = (
-            <SuccessToast message={'New expense has been created successfully'} />
-        );
+        const expenseSuccessfullyCreatedToast = <SuccessToast message={'New expense has been created successfully'} />;
 
         if (createdExpense?.narration) {
             setToast(expenseSuccessfullyCreatedToast);
@@ -103,9 +101,7 @@ export default function ExpensesGrid() {
     }, [createdExpense]);
 
     useEffect(() => {
-        const expenseSuccessfullyEditedToast = (
-            <SuccessToast message={'Expense has been updated successfully'} />
-        );
+        const expenseSuccessfullyEditedToast = <SuccessToast message={'Expense has been updated successfully'} />;
 
         if (savedExpense?.narration) {
             setToast(expenseSuccessfullyEditedToast);
@@ -137,9 +133,7 @@ export default function ExpensesGrid() {
                     itemsPerPageSelect
                     pagination
                     noItemsLabel={
-                        error
-                            ? `Could not retrieve expenses due to ${error}. Please try again.`
-                            : 'No expenses found'
+                        error ? `Could not retrieve expenses due to ${error}. Please try again.` : 'No expenses found'
                     }
                     scopedColumns={{
                         show_details: (item) => (

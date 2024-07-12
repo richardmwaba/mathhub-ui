@@ -31,9 +31,9 @@ export default function EditSessionTypeForm({
     const sessionTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultSessionType = {
-        sessionTypeId: sessionType.id,
-        typeName: sessionType.name,
-        typeDescription: sessionType.description,
+        id: sessionType.id,
+        name: sessionType.name,
+        description: sessionType.description,
     };
 
     const [isEditSessionTypeFormValidated, setIsEditSessionTypeFormValidated] = useState(false);
@@ -120,13 +120,13 @@ export default function EditSessionTypeForm({
                                             label="Name"
                                             required
                                             ref={sessionTypeNameRef}
-                                            value={editedSessionType.typeName}
+                                            value={editedSessionType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedSessionType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -138,12 +138,12 @@ export default function EditSessionTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedSessionType.typeDescription}
+                                            value={editedSessionType.description}
                                             onChange={(e) => {
                                                 setEditedSessionType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

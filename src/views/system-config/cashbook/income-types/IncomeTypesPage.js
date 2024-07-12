@@ -4,17 +4,15 @@ import IncomeTypesGrid from './IncomeTypesGrid';
 
 const IncomeTypesPage = () => {
     return (
-        <CContainer fluid>
-            <CRow>
-                <CCol xs={{ cols: 12 }}>
-                    <CCard className="mb-4">
-                        <CCardBody>
-                            <IncomeTypesGrid />
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-            </CRow>
-        </CContainer>
+        <CRow>
+            <CCol xs={{ cols: 12 }}>
+                <CCard className="mb-4">
+                    <CCardBody>
+                        <IncomeTypesGrid />
+                    </CCardBody>
+                </CCard>
+            </CCol>
+        </CRow>
     );
 };
 

@@ -28,21 +28,16 @@ import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 import AssetTypesService from 'src/api/system-config/cashbook/asset-types.service';
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 
-export default function EditAssetForm({
-    asset,
-    visibility,
-    setEditAssetModalVisibility,
-    savedAssetCallBack,
-}) {
+export default function EditAssetForm({ asset, visibility, setEditAssetModalVisibility, savedAssetCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const assetNameRef = useRef();
     const errorRef = useRef();
     const defaultAsset = {
-        assetId: asset.id,
+        id: asset.id,
         narration: asset.narration,
-        assetTypeId: asset.assetType.assetTypeId,
-        paymentMethodId: asset.paymentMethod.paymentMethodId,
+        assetTypeId: asset.type.id,
+        paymentMethodId: asset.paymentMethod.id,
         amount: `${asset.amount}`,
     };
 
@@ -59,11 +54,7 @@ export default function EditAssetForm({
     }, [assetNameRef]);
 
     const getAssetTypes = async () => {
-        const assetTypes = await AssetTypesService.getAllAssetTypes(
-            axiosPrivate,
-            controller,
-            setErrorMessage,
-        );
+        const assetTypes = await AssetTypesService.getAllAssetTypes(axiosPrivate, controller, setErrorMessage);
         const allAssetTypes = assetTypes.map((assetType) => {
             return { value: assetType.id, label: assetType.name };
         });
@@ -101,12 +92,7 @@ export default function EditAssetForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await AssetsService.editAsset(
-                editedAsset,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await AssetsService.editAsset(editedAsset, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedAsset(defaultAsset);
                     setEditAssetModalVisibility(!visibility);
@@ -164,8 +150,7 @@ export default function EditAssetForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the asset type. Please try
-                                            again!
+                                            An error occured while saving the asset type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -236,9 +221,7 @@ export default function EditAssetForm({
                                             className="mb-3"
                                             placeholder="Select payment method..."
                                             autoComplete="off"
-                                            options={paymentMethodsWithPlaceholder(
-                                                allPaymentMethods,
-                                            )}
+                                            options={paymentMethodsWithPlaceholder(allPaymentMethods)}
                                             id="paymentMethod"
                                             label="Payment Method"
                                             required
@@ -263,12 +246,7 @@ export default function EditAssetForm({
                 <CButton color="secondary" onClick={() => setEditAssetModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editAssetForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editAssetForm" loading={isLoading} type="submit">
                     Save Asset
                 </CLoadingButton>
             </CModalFooter>

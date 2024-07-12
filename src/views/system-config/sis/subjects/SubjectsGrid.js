@@ -89,11 +89,11 @@ export default function SubjectsGrid() {
     useEffect(() => {
         const subjectSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Subject ${createdSubject?.subjectName} has been created successfully`}
+                message={`Subject ${createdSubject?.name} has been created successfully`}
             />
         );
 
-        if (createdSubject?.subjectName) {
+        if (createdSubject?.name) {
             setToast(subjectSuccessfullyCreatedToast);
         }
     }, [createdSubject]);
@@ -101,11 +101,11 @@ export default function SubjectsGrid() {
     useEffect(() => {
         const subjectSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Subject ${savedSubject?.subjectName} has been updated successfully`}
+                message={`Subject ${savedSubject?.name} has been updated successfully`}
             />
         );
 
-        if (savedSubject?.subjectName) {
+        if (savedSubject?.name) {
             setToast(subjectSuccessfullyEditedToast);
         }
     }, [savedSubject]);

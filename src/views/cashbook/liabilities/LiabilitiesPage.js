@@ -4,17 +4,15 @@ import LiabilitiesGrid from './LiabilitiesGrid';
 
 const LiabilitiesPage = () => {
     return (
-        <CContainer fluid>
-            <CRow>
-                <CCol xs={{ cols: 12 }}>
-                    <CCard className="mb-4">
-                        <CCardBody>
-                            <LiabilitiesGrid />
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-            </CRow>
-        </CContainer>
+        <CRow>
+            <CCol xs={{ cols: 12 }}>
+                <CCard className="mb-4">
+                    <CCardBody>
+                        <LiabilitiesGrid />
+                    </CCardBody>
+                </CCard>
+            </CCol>
+        </CRow>
     );
 };
 

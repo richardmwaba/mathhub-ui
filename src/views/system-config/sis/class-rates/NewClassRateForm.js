@@ -23,32 +23,28 @@ import {
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
-import LessonRatesService from 'src/api/system-config/sis/lesson-rates.service';
+import ClassRatesService from 'src/api/system-config/sis/class-rates.service';
 import SubjectsService from 'src/api/sis/subjects.service';
 import moment from 'moment/moment';
 import DateUtils from 'src/utils/dateUtils';
 import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
-export default function NewLessonRateForm({
-    visibility,
-    setLessonRateModalVisibility,
-    createdLessonRateCallBack,
-}) {
+export default function NewClassRateForm({ visibility, setClassRateModalVisibility, createdClassRateCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const errorRef = useRef();
-    const defaultLessonRate = {
-        amountPerLesson: '',
+    const defaultClassRate = {
+        amount: '',
         effectiveDate: '',
         subjectComplexity: '',
         expiryDate: '',
     };
 
     const [subjectComplexities, setSubjectComplexities] = useState([]);
-    const [isCreateLessonRateFormValidated, setIsCreateLessonRateFormValidated] = useState(false);
+    const [isCreateClassRateFormValidated, setIsCreateClassRateFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [newLessonRate, setNewLessonRate] = useState(defaultLessonRate);
+    const [newClassRate, setNewClassRate] = useState(defaultClassRate);
 
     useEffect(() => {
         setSubjectComplexities(SubjectsService.getAllSubjectComplexities());
@@ -56,22 +52,22 @@ export default function NewLessonRateForm({
 
     // set the value of expiry date to one year from the effective date
     useEffect(() => {
-        if (newLessonRate.effectiveDate) {
-            const effectiveDate = moment(newLessonRate.effectiveDate);
+        if (newClassRate.effectiveDate) {
+            const effectiveDate = moment(newClassRate.effectiveDate);
             const expiryDate = DateUtils.addOneYearToDate(effectiveDate);
-            setNewLessonRate((prev) => {
+            setNewClassRate((prev) => {
                 return {
                     ...prev,
                     expiryDate: expiryDate,
                 };
             });
         }
-    }, [newLessonRate.effectiveDate]);
+    }, [newClassRate.effectiveDate]);
 
-    const handleCreateNewLessonRate = async (event) => {
-        const newLessonRateForm = event.currentTarget;
+    const handleCreateNewClassRate = async (event) => {
+        const newClassRateForm = event.currentTarget;
 
-        if (newLessonRateForm.checkValidity() === false) {
+        if (newClassRateForm.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         } else {
@@ -79,16 +75,11 @@ export default function NewLessonRateForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await LessonRatesService.createLessonRate(
-                newLessonRate,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await ClassRatesService.createclassRate(newClassRate, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
-                    setNewLessonRate(defaultLessonRate);
-                    setLessonRateModalVisibility(!visibility);
-                    createdLessonRateCallBack(response);
+                    setNewClassRate(defaultClassRate);
+                    setClassRateModalVisibility(!visibility);
+                    createdClassRateCallBack(response);
                 },
                 (error) => {
                     if (!error?.response) {
@@ -102,7 +93,7 @@ export default function NewLessonRateForm({
         }
 
         setIsLoading(false);
-        setIsCreateLessonRateFormValidated(true);
+        setIsCreateClassRateFormValidated(true);
     };
 
     return (
@@ -110,11 +101,11 @@ export default function NewLessonRateForm({
             backdrop="static"
             alignment="center"
             visible={visibility}
-            onClose={() => setLessonRateModalVisibility(!visibility)}
+            onClose={() => setClassRateModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
         >
             <CModalHeader>
-                <CModalTitle id="StaticBackdropExampleLabel">New Lesson Rate</CModalTitle>
+                <CModalTitle id="StaticBackdropExampleLabel">New Class Rate</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CContainer>
@@ -124,34 +115,33 @@ export default function NewLessonRateForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new lesson rate.
-                                            Please try again!
+                                            An error occured while saving the new class rate. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
                                         className="needs-validation"
                                         noValidate
-                                        validated={isCreateLessonRateFormValidated}
-                                        onSubmit={handleCreateNewLessonRate}
-                                        id="createNewLessonRateForm"
+                                        validated={isCreateClassRateFormValidated}
+                                        onSubmit={handleCreateNewClassRate}
+                                        id="createNewClassRateForm"
                                     >
-                                        <CFormLabel>Amount Per Lesson</CFormLabel>
+                                        <CFormLabel>Amount Per Class</CFormLabel>
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText>ZMW</CInputGroupText>
                                             <CFormInputWithMask
                                                 mask={parseFloat}
-                                                placeholder="Amount per lesson"
+                                                placeholder="Amount per class"
                                                 autoComplete="off"
-                                                id="amountPerLesson"
+                                                id="amountPerClass"
                                                 required
                                                 type="number"
-                                                value={newLessonRate.amountPerLesson}
-                                                aria-describedby="amountPerLessonInputGroup"
+                                                value={newClassRate.amount}
+                                                aria-describedby="amountPerClassInputGroup"
                                                 onChange={(e) => {
-                                                    setNewLessonRate((prev) => {
+                                                    setNewClassRate((prev) => {
                                                         return {
                                                             ...prev,
-                                                            amountPerLesson: e.target.value,
+                                                            amount: e.target.value,
                                                         };
                                                     });
                                                 }}
@@ -167,9 +157,9 @@ export default function NewLessonRateForm({
                                             }}
                                             timepicker
                                             required
-                                            date={newLessonRate.effectiveDate}
+                                            date={newClassRate.effectiveDate}
                                             onDateChange={(selectedDate) => {
-                                                setNewLessonRate((prev) => {
+                                                setNewClassRate((prev) => {
                                                     return {
                                                         ...prev,
                                                         effectiveDate: selectedDate,
@@ -187,9 +177,9 @@ export default function NewLessonRateForm({
                                             }}
                                             timepicker
                                             required
-                                            date={newLessonRate.expiryDate}
+                                            date={newClassRate.expiryDate}
                                             onDateChange={(selectedDate) => {
-                                                setNewLessonRate((prev) => {
+                                                setNewClassRate((prev) => {
                                                     return {
                                                         ...prev,
                                                         expiryDate: selectedDate,
@@ -202,12 +192,12 @@ export default function NewLessonRateForm({
                                             label="Subject Complexity"
                                             options={subjectComplexities}
                                             placeholder="Select subject complexity..."
-                                            value={newLessonRate.subjectComplexity}
+                                            value={newClassRate.subjectComplexity}
                                             required
-                                            valid={newLessonRate.subjectComplexity !== ''}
+                                            valid={newClassRate.subjectComplexity !== ''}
                                             feedbackInvalid="Please select a valid subject complexity"
                                             onChange={(e) => {
-                                                setNewLessonRate((prev) => {
+                                                setNewClassRate((prev) => {
                                                     return {
                                                         ...prev,
                                                         subjectComplexity: e.target.value,
@@ -223,24 +213,19 @@ export default function NewLessonRateForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton color="secondary" onClick={() => setLessonRateModalVisibility(false)}>
+                <CButton color="secondary" onClick={() => setClassRateModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewLessonRateForm"
-                    loading={isLoading}
-                    type="submit"
-                >
-                    Save Lesson Rate
+                <CLoadingButton color="primary" form="createNewClassRateForm" loading={isLoading} type="submit">
+                    Save Class Rate
                 </CLoadingButton>
             </CModalFooter>
         </CModal>
     );
 }
 
-NewLessonRateForm.propTypes = {
+NewClassRateForm.propTypes = {
     visibility: PropTypes.bool.isRequired,
-    setLessonRateModalVisibility: PropTypes.func.isRequired,
-    createdLessonRateCallBack: PropTypes.func.isRequired,
+    setClassRateModalVisibility: PropTypes.func.isRequired,
+    createdClassRateCallBack: PropTypes.func.isRequired,
 };

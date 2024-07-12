@@ -2,22 +2,7 @@ function getAllAssets(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/ops/assets', { signal: controller.signal })
         .then((response) => {
-            let assets = [];
-
-            const assetsList = response.data._embedded.assetList;
-
-            assets = assetsList.map((asset) => {
-                return {
-                    id: asset.assetId,
-                    paymentMethod: asset.paymentMethod,
-                    narration: asset.narration,
-                    assetType: asset.assetType,
-                    amount: asset.amount,
-                    createdBy: asset.createdBy,
-                };
-            });
-
-            return assets;
+            return response.data._embedded.assetList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -39,7 +24,7 @@ function createAsset(newAsset, axiosPrivate, controller, errorCallback) {
 
 function editAsset(editedAsset, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/ops/assets/${editedAsset.assetId}`, editedAsset, {
+        .put(`/ops/assets/${editedAsset.id}`, editedAsset, {
             signal: controller.signal,
         })
         .then((response) => {
@@ -51,9 +36,9 @@ function editAsset(editedAsset, axiosPrivate, controller, errorCallback) {
         });
 }
 
-function deleteAsset(assetId, axiosPrivate, controller, errorCallback) {
+function deleteAsset(id, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .delete(`/ops/assets/${assetId}`, { signal: controller.signal })
+        .delete(`/ops/assets/${id}`, { signal: controller.signal })
         .then((response) => {
             return response.data;
         })

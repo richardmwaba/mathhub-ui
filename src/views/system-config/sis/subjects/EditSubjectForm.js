@@ -35,10 +35,10 @@ export default function EditSubjectForm({
     const subjectNameRef = useRef();
     const errorRef = useRef();
     const defaultSubject = {
-        subjectId: subject.id,
-        subjectName: subject.name,
-        subjectGradeIds: subject.grades.map((grade) => grade.id),
-        subjectComplexity: subject.complexity,
+        id: subject.id,
+        name: subject.name,
+        gradeIds: subject.grades.map((grade) => grade.id),
+        complexity: subject.complexity,
     };
 
     const [allGrades, setAllGrades] = useState([]);
@@ -54,7 +54,7 @@ export default function EditSubjectForm({
 
         const allGrades = grades
             .map((grade) => {
-                if (editedSubject.subjectGradeIds.includes(grade.id)) {
+                if (editedSubject.gradeIds.includes(grade.id)) {
                     return { value: grade.id, label: grade.name, selected: true };
                 }
                 return { value: grade.id, label: grade.name };
@@ -155,13 +155,13 @@ export default function EditSubjectForm({
                                             label="Name"
                                             required
                                             ref={subjectNameRef}
-                                            value={editedSubject.subjectName}
+                                            value={editedSubject.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedSubject((prev) => {
                                                     return {
                                                         ...prev,
-                                                        subjectName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -182,7 +182,7 @@ export default function EditSubjectForm({
                                                     );
                                                     return {
                                                         ...prev,
-                                                        subjectGradeIds: selectedGradesValues,
+                                                        gradeIds: selectedGradesValues,
                                                     };
                                                 });
                                             }}
@@ -193,12 +193,12 @@ export default function EditSubjectForm({
                                             options={subjectComplexities}
                                             placeholder="Select subject complexity..."
                                             required
-                                            value={editedSubject.subjectComplexity}
+                                            value={editedSubject.complexity}
                                             onChange={(e) => {
                                                 setEditedSubject((prev) => {
                                                     return {
                                                         ...prev,
-                                                        subjectComplexity: e.target.value,
+                                                        complexity: e.target.value,
                                                     };
                                                 });
                                             }}

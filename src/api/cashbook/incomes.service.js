@@ -2,22 +2,7 @@ function getAllIncomes(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/ops/incomes', { signal: controller.signal })
         .then((response) => {
-            let incomes = [];
-
-            const incomesList = response.data._embedded.incomeList;
-
-            incomes = incomesList.map((income) => {
-                return {
-                    id: income.incomeId,
-                    paymentMethod: income.paymentMethod,
-                    narration: income.narration,
-                    incomeType: income.incomeType,
-                    amount: income.amount,
-                    createdBy: income.createdBy,
-                };
-            });
-
-            return incomes;
+            return response.data._embedded.incomeList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -39,7 +24,7 @@ function createIncome(newIncome, axiosPrivate, controller, errorCallback) {
 
 function editIncome(editedIncome, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/ops/incomes/${editedIncome.incomeId}`, editedIncome, {
+        .put(`/ops/incomes/${editedIncome.id}`, editedIncome, {
             signal: controller.signal,
         })
         .then((response) => {
@@ -51,9 +36,9 @@ function editIncome(editedIncome, axiosPrivate, controller, errorCallback) {
         });
 }
 
-function deleteIncome(incomeId, axiosPrivate, controller, errorCallback) {
+function deleteIncome(id, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .delete(`/ops/incomes/${incomeId}`, { signal: controller.signal })
+        .delete(`/ops/incomes/${id}`, { signal: controller.signal })
         .then((response) => {
             return response.data;
         })

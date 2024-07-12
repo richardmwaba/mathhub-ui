@@ -126,6 +126,11 @@ const _nav = [
             },
             {
                 component: CNavItem,
+                name: 'Class Rates',
+                to: '/system-config/class-rates',
+            },
+            {
+                component: CNavItem,
                 name: 'Exam Boards',
                 to: '/system-config/exam-boards',
             },
@@ -133,11 +138,6 @@ const _nav = [
                 component: CNavItem,
                 name: 'Grades',
                 to: '/system-config/grades',
-            },
-            {
-                component: CNavItem,
-                name: 'Lesson Rates',
-                to: '/system-config/lesson-rates',
             },
             {
                 component: CNavItem,

@@ -2,22 +2,7 @@ function getAllLiabilities(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/ops/liabilities', { signal: controller.signal })
         .then((response) => {
-            let liabilities = [];
-
-            const liabilitiesList = response.data._embedded.liabilityList;
-
-            liabilities = liabilitiesList.map((liability) => {
-                return {
-                    id: liability.liabilityId,
-                    paymentMethod: liability.paymentMethod,
-                    narration: liability.narration,
-                    liabilityType: liability.liabilityType,
-                    amount: liability.amount,
-                    createdBy: liability.createdBy,
-                };
-            });
-
-            return liabilities;
+            return response.data._embedded.liabilityList;
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -39,7 +24,7 @@ function createLiability(newLiability, axiosPrivate, controller, errorCallback) 
 
 function editLiability(editedLiability, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/ops/liabilities/${editedLiability.liabilityId}`, editedLiability, {
+        .put(`/ops/liabilities/${editedLiability.id}`, editedLiability, {
             signal: controller.signal,
         })
         .then((response) => {
@@ -51,9 +36,9 @@ function editLiability(editedLiability, axiosPrivate, controller, errorCallback)
         });
 }
 
-function deleteLiability(liabilityId, axiosPrivate, controller, errorCallback) {
+function deleteLiability(id, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .delete(`/ops/liabilities/${liabilityId}`, { signal: controller.signal })
+        .delete(`/ops/liabilities/${id}`, { signal: controller.signal })
         .then((response) => {
             return response.data;
         })

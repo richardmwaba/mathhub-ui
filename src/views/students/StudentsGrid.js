@@ -5,9 +5,11 @@ import { cilArrowThickToBottom } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import StudentsService from 'src/api/sis/students.service.js';
 import { ViewDetailsButton } from 'src/components/common/ViewDetailsButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function StudentsGrid() {
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
     const [currentItems, setCurrentItems] = useState([]);
@@ -31,7 +33,7 @@ export default function StudentsGrid() {
             _style: { width: '10%' },
         },
         {
-            key: 'grade',
+            key: 'gradeName',
             label: 'Grade',
             _style: { width: '10%' },
         },
@@ -41,17 +43,17 @@ export default function StudentsGrid() {
             _style: { width: '10%' },
         },
         {
-            key: 'phone_number',
+            key: 'mobileNumber',
             label: 'Phone Number',
             _style: { width: '15%' },
         },
         {
-            key: 'parents_name',
+            key: 'parentName',
             label: "Parent's Name",
             _style: { width: '15%' },
         },
         {
-            key: 'parents_email',
+            key: 'parentEmail',
             label: "Parent's Email",
             _style: { width: '15%' },
         },
@@ -64,17 +66,18 @@ export default function StudentsGrid() {
         },
     ];
 
+    const handleRowClick = (student) => {
+        setSelectedStudent(student);
+        navigate(`/students/enrolment/${student.name}`, { state: student });
+    };
+
     // get students data from api
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
 
         const getStudents = async () => {
-            const response = await StudentsService.getAllStudents(
-                axiosPrivate,
-                controller,
-                setError,
-            );
+            const response = await StudentsService.getAllStudents(axiosPrivate, controller, setError);
             isMounted && setStudents(response) && setCurrentItems(response);
         };
 
@@ -87,17 +90,29 @@ export default function StudentsGrid() {
         };
     }, [axiosPrivate]);
 
-    const studentsSummary = students.map((student) => {
+    const expandedStudents = students.map((student) => {
         const parent = getStudentsParent(student.parents)[0];
         return {
             id: student.id,
             name: getStudentsFullname(student.firstName, student.middleName, student.lastName),
+            firstName: student.firstName,
+            middleName: student.middleName,
+            lastName: student.lastName,
+            dateOfBirth: student.dateOfBirth,
             gender: student.gender,
-            grade: student.grade ? student.grade.gradeName : '',
-            syllabus: student.examBoard ? student.examBoard.examBoardName : '',
-            phone_number: getStudentsMobileNumber(student.phoneNumbers),
-            parents_name: parent ? parent.parents_name : '',
-            parents_email: parent ? parent.parents_email : '',
+            email: student.email,
+            gradeName: student.grade ? student.grade.name : '',
+            syllabus: student.examBoard ? student.examBoard.name : '',
+            mobileNumber: getStudentsMobileNumber(student.phoneNumbers),
+            parentName: parent ? parent.parentName : '',
+            parentEmail: parent ? parent.parentEmail : '',
+            parents: student.parents,
+            grade: student.grade,
+            classes: student.classes,
+            addresses: student.addresses,
+            examBoard: student.examBoard,
+            phoneNumbers: student.phoneNumbers,
+            financialSummary: student.financialSummary,
         };
     });
 
@@ -116,8 +131,9 @@ export default function StudentsGrid() {
             </CButton>
             <CSmartTable
                 sorterValue={{ column: 'name', state: 'asc' }}
-                items={studentsSummary}
+                items={expandedStudents}
                 columns={columns}
+                clickableRows
                 itemsPerPage={10}
                 columnFilter
                 columnSorter
@@ -127,14 +143,14 @@ export default function StudentsGrid() {
                 itemsPerPageSelect
                 pagination
                 noItemsLabel={
-                    error
-                        ? `Could not retrieve students due to ${error}. Please try again.`
-                        : 'No students found'
+                    error ? `Could not retrieve students due to ${error}. Please try again.` : 'No students found'
                 }
+                onRowClick={(student) => handleRowClick(student)}
                 scopedColumns={{
                     show_details: (currentStudent) => (
                         <ViewDetailsButton
-                            item={students.find((student) => student.id === currentStudent.id)}
+                            item={currentStudent}
+                            detailsLocation={`/students/enrolment/${currentStudent.name}`}
                             setSelectedItem={setSelectedStudent}
                         />
                     ),
@@ -155,17 +171,15 @@ function getStudentsFullname(firstName, middleName, lastName) {
 
 function getStudentsMobileNumber(phoneNumbers) {
     return phoneNumbers.map((phoneNumber) => {
-        return phoneNumber.type === 'MOBILE'
-            ? `${phoneNumber.countryCode} ${phoneNumber.number}`
-            : null;
+        return phoneNumber.type === 'MOBILE' ? `${phoneNumber.countryCode} ${phoneNumber.number}` : null;
     });
 }
 
 function getStudentsParent(parents) {
     return parents.map((parent) => {
         return {
-            parents_name: `${parent.firstName} ${parent.lastName}`,
-            parents_email: parent.email,
+            parentName: `${parent.firstName} ${parent.lastName}`,
+            parentEmail: parent.email,
         };
     });
 }

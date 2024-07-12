@@ -30,7 +30,7 @@ export default function IncomesGrid() {
     const columns = [
         { key: 'narration', label: 'Name', _style: { width: '30%' } },
         {
-            key: 'incomeType',
+            key: 'type',
             label: 'Income Type',
             _style: { width: '30%' },
         },
@@ -74,9 +74,9 @@ export default function IncomesGrid() {
             return {
                 id: income.id,
                 narration: income.narration,
-                incomeType: income.incomeType.typeName,
+                type: income.type.name,
                 amount: income.amount,
-                paymentMethod: income.paymentMethod.typeName,
+                paymentMethod: income.paymentMethod.name,
                 createdBy: income.createdBy,
             };
         });
@@ -93,9 +93,7 @@ export default function IncomesGrid() {
     }, []);
 
     useEffect(() => {
-        const incomeSuccessfullyCreatedToast = (
-            <SuccessToast message={'New income has been created successfully'} />
-        );
+        const incomeSuccessfullyCreatedToast = <SuccessToast message={'New income has been created successfully'} />;
 
         if (createdIncome?.narration) {
             setToast(incomeSuccessfullyCreatedToast);
@@ -103,9 +101,7 @@ export default function IncomesGrid() {
     }, [createdIncome]);
 
     useEffect(() => {
-        const incomeSuccessfullyEditedToast = (
-            <SuccessToast message={'Income has been updated successfully'} />
-        );
+        const incomeSuccessfullyEditedToast = <SuccessToast message={'Income has been updated successfully'} />;
 
         if (savedIncome?.narration) {
             setToast(incomeSuccessfullyEditedToast);
@@ -137,9 +133,7 @@ export default function IncomesGrid() {
                     itemsPerPageSelect
                     pagination
                     noItemsLabel={
-                        error
-                            ? `Could not retrieve incomes due to ${error}. Please try again.`
-                            : 'No incomes found'
+                        error ? `Could not retrieve incomes due to ${error}. Please try again.` : 'No incomes found'
                     }
                     scopedColumns={{
                         show_details: (item) => (

@@ -8,10 +8,10 @@ function getAllSubjects(axiosPrivate, controller, errorCallback) {
 
             subjects = subjectsList.map((subject) => {
                 return {
-                    id: subject.subjectId,
+                    id: subject.id,
                     name: subject.subjectName,
-                    grades: extractGrades(subject.subjectGrades),
-                    complexity: subject.subjectComplexity,
+                    grades: extractGrades(subject.grades),
+                    complexity: subject.complexity,
                 };
             });
 
@@ -37,7 +37,7 @@ function createSubject(newSubject, axiosPrivate, controller, errorCallback) {
 
 function editSubject(editedSubject, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(`/sis/subjects/${editedSubject.subjectId}`, editedSubject, {
+        .put(`/sis/subjects/${editedSubject.id}`, editedSubject, {
             signal: controller.signal,
         })
         .then((response) => {
@@ -49,9 +49,9 @@ function editSubject(editedSubject, axiosPrivate, controller, errorCallback) {
         });
 }
 
-function getSubjectById(subjectId, axiosPrivate, controller, errorCallback) {
+function getSubjectById(id, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .get(`/sis/subjects/${subjectId}`, { signal: controller.signal })
+        .get(`/sis/subjects/${id}`, { signal: controller.signal })
         .then((response) => {
             return response.data;
         })
@@ -65,8 +65,8 @@ function extractGrades(grades) {
     return grades
         .map((grade) => {
             return {
-                id: grade.gradeId,
-                name: Number.parseInt(grade.gradeName),
+                id: grade.id,
+                name: Number.parseInt(grade.name),
             };
         })
         .sort((a, b) => a.name - b.name);

@@ -76,11 +76,11 @@ export default function IncomeTypesGrid() {
     useEffect(() => {
         const incomeTypeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Income type ${createdIncomeType?.typeName} has been created successfully`}
+                message={`Income type ${createdIncomeType?.name} has been created successfully`}
             />
         );
 
-        if (createdIncomeType?.typeName) {
+        if (createdIncomeType?.name) {
             setToast(incomeTypeSuccessfullyCreatedToast);
         }
     }, [createdIncomeType]);
@@ -88,11 +88,11 @@ export default function IncomeTypesGrid() {
     useEffect(() => {
         const incomeTypeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Income type ${savedIncomeType?.typeName} has been updated successfully`}
+                message={`Income type ${savedIncomeType?.name} has been updated successfully`}
             />
         );
 
-        if (savedIncomeType?.typeName) {
+        if (savedIncomeType?.name) {
             setToast(incomeTypeSuccessfullyEditedToast);
         }
     }, [savedIncomeType]);

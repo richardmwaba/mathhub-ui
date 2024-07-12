@@ -34,9 +34,9 @@ export default function NewSubjectForm({
     const subjectNameRef = useRef();
     const errorRef = useRef();
     const defaultSubject = {
-        subjectName: '',
-        subjectGradeIds: [],
-        subjectComplexity: '',
+        name: '',
+        gradeIds: [],
+        complexity: '',
     };
 
     const [allGrades, setAllGrades] = useState([]);
@@ -147,13 +147,13 @@ export default function NewSubjectForm({
                                             label="Name"
                                             required
                                             ref={subjectNameRef}
-                                            value={newSubject.subjectName}
+                                            value={newSubject.name}
                                             aria-describedby="subjectNameInputGroup"
                                             onChange={(e) => {
                                                 setNewSubject((prev) => {
                                                     return {
                                                         ...prev,
-                                                        subjectName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -174,7 +174,7 @@ export default function NewSubjectForm({
                                                     );
                                                     return {
                                                         ...prev,
-                                                        subjectGradeIds: selectedGradesValues,
+                                                        gradeIds: selectedGradesValues,
                                                     };
                                                 });
                                             }}
@@ -189,7 +189,7 @@ export default function NewSubjectForm({
                                                 setNewSubject((prev) => {
                                                     return {
                                                         ...prev,
-                                                        subjectComplexity: e.target.value,
+                                                        complexity: e.target.value,
                                                     };
                                                 });
                                             }}

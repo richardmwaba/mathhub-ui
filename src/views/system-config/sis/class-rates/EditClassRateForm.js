@@ -23,42 +23,42 @@ import {
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
-import LessonRatesService from 'src/api/system-config/sis/lesson-rates.service';
+import ClassRatesService from 'src/api/system-config/sis/class-rates.service';
 import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 import DateUtils from 'src/utils/dateUtils';
 import SubjectsService from 'src/api/sis/subjects.service';
 
-export default function EditLessonRateForm({
-    lessonRate,
+export default function EditClassRateForm({
+    classRate,
     visibility,
-    setEditLessonRateModalVisibility,
-    savedLessonRateCallBack,
+    setEditClassRateModalVisibility,
+    savedClassRateCallBack,
 }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const errorRef = useRef();
-    const defaultLessonRate = {
-        lessonRateId: lessonRate.id,
-        amountPerLesson: lessonRate.amountPerLesson,
-        effectiveDate: lessonRate.effectiveDate,
-        subjectComplexity: lessonRate.subjectComplexity,
-        expiryDate: lessonRate.expiryDate,
+    const defaultClassRate = {
+        id: classRate.id,
+        amount: classRate.amount,
+        effectiveDate: classRate.effectiveDate,
+        subjectComplexity: classRate.subjectComplexity,
+        expiryDate: classRate.expiryDate,
     };
 
-    const [isEditLessonRateFormValidated, setIsEditLessonRateFormValidated] = useState(false);
+    const [isEditClassRateFormValidated, setIsEditClassRateFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [editedLessonRate, setEditedLessonRate] = useState(defaultLessonRate);
+    const [editedClassRate, setEditedClassRate] = useState(defaultClassRate);
     const [subjectComplexities, setSubjectComplexities] = useState([]);
 
     useEffect(() => {
         setSubjectComplexities(SubjectsService.getAllSubjectComplexities());
     }, []);
 
-    const handleEditLessonRate = async (event) => {
-        const editLessonRateForm = event.currentTarget;
+    const handleEditClassRate = async (event) => {
+        const editClassRateForm = event.currentTarget;
 
-        if (editLessonRateForm.checkValidity() === false) {
+        if (editClassRateForm.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         } else {
@@ -66,16 +66,16 @@ export default function EditLessonRateForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await LessonRatesService.editLessonRate(
-                editedLessonRate,
+            await ClassRatesService.editClassRate(
+                editedClassRate,
                 axiosPrivate,
                 controller,
                 setErrorMessage,
             ).then(
                 (response) => {
-                    setEditedLessonRate(defaultLessonRate);
-                    setEditLessonRateModalVisibility(!visibility);
-                    savedLessonRateCallBack(response);
+                    setEditedClassRate(defaultClassRate);
+                    setEditClassRateModalVisibility(!visibility);
+                    savedClassRateCallBack(response);
                 },
                 (error) => {
                     if (!error?.response) {
@@ -89,7 +89,7 @@ export default function EditLessonRateForm({
         }
 
         setIsLoading(false);
-        setIsEditLessonRateFormValidated(true);
+        setIsEditClassRateFormValidated(true);
     };
 
     return (
@@ -97,11 +97,11 @@ export default function EditLessonRateForm({
             backdrop="static"
             alignment="center"
             visible={visibility}
-            onClose={() => setEditLessonRateModalVisibility(!visibility)}
+            onClose={() => setEditClassRateModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
         >
             <CModalHeader>
-                <CModalTitle id="StaticBackdropExampleLabel">Edit Lesson Rate</CModalTitle>
+                <CModalTitle id="StaticBackdropExampleLabel">Edit Class Rate</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CContainer>
@@ -111,27 +111,27 @@ export default function EditLessonRateForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the lesson rate. Please
+                                            An error occured while saving the class rate. Please
                                             try again!
                                         </CFormText>
                                     )}
                                     <CForm
                                         className="needs-validation"
                                         noValidate
-                                        validated={isEditLessonRateFormValidated}
-                                        onSubmit={handleEditLessonRate}
-                                        id="editLessonRateForm"
+                                        validated={isEditClassRateFormValidated}
+                                        onSubmit={handleEditClassRate}
+                                        id="editClassRateForm"
                                     >
-                                        <CFormLabel>Amount Per Lesson</CFormLabel>
+                                        <CFormLabel>Amount Per Class</CFormLabel>
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText>ZMW</CInputGroupText>
                                             <CFormInputWithMask
                                                 mask={parseFloat}
-                                                id="amountPerLesson"
+                                                id="amountPerClass"
                                                 disabled
                                                 type="number"
-                                                value={editedLessonRate.amountPerLesson}
-                                                aria-describedby="amountPerLessonInputGroup"
+                                                value={editedClassRate.amount}
+                                                aria-describedby="amountPerClassInputGroup"
                                             />
                                         </CInputGroup>
                                         <CDatePicker
@@ -145,7 +145,7 @@ export default function EditLessonRateForm({
                                             inputDateFormat={(selectedDate) => {
                                                 return DateUtils.formatDate(selectedDate);
                                             }}
-                                            date={editedLessonRate.effectiveDate}
+                                            date={editedClassRate.effectiveDate}
                                         />
                                         <CDatePicker
                                             className="mb-3"
@@ -157,9 +157,9 @@ export default function EditLessonRateForm({
                                             }}
                                             timepicker
                                             required
-                                            date={editedLessonRate.expiryDate}
+                                            date={editedClassRate.expiryDate}
                                             onDateChange={(selectedDate) => {
-                                                setEditedLessonRate((prev) => {
+                                                setEditedClassRate((prev) => {
                                                     return {
                                                         ...prev,
                                                         expiryDate: selectedDate,
@@ -171,7 +171,7 @@ export default function EditLessonRateForm({
                                             className="mb-3"
                                             label="Subject Complexity"
                                             options={subjectComplexities}
-                                            value={editedLessonRate.subjectComplexity}
+                                            value={editedClassRate.subjectComplexity}
                                             disabled
                                         />
                                     </CForm>
@@ -182,25 +182,25 @@ export default function EditLessonRateForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton color="secondary" onClick={() => setEditLessonRateModalVisibility(false)}>
+                <CButton color="secondary" onClick={() => setEditClassRateModalVisibility(false)}>
                     Cancel
                 </CButton>
                 <CLoadingButton
                     color="primary"
-                    form="editLessonRateForm"
+                    form="editClassRateForm"
                     loading={isLoading}
                     type="submit"
                 >
-                    Save Lesson Rate
+                    Save Class Rate
                 </CLoadingButton>
             </CModalFooter>
         </CModal>
     );
 }
 
-EditLessonRateForm.propTypes = {
-    lessonRate: PropTypes.object.isRequired,
+EditClassRateForm.propTypes = {
+    classRate: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
-    setEditLessonRateModalVisibility: PropTypes.func.isRequired,
-    savedLessonRateCallBack: PropTypes.func.isRequired,
+    setEditClassRateModalVisibility: PropTypes.func.isRequired,
+    savedClassRateCallBack: PropTypes.func.isRequired,
 };

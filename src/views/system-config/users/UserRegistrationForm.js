@@ -42,7 +42,7 @@ export default function UserRegistrationForm({
         gender: '',
         email: '',
         password: '',
-        userRoles: [],
+        roles: [],
     };
 
     const allUserRoles = UsersService.getAllUserRoles();
@@ -245,7 +245,7 @@ export default function UserRegistrationForm({
                                                         );
                                                     return {
                                                         ...prev,
-                                                        userRoles: selectedUserRolesValues,
+                                                        roles: selectedUserRolesValues,
                                                     };
                                                 });
                                             }}

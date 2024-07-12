@@ -11,14 +11,13 @@ export const AppSidebarNav = ({ items }) => {
     const navLink = (name, icon, badge, indent = false) => {
         return (
             <>
-                {icon
-                    ? icon
-                    : indent && (
-                          <span className="nav-icon">
-                              <span className="nav-icon-bullet"></span>
-                          </span>
-                      )}
-                {name && name}
+                {icon ||
+                    (indent && (
+                        <span className="nav-icon">
+                            <span className="nav-icon-bullet"></span>
+                        </span>
+                    ))}
+                {name}
                 {badge && (
                     <CBadge color={badge.color} className="ms-auto">
                         {badge.text}
@@ -58,10 +57,9 @@ export const AppSidebarNav = ({ items }) => {
 
     return (
         <CSidebarNav as={SimpleBar}>
-            {items &&
-                items.map((item, index) =>
-                    item.items ? navGroup(item, index) : navItem(item, index),
-                )}
+            {items?.map((item, index) =>
+                item.items ? navGroup(item, index) : navItem(item, index),
+            )}
         </CSidebarNav>
     );
 };

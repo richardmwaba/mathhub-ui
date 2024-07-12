@@ -4,17 +4,15 @@ import SessionTypesGrid from './SubjectsGrid';
 
 const SessionTypesPage = () => {
     return (
-        <CContainer fluid>
-            <CRow>
-                <CCol xs={{ cols: 12 }}>
-                    <CCard className="mb-4">
-                        <CCardBody>
-                            <SessionTypesGrid />
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-            </CRow>
-        </CContainer>
+        <CRow>
+            <CCol xs={{ cols: 12 }}>
+                <CCard className="mb-4">
+                    <CCardBody>
+                        <SessionTypesGrid />
+                    </CCardBody>
+                </CCard>
+            </CCol>
+        </CRow>
     );
 };
 

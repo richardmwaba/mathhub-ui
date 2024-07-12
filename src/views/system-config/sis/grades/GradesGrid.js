@@ -72,11 +72,11 @@ export default function GradesGrid() {
     useEffect(() => {
         const gradeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Grade ${createdGrade?.gradeName} has been created successfully`}
+                message={`Grade ${createdGrade?.name} has been created successfully`}
             />
         );
 
-        if (createdGrade?.gradeName) {
+        if (createdGrade?.name) {
             setToast(gradeSuccessfullyCreatedToast);
         }
     }, [createdGrade]);
@@ -84,11 +84,11 @@ export default function GradesGrid() {
     useEffect(() => {
         const gradeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Grade ${savedGrade?.gradeName} has been updated successfully`}
+                message={`Grade ${savedGrade?.name} has been updated successfully`}
             />
         );
 
-        if (savedGrade?.gradeName) {
+        if (savedGrade?.name) {
             setToast(gradeSuccessfullyEditedToast);
         }
     }, [savedGrade]);

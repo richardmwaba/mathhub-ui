@@ -76,11 +76,11 @@ export default function LiabilityTypesGrid() {
     useEffect(() => {
         const liabilityTypeSuccessfullyCreatedToast = (
             <SuccessToast
-                message={`Liability type ${createdLiabilityType?.typeName} has been created successfully`}
+                message={`Liability type ${createdLiabilityType?.name} has been created successfully`}
             />
         );
 
-        if (createdLiabilityType?.typeName) {
+        if (createdLiabilityType?.name) {
             setToast(liabilityTypeSuccessfullyCreatedToast);
         }
     }, [createdLiabilityType]);
@@ -88,11 +88,11 @@ export default function LiabilityTypesGrid() {
     useEffect(() => {
         const liabilityTypeSuccessfullyEditedToast = (
             <SuccessToast
-                message={`Liability type ${savedLiabilityType?.typeName} has been updated successfully`}
+                message={`Liability type ${savedLiabilityType?.name} has been updated successfully`}
             />
         );
 
-        if (savedLiabilityType?.typeName) {
+        if (savedLiabilityType?.name) {
             setToast(liabilityTypeSuccessfullyEditedToast);
         }
     }, [savedLiabilityType]);

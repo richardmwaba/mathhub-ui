@@ -30,7 +30,7 @@ export default function EquitiesGrid() {
     const columns = [
         { key: 'narration', label: 'Name', _style: { width: '30%' } },
         {
-            key: 'equityType',
+            key: 'type',
             label: 'Equity Type',
             _style: { width: '30%' },
         },
@@ -74,9 +74,9 @@ export default function EquitiesGrid() {
             return {
                 id: equity.id,
                 narration: equity.narration,
-                equityType: equity.equityType.typeName,
+                type: equity.type.name,
                 amount: equity.amount,
-                paymentMethod: equity.paymentMethod.typeName,
+                paymentMethod: equity.paymentMethod.name,
                 createdBy: equity.createdBy,
             };
         });
@@ -93,9 +93,7 @@ export default function EquitiesGrid() {
     }, []);
 
     useEffect(() => {
-        const equitySuccessfullyCreatedToast = (
-            <SuccessToast message={'New equity has been created successfully'} />
-        );
+        const equitySuccessfullyCreatedToast = <SuccessToast message={'New equity has been created successfully'} />;
 
         if (createdEquity?.narration) {
             setToast(equitySuccessfullyCreatedToast);
@@ -103,9 +101,7 @@ export default function EquitiesGrid() {
     }, [createdEquity]);
 
     useEffect(() => {
-        const equitySuccessfullyEditedToast = (
-            <SuccessToast message={'Equity has been updated successfully'} />
-        );
+        const equitySuccessfullyEditedToast = <SuccessToast message={'Equity has been updated successfully'} />;
 
         if (savedEquity?.narration) {
             setToast(equitySuccessfullyEditedToast);
@@ -137,9 +133,7 @@ export default function EquitiesGrid() {
                     itemsPerPageSelect
                     pagination
                     noItemsLabel={
-                        error
-                            ? `Could not retrieve equities due to ${error}. Please try again.`
-                            : 'No equities found'
+                        error ? `Could not retrieve equities due to ${error}. Please try again.` : 'No equities found'
                     }
                     scopedColumns={{
                         show_details: (item) => (

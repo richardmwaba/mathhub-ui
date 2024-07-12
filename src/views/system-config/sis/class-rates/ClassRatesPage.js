@@ -1,14 +1,14 @@
 import React from 'react';
-import { CCard, CCardBody, CCol, CRow } from '@coreui/react-pro';
-import UsersGrid from './UsersGrid';
+import { CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react-pro';
+import ClassRatesGrid from './ClassRatesGrid';
 
-const UsersPage = () => {
+const LessonRatesPage = () => {
     return (
         <CRow>
             <CCol xs={{ cols: 12 }}>
                 <CCard className="mb-4">
                     <CCardBody>
-                        <UsersGrid />
+                        <ClassRatesGrid />
                     </CCardBody>
                 </CCard>
             </CCol>
@@ -16,4 +16,4 @@ const UsersPage = () => {
     );
 };
 
-export default UsersPage;
+export default LessonRatesPage;

@@ -1,42 +1,32 @@
+import { exact } from 'prop-types';
 import React from 'react';
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
+
+// Enrolment
 const Students = React.lazy(() => import('./views/students/StudentsPage'));
+const StudentDetails = React.lazy(() => import('./views/students/StudentDetails'));
+
+// Cashbook
 const CashbookSummary = React.lazy(() => import('./views/cashbook/summary/CashbookSummaryPage'));
 const Assets = React.lazy(() => import('./views/cashbook/business-assets/AssetsPage'));
 const Expenses = React.lazy(() => import('./views/cashbook/expenses/ExpensesPage'));
 const Incomes = React.lazy(() => import('./views/cashbook/incomes/IncomesPage'));
 const Liabilities = React.lazy(() => import('./views/cashbook/liabilities/LiabilitiesPage'));
 const Equities = React.lazy(() => import('./views/cashbook/equity/EquitiesPage'));
-const PaymentMethods = React.lazy(
-    () => import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'),
-);
-const AssetTypes = React.lazy(
-    () => import('./views/system-config/cashbook/asset-types/AssetTypesPage'),
-);
-const EquityTypes = React.lazy(
-    () => import('./views/system-config/cashbook/equity-types/EquityTypesPage'),
-);
-const ExpenseTypes = React.lazy(
-    () => import('./views/system-config/cashbook/expense-types/ExpenseTypesPage'),
-);
-const IncomeTypes = React.lazy(
-    () => import('./views/system-config/cashbook/income-types/IncomeTypesPage'),
-);
-const LiabilityTypes = React.lazy(
-    () => import('./views/system-config/cashbook/liability-types/LiabilityTypesPage'),
-);
-const AssessmentTypes = React.lazy(
-    () => import('./views/system-config/sis/assessment-types/AssessmentTypesPage'),
-);
+
+// System Configuration
+const PaymentMethods = React.lazy(() => import('./views/system-config/cashbook/payment-methods/PaymentMethodsPage'));
+const AssetTypes = React.lazy(() => import('./views/system-config/cashbook/asset-types/AssetTypesPage'));
+const EquityTypes = React.lazy(() => import('./views/system-config/cashbook/equity-types/EquityTypesPage'));
+const ExpenseTypes = React.lazy(() => import('./views/system-config/cashbook/expense-types/ExpenseTypesPage'));
+const IncomeTypes = React.lazy(() => import('./views/system-config/cashbook/income-types/IncomeTypesPage'));
+const LiabilityTypes = React.lazy(() => import('./views/system-config/cashbook/liability-types/LiabilityTypesPage'));
+const AssessmentTypes = React.lazy(() => import('./views/system-config/sis/assessment-types/AssessmentTypesPage'));
 const ExamBoards = React.lazy(() => import('./views/system-config/sis/exam-boards/ExamBoardsPage'));
 const Grades = React.lazy(() => import('./views/system-config/sis/grades/GradesPage'));
-const LessonRates = React.lazy(
-    () => import('./views/system-config/sis/lesson-rates/LessonRatesPage'),
-);
-const SessionTypes = React.lazy(
-    () => import('./views/system-config/sis/session-types/SessionTypesPage'),
-);
+const ClassRates = React.lazy(() => import('./views/system-config/sis/class-rates/ClassRatesPage'));
+const SessionTypes = React.lazy(() => import('./views/system-config/sis/session-types/SessionTypesPage'));
 const Subjects = React.lazy(() => import('./views/system-config/sis/subjects/SubjectsPage'));
 const Users = React.lazy(() => import('./views/system-config/users/UsersPage'));
 
@@ -60,6 +50,12 @@ const routes = [
     },
     { path: '/students', name: 'Students', element: Students, exact: true },
     { path: '/students/enrolment', name: 'Enrolment', element: Students, exact: true },
+    {
+        path: '/students/enrolment/:name',
+        name: 'Student Details',
+        element: StudentDetails,
+        exact: true,
+    },
     { path: '/cashbook', name: 'Cashbook', element: CashbookSummary, exact: true },
     { path: '/cashbook/assets', name: 'Assets', element: Assets, exact: true },
     { path: '/cashbook/equities', name: 'Equities', element: Equities, exact: true },
@@ -122,9 +118,9 @@ const routes = [
         exact: true,
     },
     {
-        path: '/system-config/lesson-rates',
-        name: 'Lesson Rates',
-        element: LessonRates,
+        path: '/system-config/class-rates',
+        name: 'Class Rates',
+        element: ClassRates,
         exact: true,
     },
     {

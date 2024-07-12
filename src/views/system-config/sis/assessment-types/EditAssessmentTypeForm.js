@@ -31,9 +31,9 @@ export default function EditAssessmentTypeForm({
     const assessmentTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultAssessmentType = {
-        assessmentTypeId: assessmentType.id,
-        typeName: assessmentType.name,
-        typeDescription: assessmentType.description,
+        id: assessmentType.id,
+        name: assessmentType.name,
+        description: assessmentType.description,
     };
 
     const [isEditAssessmentTypeFormValidated, setIsEditAssessmentTypeFormValidated] =
@@ -121,13 +121,13 @@ export default function EditAssessmentTypeForm({
                                             label="Name"
                                             required
                                             ref={assessmentTypeNameRef}
-                                            value={editedAssessmentType.typeName}
+                                            value={editedAssessmentType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setEditedAssessmentType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -139,12 +139,12 @@ export default function EditAssessmentTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={editedAssessmentType.typeDescription}
+                                            value={editedAssessmentType.description}
                                             onChange={(e) => {
                                                 setEditedAssessmentType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

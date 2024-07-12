@@ -30,8 +30,8 @@ export default function NewSessionTypeForm({
     const sessionTypeNameRef = useRef();
     const errorRef = useRef();
     const defaultSessionType = {
-        typeName: '',
-        typeDescription: '',
+        name: '',
+        description: '',
     };
 
     const [isCreateSessionTypeFormValidated, setIsCreateSessionTypeFormValidated] = useState(false);
@@ -118,13 +118,13 @@ export default function NewSessionTypeForm({
                                             label="Name"
                                             required
                                             ref={sessionTypeNameRef}
-                                            value={newSessionType.typeName}
+                                            value={newSessionType.name}
                                             aria-describedby="typeNameInputGroup"
                                             onChange={(e) => {
                                                 setNewSessionType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeName: e.target.value,
+                                                        name: e.target.value,
                                                     };
                                                 });
                                             }}
@@ -136,12 +136,12 @@ export default function NewSessionTypeForm({
                                             id="typeDescription"
                                             label="Description"
                                             required
-                                            value={newSessionType.typeDescription}
+                                            value={newSessionType.description}
                                             onChange={(e) => {
                                                 setNewSessionType((prev) => {
                                                     return {
                                                         ...prev,
-                                                        typeDescription: e.target.value,
+                                                        description: e.target.value,
                                                     };
                                                 });
                                             }}

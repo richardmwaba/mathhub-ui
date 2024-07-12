@@ -6,14 +6,14 @@ function getAllStudents(axiosPrivate, controller, errorCallback) {
 
             return studentsList.map((detailedStudent) => {
                 return {
-                    id: detailedStudent.studentId,
+                    id: detailedStudent.id,
                     firstName: detailedStudent.firstName,
                     middleName: detailedStudent.middleName,
                     lastName: detailedStudent.lastName,
                     gender: detailedStudent.gender,
                     parents: detailedStudent.parents,
                     grade: detailedStudent.grade,
-                    lessons: detailedStudent.lessons,
+                    classes: detailedStudent.classes,
                     email: detailedStudent.email,
                     addresses: detailedStudent.addresses,
                     examBoard: detailedStudent.examBoard,
