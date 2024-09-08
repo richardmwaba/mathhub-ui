@@ -2,13 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import {
-    CCloseButton,
-    CSidebar,
-    CSidebarBrand,
-    CSidebarHeader,
-    CSidebarToggler,
-} from '@coreui/react-pro';
+import { CCloseButton, CSidebar, CSidebarBrand, CSidebarHeader, CSidebarToggler } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
 
 import { AppSidebarNav } from './AppSidebarNav';
@@ -44,9 +38,7 @@ const AppSidebar = () => {
                     dark
                     onClick={() => dispatch({ type: 'set', sidebarShow: false })}
                 />
-                <CSidebarToggler
-                    onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-                />
+                <CSidebarToggler onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })} />
             </CSidebarHeader>
             <AppSidebarNav items={navigation} />
         </CSidebar>

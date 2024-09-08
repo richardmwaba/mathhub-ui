@@ -20,12 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import GradesService from 'src/api/sis/grades.service';
 
-export default function EditGradeForm({
-    grade,
-    visibility,
-    setEditGradeModalVisibility,
-    savedGradeCallBack,
-}) {
+export default function EditGradeForm({ grade, visibility, setEditGradeModalVisibility, savedGradeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const gradeNameRef = useRef();
@@ -56,12 +51,7 @@ export default function EditGradeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await GradesService.editGrade(
-                editedGrade,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await GradesService.editGrade(editedGrade, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedGrade(defaultGrade);
                     setEditGradeModalVisibility(!visibility);
@@ -101,8 +91,7 @@ export default function EditGradeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the grade. Please try
-                                            again!
+                                            An error occured while saving the grade. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -159,12 +148,7 @@ export default function EditGradeForm({
                 <CButton color="secondary" onClick={() => setEditGradeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editGradeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editGradeForm" loading={isLoading} type="submit">
                     Save Grade
                 </CLoadingButton>
             </CModalFooter>

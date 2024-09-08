@@ -44,11 +44,7 @@ export default function IncomeTypesGrid() {
     ];
 
     const getIncomeTypes = async () => {
-        const response = await IncomeTypesService.getAllIncomeTypes(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await IncomeTypesService.getAllIncomeTypes(axiosPrivate, controller, setError);
         isMounted && setIncomeTypes(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function IncomeTypesGrid() {
 
     useEffect(() => {
         const incomeTypeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Income type ${createdIncomeType?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Income type ${createdIncomeType?.name} has been created successfully`} />
         );
 
         if (createdIncomeType?.name) {
@@ -87,9 +81,7 @@ export default function IncomeTypesGrid() {
 
     useEffect(() => {
         const incomeTypeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Income type ${savedIncomeType?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Income type ${savedIncomeType?.name} has been updated successfully`} />
         );
 
         if (savedIncomeType?.name) {

@@ -48,18 +48,14 @@ export const AppSidebarNav = ({ items }) => {
         const Component = component;
         return (
             <Component compact as="div" key={index} toggler={navLink(name, icon)} {...rest}>
-                {item.items?.map((item, index) =>
-                    item.items ? navGroup(item, index) : navItem(item, index, true),
-                )}
+                {item.items?.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index, true)))}
             </Component>
         );
     };
 
     return (
         <CSidebarNav as={SimpleBar}>
-            {items?.map((item, index) =>
-                item.items ? navGroup(item, index) : navItem(item, index),
-            )}
+            {items?.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
         </CSidebarNav>
     );
 };

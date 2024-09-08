@@ -101,12 +101,7 @@ export default function EditLiabilityForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await LiabilitiesService.editLiability(
-                editedLiability,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await LiabilitiesService.editLiability(editedLiability, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedLiability(defaultLiability);
                     setEditLiabilityModalVisibility(!visibility);
@@ -164,8 +159,7 @@ export default function EditLiabilityForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the liability type. Please
-                                            try again!
+                                            An error occured while saving the liability type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -197,9 +191,7 @@ export default function EditLiabilityForm({
                                             className="mb-3"
                                             placeholder="Select liability type..."
                                             autoComplete="off"
-                                            options={liabilityTypesWithPlaceholder(
-                                                allLiabilityTypes,
-                                            )}
+                                            options={liabilityTypesWithPlaceholder(allLiabilityTypes)}
                                             id="liabilityType"
                                             label="Type"
                                             required
@@ -238,9 +230,7 @@ export default function EditLiabilityForm({
                                             className="mb-3"
                                             placeholder="Select payment method..."
                                             autoComplete="off"
-                                            options={paymentMethodsWithPlaceholder(
-                                                allPaymentMethods,
-                                            )}
+                                            options={paymentMethodsWithPlaceholder(allPaymentMethods)}
                                             id="paymentMethod"
                                             label="Payment Method"
                                             required
@@ -265,12 +255,7 @@ export default function EditLiabilityForm({
                 <CButton color="secondary" onClick={() => setEditLiabilityModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editLiabilityForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editLiabilityForm" loading={isLoading} type="submit">
                     Save Liability
                 </CLoadingButton>
             </CModalFooter>

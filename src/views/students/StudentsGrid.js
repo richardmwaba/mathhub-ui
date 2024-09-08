@@ -68,7 +68,7 @@ export default function StudentsGrid() {
 
     const handleRowClick = (student) => {
         setSelectedStudent(student);
-        navigate(`/students/enrolment/${student.name}`, { state: student });
+        navigate(`/students/enrolment/${student.id}`, { state: student });
     };
 
     // get students data from api
@@ -91,10 +91,10 @@ export default function StudentsGrid() {
     }, [axiosPrivate]);
 
     const expandedStudents = students.map((student) => {
-        const parent = getStudentsParent(student.parents)[0];
+        const parent = StudentsService.getStudentsParent(student.parents)[0];
         return {
             id: student.id,
-            name: getStudentsFullname(student.firstName, student.middleName, student.lastName),
+            name: StudentsService.getStudentsFullname(student.firstName, student.middleName, student.lastName),
             firstName: student.firstName,
             middleName: student.middleName,
             lastName: student.lastName,
@@ -103,7 +103,7 @@ export default function StudentsGrid() {
             email: student.email,
             gradeName: student.grade ? student.grade.name : '',
             syllabus: student.examBoard ? student.examBoard.name : '',
-            mobileNumber: getStudentsMobileNumber(student.phoneNumbers),
+            mobileNumber: StudentsService.getStudentsMobileNumber(student.phoneNumbers),
             parentName: parent ? parent.parentName : '',
             parentEmail: parent ? parent.parentEmail : '',
             parents: student.parents,
@@ -150,7 +150,7 @@ export default function StudentsGrid() {
                     show_details: (currentStudent) => (
                         <ViewDetailsButton
                             item={currentStudent}
-                            detailsLocation={`/students/enrolment/${currentStudent.name}`}
+                            detailsLocation={`/students/enrolment/${currentStudent.id}`}
                             setSelectedItem={setSelectedStudent}
                         />
                     ),
@@ -163,23 +163,4 @@ export default function StudentsGrid() {
             />
         </CCardBody>
     );
-}
-
-function getStudentsFullname(firstName, middleName, lastName) {
-    return middleName ? `${firstName} ${middleName} ${lastName}` : `${firstName} ${lastName}`;
-}
-
-function getStudentsMobileNumber(phoneNumbers) {
-    return phoneNumbers.map((phoneNumber) => {
-        return phoneNumber.type === 'MOBILE' ? `${phoneNumber.countryCode} ${phoneNumber.number}` : null;
-    });
-}
-
-function getStudentsParent(parents) {
-    return parents.map((parent) => {
-        return {
-            parentName: `${parent.firstName} ${parent.lastName}`,
-            parentEmail: parent.email,
-        };
-    });
 }

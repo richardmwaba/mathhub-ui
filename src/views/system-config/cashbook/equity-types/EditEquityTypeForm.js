@@ -56,12 +56,7 @@ export default function EditEquityTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await EquityTypesService.editEquityType(
-                editedEquityType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await EquityTypesService.editEquityType(editedEquityType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedEquityType(defaultEquityType);
                     setEditEquityTypeModalVisibility(!visibility);
@@ -101,8 +96,7 @@ export default function EditEquityTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the equity type. Please
-                                            try again!
+                                            An error occured while saving the equity type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -159,12 +153,7 @@ export default function EditEquityTypeForm({
                 <CButton color="secondary" onClick={() => setEditEquityTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editEquityTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editEquityTypeForm" loading={isLoading} type="submit">
                     Save Equity Type
                 </CLoadingButton>
             </CModalFooter>

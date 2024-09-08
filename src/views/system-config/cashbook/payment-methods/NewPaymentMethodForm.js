@@ -34,8 +34,7 @@ export default function NewPaymentMethodForm({
         description: '',
     };
 
-    const [isCreatePaymentMethodFormValidated, setIsCreatePaymentMethodFormValidated] =
-        useState(false);
+    const [isCreatePaymentMethodFormValidated, setIsCreatePaymentMethodFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [newPaymentMethod, setNewPaymentMethod] = useState(defaultPaymentMethod);
@@ -100,8 +99,7 @@ export default function NewPaymentMethodForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new payment method.
-                                            Please try again!
+                                            An error occured while saving the new payment method. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -158,12 +156,7 @@ export default function NewPaymentMethodForm({
                 <CButton color="secondary" onClick={() => setPaymentMethodModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewPaymentMethodForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewPaymentMethodForm" loading={isLoading} type="submit">
                     Save Payment Method
                 </CLoadingButton>
             </CModalFooter>

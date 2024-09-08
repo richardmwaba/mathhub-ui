@@ -28,11 +28,7 @@ import LiabilityTypesService from 'src/api/system-config/cashbook/liability-type
 import PaymentMethodsService from 'src/api/system-config/cashbook/payment-methods.service';
 import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
-export default function NewLiabilityForm({
-    visibility,
-    setLiabilityModalVisibility,
-    createdLiabilityCallBack,
-}) {
+export default function NewLiabilityForm({ visibility, setLiabilityModalVisibility, createdLiabilityCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const liabilityNameRef = useRef();
@@ -65,10 +61,7 @@ export default function NewLiabilityForm({
         const allLiabilityTypes = liabilityTypes.map((liabilityType) => {
             return { value: liabilityType.id, label: liabilityType.name };
         });
-        const liabilityTypesWithPlaceholder = [
-            { value: '', label: 'Select liability type...' },
-            ...allLiabilityTypes,
-        ];
+        const liabilityTypesWithPlaceholder = [{ value: '', label: 'Select liability type...' }, ...allLiabilityTypes];
         isMounted && setAllLiabilityTypes(liabilityTypesWithPlaceholder);
     };
 
@@ -81,10 +74,7 @@ export default function NewLiabilityForm({
         const allPaymentMethods = paymentMethods.map((paymentMethod) => {
             return { value: paymentMethod.id, label: paymentMethod.name };
         });
-        const paymentMethodsWithPlaceholder = [
-            { value: '', label: 'Select payment method...' },
-            ...allPaymentMethods,
-        ];
+        const paymentMethodsWithPlaceholder = [{ value: '', label: 'Select payment method...' }, ...allPaymentMethods];
         isMounted && setAllPaymentMethods(paymentMethodsWithPlaceholder);
     };
 
@@ -99,12 +89,7 @@ export default function NewLiabilityForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await LiabilitiesService.createLiability(
-                newLiability,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await LiabilitiesService.createLiability(newLiability, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewLiability(defaultLiability);
                     setLiabilityModalVisibility(!visibility);
@@ -162,8 +147,7 @@ export default function NewLiabilityForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new liability. Please
-                                            try again!
+                                            An error occured while saving the new liability. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -259,12 +243,7 @@ export default function NewLiabilityForm({
                 <CButton color="secondary" onClick={() => setLiabilityModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewLiabilityForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewLiabilityForm" loading={isLoading} type="submit">
                     Save Liability
                 </CLoadingButton>
             </CModalFooter>

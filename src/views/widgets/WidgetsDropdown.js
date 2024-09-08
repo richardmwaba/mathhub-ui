@@ -2,15 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import {
-    CRow,
-    CCol,
-    CDropdown,
-    CDropdownMenu,
-    CDropdownItem,
-    CDropdownToggle,
-    CWidgetStatsA,
-} from '@coreui/react-pro';
+import { CRow, CCol, CDropdown, CDropdownMenu, CDropdownItem, CDropdownToggle, CWidgetStatsA } from '@coreui/react-pro';
 import { getStyle } from '@coreui/utils';
 import { CChartBar, CChartLine } from '@coreui/react-chartjs';
 import CIcon from '@coreui/icons-react';
@@ -25,16 +17,14 @@ const WidgetsDropdown = (props) => {
         document.documentElement.addEventListener('ColorSchemeChange', () => {
             if (widgetChartRef1.current) {
                 setTimeout(() => {
-                    widgetChartRef1.current.data.datasets[0].pointBackgroundColor =
-                        getStyle('--cui-primary');
+                    widgetChartRef1.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-primary');
                     widgetChartRef1.current.update();
                 });
             }
 
             if (widgetChartRef2.current) {
                 setTimeout(() => {
-                    widgetChartRef2.current.data.datasets[0].pointBackgroundColor =
-                        getStyle('--cui-info');
+                    widgetChartRef2.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-info');
                     widgetChartRef2.current.update();
                 });
             }
@@ -57,11 +47,7 @@ const WidgetsDropdown = (props) => {
                     title={t('users')}
                     action={
                         <CDropdown alignment="end">
-                            <CDropdownToggle
-                                color="transparent"
-                                caret={false}
-                                className="text-white p-0"
-                            >
+                            <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
@@ -158,11 +144,7 @@ const WidgetsDropdown = (props) => {
                     title={t('income')}
                     action={
                         <CDropdown alignment="end">
-                            <CDropdownToggle
-                                color="transparent"
-                                caret={false}
-                                className="text-white p-0"
-                            >
+                            <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
@@ -258,11 +240,7 @@ const WidgetsDropdown = (props) => {
                     title={t('conversionRate')}
                     action={
                         <CDropdown alignment="end">
-                            <CDropdownToggle
-                                color="transparent"
-                                caret={false}
-                                className="text-white p-0"
-                            >
+                            <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
@@ -342,11 +320,7 @@ const WidgetsDropdown = (props) => {
                     title={t('sessions')}
                     action={
                         <CDropdown alignment="end">
-                            <CDropdownToggle
-                                color="transparent"
-                                caret={false}
-                                className="text-white p-0"
-                            >
+                            <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
@@ -385,10 +359,7 @@ const WidgetsDropdown = (props) => {
                                         label: 'My First dataset',
                                         backgroundColor: 'rgba(255,255,255,.2)',
                                         borderColor: 'rgba(255,255,255,.55)',
-                                        data: [
-                                            78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84,
-                                            67, 82,
-                                        ],
+                                        data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
                                         barPercentage: 0.6,
                                     },
                                 ],

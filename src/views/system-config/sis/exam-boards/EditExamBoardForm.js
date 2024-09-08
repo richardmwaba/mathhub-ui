@@ -56,12 +56,7 @@ export default function EditExamBoardForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ExamBoardsService.editExamBoard(
-                editedExamBoard,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await ExamBoardsService.editExamBoard(editedExamBoard, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedExamBoard(defaultExamBoard);
                     setEditExamBoardModalVisibility(!visibility);
@@ -101,8 +96,7 @@ export default function EditExamBoardForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the exam board. Please try
-                                            again!
+                                            An error occured while saving the exam board. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -159,12 +153,7 @@ export default function EditExamBoardForm({
                 <CButton color="secondary" onClick={() => setEditExamBoardModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editExamBoardForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editExamBoardForm" loading={isLoading} type="submit">
                     Save Exam Board
                 </CLoadingButton>
             </CModalFooter>

@@ -44,11 +44,7 @@ export default function AssessmentTypesGrid() {
     ];
 
     const getAssessmentTypes = async () => {
-        const response = await AssessmentTypesService.getAllAssessmentTypes(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await AssessmentTypesService.getAllAssessmentTypes(axiosPrivate, controller, setError);
         isMounted && setAssessmentTypes(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function AssessmentTypesGrid() {
 
     useEffect(() => {
         const assessmentTypeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Assessment type ${createdAssessmentType?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Assessment type ${createdAssessmentType?.name} has been created successfully`} />
         );
 
         if (createdAssessmentType?.name) {
@@ -87,9 +81,7 @@ export default function AssessmentTypesGrid() {
 
     useEffect(() => {
         const assessmentTypeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Assessment type ${savedAssessmentType?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Assessment type ${savedAssessmentType?.name} has been updated successfully`} />
         );
 
         if (savedAssessmentType?.name) {
@@ -105,9 +97,7 @@ export default function AssessmentTypesGrid() {
                     className="mb-2"
                     variant="outline"
                     size="sm"
-                    onClick={() =>
-                        setIsVisibleNewAssessmentTypeModal(!isVisibleNewAssessmentTypeModal)
-                    }
+                    onClick={() => setIsVisibleNewAssessmentTypeModal(!isVisibleNewAssessmentTypeModal)}
                 >
                     <CIcon icon={cilPlus} title="Add New Assessment Type" /> Add New Assessment Type
                 </CButton>
@@ -149,9 +139,7 @@ export default function AssessmentTypesGrid() {
                 <NewAssessmentTypeForm
                     visibility={isVisibleNewAssessmentTypeModal}
                     setAssessmentTypeModalVisibility={setIsVisibleNewAssessmentTypeModal}
-                    createdAssessmentTypeCallBack={
-                        setCreatedAssessmentTypeAndRefreshAssessmentTypes
-                    }
+                    createdAssessmentTypeCallBack={setCreatedAssessmentTypeAndRefreshAssessmentTypes}
                 />
             )}
             {isVisibleEditAssessmentTypeModal && (
@@ -162,11 +150,7 @@ export default function AssessmentTypesGrid() {
                     savedAssessmentTypeCallBack={setSavedAssessmentTypeAndRefreshAssessmentTypes}
                 />
             )}
-            <CToaster
-                ref={assessmentTypeActionSuccessToasterRef}
-                push={toast}
-                placement="bottom-end"
-            />
+            <CToaster ref={assessmentTypeActionSuccessToasterRef} push={toast} placement="bottom-end" />
         </>
     );
 }

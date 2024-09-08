@@ -44,11 +44,7 @@ export default function SessionTypesGrid() {
     ];
 
     const getSessionTypes = async () => {
-        const response = await SessionTypesService.getAllSessionTypes(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await SessionTypesService.getAllSessionTypes(axiosPrivate, controller, setError);
         isMounted && setSessionTypes(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function SessionTypesGrid() {
 
     useEffect(() => {
         const sessionTypeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Session type ${createdSessionType?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Session type ${createdSessionType?.name} has been created successfully`} />
         );
 
         if (createdSessionType?.name) {
@@ -87,9 +81,7 @@ export default function SessionTypesGrid() {
 
     useEffect(() => {
         const sessionTypeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Session type ${savedSessionType?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Session type ${savedSessionType?.name} has been updated successfully`} />
         );
 
         if (savedSessionType?.name) {
@@ -158,11 +150,7 @@ export default function SessionTypesGrid() {
                     savedSessionTypeCallBack={setSavedSessionTypeAndRefreshSessionTypes}
                 />
             )}
-            <CToaster
-                ref={sessionTypeActionSuccessToasterRef}
-                push={toast}
-                placement="bottom-end"
-            />
+            <CToaster ref={sessionTypeActionSuccessToasterRef} push={toast} placement="bottom-end" />
         </>
     );
 }

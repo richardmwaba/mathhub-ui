@@ -44,11 +44,7 @@ export default function ExamBoardsGrid() {
     ];
 
     const getExamBoards = async () => {
-        const response = await ExamBoardsService.getAllExamBoards(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await ExamBoardsService.getAllExamBoards(axiosPrivate, controller, setError);
         isMounted && setExamBoards(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function ExamBoardsGrid() {
 
     useEffect(() => {
         const examBoardSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Exam board ${createdExamBoard?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Exam board ${createdExamBoard?.name} has been created successfully`} />
         );
 
         if (createdExamBoard?.name) {
@@ -87,9 +81,7 @@ export default function ExamBoardsGrid() {
 
     useEffect(() => {
         const examBoardSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Exam board ${savedExamBoard?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Exam board ${savedExamBoard?.name} has been updated successfully`} />
         );
 
         if (savedExamBoard?.name) {

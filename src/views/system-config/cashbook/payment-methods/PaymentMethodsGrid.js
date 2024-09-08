@@ -44,11 +44,7 @@ export default function PaymentMethodsGrid() {
     ];
 
     const getPaymentMethods = async () => {
-        const response = await PaymentMethodsService.getAllPaymentMethods(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await PaymentMethodsService.getAllPaymentMethods(axiosPrivate, controller, setError);
         isMounted && setPaymentMethods(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function PaymentMethodsGrid() {
 
     useEffect(() => {
         const paymentMethodSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Payment method ${createdPaymentMethod?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Payment method ${createdPaymentMethod?.name} has been created successfully`} />
         );
 
         if (createdPaymentMethod?.name) {
@@ -87,9 +81,7 @@ export default function PaymentMethodsGrid() {
 
     useEffect(() => {
         const paymentMethodSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Payment method ${savedPaymentMethod?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Payment method ${savedPaymentMethod?.name} has been updated successfully`} />
         );
 
         if (savedPaymentMethod?.name) {
@@ -105,9 +97,7 @@ export default function PaymentMethodsGrid() {
                     className="mb-2"
                     variant="outline"
                     size="sm"
-                    onClick={() =>
-                        setIsVisibleNewPaymentMethodModal(!isVisibleNewPaymentMethodModal)
-                    }
+                    onClick={() => setIsVisibleNewPaymentMethodModal(!isVisibleNewPaymentMethodModal)}
                 >
                     <CIcon icon={cilPlus} title="Add New Asset Type" /> Add New Payment Method
                 </CButton>
@@ -160,11 +150,7 @@ export default function PaymentMethodsGrid() {
                     savedPaymentMethodCallBack={setSavedPaymentMethodAndRefreshPaymentMethods}
                 />
             )}
-            <CToaster
-                ref={paymentMethodActionSuccessToasterRef}
-                push={toast}
-                placement="bottom-end"
-            />
+            <CToaster ref={paymentMethodActionSuccessToasterRef} push={toast} placement="bottom-end" />
         </>
     );
 }

@@ -20,11 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import GradesService from 'src/api/sis/grades.service';
 
-export default function NewGradeForm({
-    visibility,
-    setGradeModalVisibility,
-    createdGradeCallBack,
-}) {
+export default function NewGradeForm({ visibility, setGradeModalVisibility, createdGradeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const gradeNameRef = useRef();
@@ -54,12 +50,7 @@ export default function NewGradeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await GradesService.createGrade(
-                newGrade,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await GradesService.createGrade(newGrade, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewGrade(defaultGrade);
                     setGradeModalVisibility(!visibility);
@@ -99,8 +90,7 @@ export default function NewGradeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new grade. Please try
-                                            again!
+                                            An error occured while saving the new grade. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,12 +147,7 @@ export default function NewGradeForm({
                 <CButton color="secondary" onClick={() => setGradeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewGradeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewGradeForm" loading={isLoading} type="submit">
                     Save Grade
                 </CLoadingButton>
             </CModalFooter>

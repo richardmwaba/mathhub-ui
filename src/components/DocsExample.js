@@ -25,9 +25,7 @@ const DocsExample = (props) => {
                     </CNavLink>
                 </CNavItem>
             </CNav>
-            <CTabContent
-                className={`rounded-bottom ${tabContentClassName ? tabContentClassName : ''}`}
-            >
+            <CTabContent className={`rounded-bottom ${tabContentClassName ? tabContentClassName : ''}`}>
                 <CTabPane className="p-3 preview" visible>
                     {children}
                 </CTabPane>

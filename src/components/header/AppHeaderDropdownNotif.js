@@ -10,14 +10,7 @@ import {
     CProgress,
 } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
-import {
-    cilBasket,
-    cilBell,
-    cilChartPie,
-    cilSpeedometer,
-    cilUserFollow,
-    cilUserUnfollow,
-} from '@coreui/icons';
+import { cilBasket, cilBell, cilChartPie, cilSpeedometer, cilUserFollow, cilUserUnfollow } from '@coreui/icons';
 
 const AppHeaderDropdownNotif = () => {
     const { t } = useTranslation();
@@ -27,12 +20,7 @@ const AppHeaderDropdownNotif = () => {
             <CDropdownToggle caret={false}>
                 <span className="d-inline-block my-1 mx-2 position-relative">
                     <CIcon icon={cilBell} size="lg" />
-                    <CBadge
-                        color="danger"
-                        position="top-end"
-                        shape="rounded-circle"
-                        className="p-1"
-                    >
+                    <CBadge color="danger" position="top-end" shape="rounded-circle" className="p-1">
                         <span className="visually-hidden">{itemsCount} new alerts</span>
                     </CBadge>
                 </span>
@@ -42,22 +30,19 @@ const AppHeaderDropdownNotif = () => {
                     {t('notificationsCounter', { counter: itemsCount })}
                 </CDropdownHeader>
                 <CDropdownItem>
-                    <CIcon icon={cilUserFollow} className="me-2 text-success" />{' '}
-                    {t('newUserRegistered')}
+                    <CIcon icon={cilUserFollow} className="me-2 text-success" /> {t('newUserRegistered')}
                 </CDropdownItem>
                 <CDropdownItem>
                     <CIcon icon={cilUserUnfollow} className="me-2 text-danger" /> {t('userDeleted')}
                 </CDropdownItem>
                 <CDropdownItem>
-                    <CIcon icon={cilChartPie} className="me-2 text-info" />{' '}
-                    {t('salesReportIsReady')}
+                    <CIcon icon={cilChartPie} className="me-2 text-info" /> {t('salesReportIsReady')}
                 </CDropdownItem>
                 <CDropdownItem>
                     <CIcon icon={cilBasket} className="me-2 text-primary" /> {t('newClient')}
                 </CDropdownItem>
                 <CDropdownItem>
-                    <CIcon icon={cilSpeedometer} className="me-2 text-warning" />{' '}
-                    {t('serverOverloaded')}
+                    <CIcon icon={cilSpeedometer} className="me-2 text-warning" /> {t('serverOverloaded')}
                 </CDropdownItem>
                 <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold my-2">
                     {t('server')}

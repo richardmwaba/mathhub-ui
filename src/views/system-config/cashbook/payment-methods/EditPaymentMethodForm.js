@@ -101,8 +101,7 @@ export default function EditPaymentMethodForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the payment method. Please
-                                            try again!
+                                            An error occured while saving the payment method. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -156,18 +155,10 @@ export default function EditPaymentMethodForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton
-                    color="secondary"
-                    onClick={() => setEditPaymentMethodModalVisibility(false)}
-                >
+                <CButton color="secondary" onClick={() => setEditPaymentMethodModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editPaymentMethodForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editPaymentMethodForm" loading={isLoading} type="submit">
                     Save Payment Method
                 </CLoadingButton>
             </CModalFooter>

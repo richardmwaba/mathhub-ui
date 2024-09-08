@@ -22,29 +22,15 @@ import {
     CFormSelect,
 } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
-import {
-    cilChevronCircleDownAlt,
-    cilChevronCircleUpAlt,
-    cilLockLocked,
-    cilPhone,
-    cilUser,
-    cilWc,
-} from '@coreui/icons';
+import { cilChevronCircleDownAlt, cilChevronCircleUpAlt, cilLockLocked, cilPhone, cilUser, cilWc } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
 import PropTypes from 'prop-types';
 import { IMaskMixin } from 'react-imask';
 
-const CFormInputWithMask = IMaskMixin(({ inputRef, ...props }) => (
-    <CFormInput {...props} ref={inputRef} />
-));
+const CFormInputWithMask = IMaskMixin(({ inputRef, ...props }) => <CFormInput {...props} ref={inputRef} />);
 
-export default function UserEditForm({
-    user,
-    visibility,
-    setEditUserModalVisibility,
-    savedUserCallBack,
-}) {
+export default function UserEditForm({ user, visibility, setEditUserModalVisibility, savedUserCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const usernameRef = useRef();
@@ -175,8 +161,7 @@ export default function UserEditForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the user. Please try
-                                            again!
+                                            An error occured while saving the user. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -309,12 +294,11 @@ export default function UserEditForm({
                                             feedbackInvalid="Select at least one user role."
                                             onChange={(selectedUserRoles) => {
                                                 setEditedUser((prev) => {
-                                                    const selectedUserRolesValues =
-                                                        selectedUserRoles.map(
-                                                            (selectedUserRole) => {
-                                                                return selectedUserRole.value;
-                                                            },
-                                                        );
+                                                    const selectedUserRolesValues = selectedUserRoles.map(
+                                                        (selectedUserRole) => {
+                                                            return selectedUserRole.value;
+                                                        },
+                                                    );
                                                     return {
                                                         ...prev,
                                                         roles: selectedUserRolesValues,
@@ -358,10 +342,7 @@ export default function UserEditForm({
                                                         required
                                                         feedbackInvalid="Password should be at least 8 characters, alphanumeric, contaning lower and uppercase letters, and a special charater (!, @, #, $, %)"
                                                         valid={isValidPassword}
-                                                        invalid={
-                                                            !!editedUser.password &&
-                                                            !isValidPassword
-                                                        }
+                                                        invalid={!!editedUser.password && !isValidPassword}
                                                         value={editedUser.password}
                                                         onChange={(e) => {
                                                             setEditedUser((prev) => {
@@ -385,14 +366,9 @@ export default function UserEditForm({
                                                         required
                                                         feedbackInvalid="Passwords do not match."
                                                         valid={isValidMatchPassword}
-                                                        invalid={
-                                                            !!confirmPassword &&
-                                                            !isValidMatchPassword
-                                                        }
+                                                        invalid={!!confirmPassword && !isValidMatchPassword}
                                                         value={confirmPassword}
-                                                        onChange={(e) =>
-                                                            setConfirmPassword(e.target.value)
-                                                        }
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
                                                     />
                                                 </CInputGroup>
                                             </>
@@ -446,12 +422,7 @@ export default function UserEditForm({
                 <CButton color="secondary" onClick={() => setEditUserModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editUserForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editUserForm" loading={isLoading} type="submit">
                     Save user
                 </CLoadingButton>
             </CModalFooter>

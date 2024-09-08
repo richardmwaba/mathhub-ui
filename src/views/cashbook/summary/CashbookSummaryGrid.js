@@ -40,11 +40,7 @@ export default function AssetTypesGrid() {
     ];
 
     const getAssetTypes = async () => {
-        const response = await AssetTypesService.getAllAssetTypes(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await AssetTypesService.getAllAssetTypes(axiosPrivate, controller, setError);
         isMounted && setAssetTypes(response);
         setLoading(false);
     };
@@ -61,9 +57,7 @@ export default function AssetTypesGrid() {
 
     useEffect(() => {
         const assetTypeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Asset type ${createdAssetType?.typeName} has been created successfully`}
-            />
+            <SuccessToast message={`Asset type ${createdAssetType?.typeName} has been created successfully`} />
         );
 
         if (createdAssetType?.typeName) {
@@ -73,9 +67,7 @@ export default function AssetTypesGrid() {
 
     useEffect(() => {
         const assetTypeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Asset type ${savedAssetType?.typeName} has been updated successfully`}
-            />
+            <SuccessToast message={`Asset type ${savedAssetType?.typeName} has been updated successfully`} />
         );
 
         if (savedAssetType?.typeName) {

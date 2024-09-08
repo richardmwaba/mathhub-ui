@@ -20,11 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import ExpenseTypesService from 'src/api/system-config/cashbook/expense-types.service';
 
-export default function NewExpenseTypeForm({
-    visibility,
-    setExpenseTypeModalVisibility,
-    createdExpenseTypeCallBack,
-}) {
+export default function NewExpenseTypeForm({ visibility, setExpenseTypeModalVisibility, createdExpenseTypeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const expenseTypeNameRef = useRef();
@@ -54,12 +50,7 @@ export default function NewExpenseTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ExpenseTypesService.createExpenseType(
-                newExpenseType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await ExpenseTypesService.createExpenseType(newExpenseType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewExpenseType(defaultExpenseType);
                     setExpenseTypeModalVisibility(!visibility);
@@ -99,8 +90,7 @@ export default function NewExpenseTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new expense type.
-                                            Please try again!
+                                            An error occured while saving the new expense type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,12 +147,7 @@ export default function NewExpenseTypeForm({
                 <CButton color="secondary" onClick={() => setExpenseTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewExpenseTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewExpenseTypeForm" loading={isLoading} type="submit">
                     Save Expense Type
                 </CLoadingButton>
             </CModalFooter>
