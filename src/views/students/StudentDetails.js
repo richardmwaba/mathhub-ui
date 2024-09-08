@@ -49,8 +49,6 @@ const StudentDetails = () => {
         };
     }, [axiosPrivate, location]);
 
-    console.log(`student: ${JSON.stringify(student)}`);
-
     const [activeTab, setActiveTab] = useState('enrolment-info');
     return (
         student && (

@@ -37,7 +37,7 @@ function getStudentById(studentId, axiosPrivate, controller, errorCallback) {
             const parent = StudentsService.getStudentsParent(student.parents)[0];
             return {
                 id: student.id,
-                name: StudentsService.getStudentsFullname(student.firstName, student.middleName, student.lastName),
+                name: StudentsService.getFullname(student.firstName, student.middleName, student.lastName),
                 firstName: student.firstName,
                 middleName: student.middleName,
                 lastName: student.lastName,
@@ -46,7 +46,7 @@ function getStudentById(studentId, axiosPrivate, controller, errorCallback) {
                 email: student.email,
                 gradeName: student.grade ? student.grade.name : '',
                 syllabus: student.examBoard ? student.examBoard.name : '',
-                mobileNumber: StudentsService.getStudentsMobileNumber(student.phoneNumbers),
+                mobileNumber: StudentsService.getMobileNumber(student.phoneNumbers),
                 parentName: parent ? parent.parentName : '',
                 parentEmail: parent ? parent.parentEmail : '',
                 parents: student.parents,
@@ -64,14 +64,36 @@ function getStudentById(studentId, axiosPrivate, controller, errorCallback) {
         });
 }
 
-function getStudentsFullname(firstName, middleName, lastName) {
+function getFullname(firstName, middleName, lastName) {
     return middleName ? `${firstName} ${middleName} ${lastName}` : `${firstName} ${lastName}`;
 }
 
-function getStudentsMobileNumber(phoneNumbers) {
+function getMobileNumber(phoneNumbers) {
     return phoneNumbers.map((phoneNumber) => {
         return phoneNumber.type === 'MOBILE' ? `${phoneNumber.countryCode} ${phoneNumber.number}` : null;
     });
+}
+
+function getFormattedAddresses(addresses) {
+    return addresses.map((address) => {
+        const fullAddress =
+            nonNullStringOf(address.firstAddress) +
+            ', ' +
+            nonNullStringOf(address.secondAddress) +
+            ', ' +
+            nonNullStringOf(address.thirdAddress) +
+            ', ' +
+            nonNullStringOf(address.city) +
+            ', ' +
+            nonNullStringOf(address.province);
+        const fullAddressWithCleanStart = fullAddress.replace(/^\W+\s+/, '');
+
+        return fullAddressWithCleanStart.replace(/\W+\s+/, ', ');
+    });
+}
+
+function nonNullStringOf(str) {
+    return str ?? '';
 }
 
 function getStudentsParent(parents) {
@@ -86,8 +108,9 @@ function getStudentsParent(parents) {
 const StudentsService = {
     getAllStudents,
     getStudentById,
-    getStudentsFullname,
-    getStudentsMobileNumber,
+    getFullname,
+    getFormattedAddresses,
+    getMobileNumber,
     getStudentsParent,
 };
 

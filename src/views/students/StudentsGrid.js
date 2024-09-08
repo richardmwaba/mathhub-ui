@@ -94,7 +94,7 @@ export default function StudentsGrid() {
         const parent = StudentsService.getStudentsParent(student.parents)[0];
         return {
             id: student.id,
-            name: StudentsService.getStudentsFullname(student.firstName, student.middleName, student.lastName),
+            name: StudentsService.getFullname(student.firstName, student.middleName, student.lastName),
             firstName: student.firstName,
             middleName: student.middleName,
             lastName: student.lastName,
@@ -103,7 +103,7 @@ export default function StudentsGrid() {
             email: student.email,
             gradeName: student.grade ? student.grade.name : '',
             syllabus: student.examBoard ? student.examBoard.name : '',
-            mobileNumber: StudentsService.getStudentsMobileNumber(student.phoneNumbers),
+            mobileNumber: StudentsService.getMobileNumber(student.phoneNumbers),
             parentName: parent ? parent.parentName : '',
             parentEmail: parent ? parent.parentEmail : '',
             parents: student.parents,
