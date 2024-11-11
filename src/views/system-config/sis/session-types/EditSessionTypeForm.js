@@ -101,8 +101,7 @@ export default function EditSessionTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the session type. Please
-                                            try again!
+                                            An error occured while saving the session type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -159,12 +158,7 @@ export default function EditSessionTypeForm({
                 <CButton color="secondary" onClick={() => setEditSessionTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editSessionTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editSessionTypeForm" loading={isLoading} type="submit">
                     Save Session Type
                 </CLoadingButton>
             </CModalFooter>

@@ -34,8 +34,7 @@ export default function NewLiabilityTypeForm({
         description: '',
     };
 
-    const [isCreateLiabilityTypeFormValidated, setIsCreateLiabilityTypeFormValidated] =
-        useState(false);
+    const [isCreateLiabilityTypeFormValidated, setIsCreateLiabilityTypeFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [newLiabilityType, setNewLiabilityType] = useState(defaultLiabilityType);
@@ -100,8 +99,7 @@ export default function NewLiabilityTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new liability type.
-                                            Please try again!
+                                            An error occured while saving the new liability type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -158,12 +156,7 @@ export default function NewLiabilityTypeForm({
                 <CButton color="secondary" onClick={() => setLiabilityTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewLiabilityTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewLiabilityTypeForm" loading={isLoading} type="submit">
                     Save Liability Type
                 </CLoadingButton>
             </CModalFooter>

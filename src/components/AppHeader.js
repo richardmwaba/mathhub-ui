@@ -40,9 +40,7 @@ import {
 
 const AppHeader = () => {
     const headerRef = useRef();
-    const { colorMode, setColorMode } = useColorModes(
-        'coreui-pro-react-admin-template-theme-bright',
-    );
+    const { colorMode, setColorMode } = useColorModes('coreui-pro-react-admin-template-theme-bright');
     const { i18n, t } = useTranslation();
 
     const dispatch = useDispatch();
@@ -51,10 +49,7 @@ const AppHeader = () => {
 
     useEffect(() => {
         document.addEventListener('scroll', () => {
-            headerRef.current?.classList.toggle(
-                'shadow-sm',
-                document.documentElement.scrollTop > 0,
-            );
+            headerRef.current?.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
         });
     }, []);
 
@@ -73,11 +68,7 @@ const AppHeader = () => {
                 <CForm className="d-none d-sm-flex">
                     <CInputGroup className="border border-light border-opacity-25 rounded">
                         <CInputGroupText id="search-addon" className="bg-transparent border-0 px-1">
-                            <CIcon
-                                icon={cilSearch}
-                                size="lg"
-                                className="my-1 mx-2 text-white text-opacity-25"
-                            />
+                            <CIcon icon={cilSearch} size="lg" className="my-1 mx-2 text-white text-opacity-25" />
                         </CInputGroupText>
                         <CFormInput
                             placeholder={t('search')}

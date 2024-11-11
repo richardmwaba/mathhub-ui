@@ -8,14 +8,4 @@ import DocsCallout from './DocsCallout';
 import DocsExample from './DocsExample';
 import ProBadge from './ProBadge';
 
-export {
-    AppAside,
-    AppBreadcrumb,
-    AppContent,
-    AppFooter,
-    AppHeader,
-    AppSidebar,
-    DocsCallout,
-    DocsExample,
-    ProBadge,
-};
+export { AppAside, AppBreadcrumb, AppContent, AppFooter, AppHeader, AppSidebar, DocsCallout, DocsExample, ProBadge };

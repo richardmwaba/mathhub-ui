@@ -20,11 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import AssetTypesService from 'src/api/system-config/cashbook/asset-types.service';
 
-export default function NewAssetTypeForm({
-    visibility,
-    setAssetTypeModalVisibility,
-    createdAssetTypeCallBack,
-}) {
+export default function NewAssetTypeForm({ visibility, setAssetTypeModalVisibility, createdAssetTypeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const typeNameRef = useRef();
@@ -54,12 +50,7 @@ export default function NewAssetTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await AssetTypesService.createAssetType(
-                newAssetType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await AssetTypesService.createAssetType(newAssetType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewAssetType(defaultAssetType);
                     setAssetTypeModalVisibility(!visibility);
@@ -99,8 +90,7 @@ export default function NewAssetTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new asset type. Please
-                                            try again!
+                                            An error occured while saving the new asset type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,12 +147,7 @@ export default function NewAssetTypeForm({
                 <CButton color="secondary" onClick={() => setAssetTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewAssetTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewAssetTypeForm" loading={isLoading} type="submit">
                     Save Asset Type
                 </CLoadingButton>
             </CModalFooter>

@@ -48,15 +48,7 @@ const WidgetsBrand = (props) => {
                                 className="position-absolute w-100 h-100"
                                 type="line"
                                 data={{
-                                    labels: [
-                                        'January',
-                                        'February',
-                                        'March',
-                                        'April',
-                                        'May',
-                                        'June',
-                                        'July',
-                                    ],
+                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                                     datasets: [
                                         {
                                             backgroundColor: 'rgba(255,255,255,.1)',
@@ -90,15 +82,7 @@ const WidgetsBrand = (props) => {
                                 className="position-absolute w-100 h-100"
                                 type="line"
                                 data={{
-                                    labels: [
-                                        'January',
-                                        'February',
-                                        'March',
-                                        'April',
-                                        'May',
-                                        'June',
-                                        'July',
-                                    ],
+                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                                     datasets: [
                                         {
                                             backgroundColor: 'rgba(255,255,255,.1)',
@@ -132,15 +116,7 @@ const WidgetsBrand = (props) => {
                                 className="position-absolute w-100 h-100"
                                 type="line"
                                 data={{
-                                    labels: [
-                                        'January',
-                                        'February',
-                                        'March',
-                                        'April',
-                                        'May',
-                                        'June',
-                                        'July',
-                                    ],
+                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                                     datasets: [
                                         {
                                             backgroundColor: 'rgba(255,255,255,.1)',
@@ -175,15 +151,7 @@ const WidgetsBrand = (props) => {
                                 className="position-absolute w-100 h-100"
                                 type="line"
                                 data={{
-                                    labels: [
-                                        'January',
-                                        'February',
-                                        'March',
-                                        'April',
-                                        'May',
-                                        'June',
-                                        'July',
-                                    ],
+                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                                     datasets: [
                                         {
                                             backgroundColor: 'rgba(255,255,255,.1)',

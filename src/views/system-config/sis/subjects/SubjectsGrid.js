@@ -88,9 +88,7 @@ export default function SubjectsGrid() {
 
     useEffect(() => {
         const subjectSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Subject ${createdSubject?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Subject ${createdSubject?.name} has been created successfully`} />
         );
 
         if (createdSubject?.name) {
@@ -100,9 +98,7 @@ export default function SubjectsGrid() {
 
     useEffect(() => {
         const subjectSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Subject ${savedSubject?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Subject ${savedSubject?.name} has been updated successfully`} />
         );
 
         if (savedSubject?.name) {
@@ -135,9 +131,7 @@ export default function SubjectsGrid() {
                     itemsPerPageSelect
                     pagination
                     noItemsLabel={
-                        error
-                            ? `Could not retrieve subjects due to ${error}. Please try again.`
-                            : 'No subjects found'
+                        error ? `Could not retrieve subjects due to ${error}. Please try again.` : 'No subjects found'
                     }
                     scopedColumns={{
                         show_details: (currentSubject) => (

@@ -21,12 +21,7 @@ const AppHeaderDropdownTasks = () => {
             <CDropdownToggle caret={false}>
                 <span className="d-inline-block my-1 mx-2 position-relative">
                     <CIcon icon={cilListRich} size="lg" />
-                    <CBadge
-                        color="danger"
-                        position="top-end"
-                        shape="rounded-circle"
-                        className="p-1"
-                    >
+                    <CBadge color="danger" position="top-end" shape="rounded-circle" className="p-1">
                         <span className="visually-hidden">{itemsCount} new alerts</span>
                     </CBadge>
                 </span>

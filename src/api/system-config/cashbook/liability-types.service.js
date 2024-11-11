@@ -24,13 +24,9 @@ function createLiabilityType(newLiabilityType, axiosPrivate, controller, errorCa
 
 function editLiabilityType(editedLiabilityType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(
-            `/systemconfig/ops/liabilityTypes/${editedLiabilityType.id}`,
-            editedLiabilityType,
-            {
-                signal: controller.signal,
-            },
-        )
+        .put(`/systemconfig/ops/liabilityTypes/${editedLiabilityType.id}`, editedLiabilityType, {
+            signal: controller.signal,
+        })
         .then((response) => {
             return response.data;
         })

@@ -24,13 +24,9 @@ function createAssessmentType(newAssessmentType, axiosPrivate, controller, error
 
 function editAssessmentType(editedAssessmentType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(
-            `/systemconfig/sis/assessmentTypes/${editedAssessmentType.id}`,
-            editedAssessmentType,
-            {
-                signal: controller.signal,
-            },
-        )
+        .put(`/systemconfig/sis/assessmentTypes/${editedAssessmentType.id}`, editedAssessmentType, {
+            signal: controller.signal,
+        })
         .then((response) => {
             return response.data;
         })

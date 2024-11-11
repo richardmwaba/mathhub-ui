@@ -630,11 +630,7 @@ const Widgets = () => {
                                         target="_blank"
                                     >
                                         View more
-                                        <CIcon
-                                            icon={cilArrowRight}
-                                            className="float-end"
-                                            width={16}
-                                        />
+                                        <CIcon icon={cilArrowRight} className="float-end" width={16} />
                                     </CLink>
                                 }
                             />
@@ -653,11 +649,7 @@ const Widgets = () => {
                                         target="_blank"
                                     >
                                         View more
-                                        <CIcon
-                                            icon={cilArrowRight}
-                                            className="float-end"
-                                            width={16}
-                                        />
+                                        <CIcon icon={cilArrowRight} className="float-end" width={16} />
                                     </CLink>
                                 }
                             />
@@ -676,11 +668,7 @@ const Widgets = () => {
                                         target="_blank"
                                     >
                                         View more
-                                        <CIcon
-                                            icon={cilArrowRight}
-                                            className="float-end"
-                                            width={16}
-                                        />
+                                        <CIcon icon={cilArrowRight} className="float-end" width={16} />
                                     </CLink>
                                 }
                             />
@@ -699,11 +687,7 @@ const Widgets = () => {
                                         target="_blank"
                                     >
                                         View more
-                                        <CIcon
-                                            icon={cilArrowRight}
-                                            className="float-end"
-                                            width={16}
-                                        />
+                                        <CIcon icon={cilArrowRight} className="float-end" width={16} />
                                     </CLink>
                                 }
                             />

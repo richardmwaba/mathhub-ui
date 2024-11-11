@@ -34,8 +34,7 @@ export default function NewAssessmentTypeForm({
         description: '',
     };
 
-    const [isCreateAssessmentTypeFormValidated, setIsCreateAssessmentTypeFormValidated] =
-        useState(false);
+    const [isCreateAssessmentTypeFormValidated, setIsCreateAssessmentTypeFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [newAssessmentType, setNewAssessmentType] = useState(defaultAssessmentType);
@@ -100,8 +99,7 @@ export default function NewAssessmentTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new assessment type.
-                                            Please try again!
+                                            An error occured while saving the new assessment type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -158,12 +156,7 @@ export default function NewAssessmentTypeForm({
                 <CButton color="secondary" onClick={() => setAssessmentTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewAssessmentTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewAssessmentTypeForm" loading={isLoading} type="submit">
                     Save Assessment Type
                 </CLoadingButton>
             </CModalFooter>

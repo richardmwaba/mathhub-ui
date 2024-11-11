@@ -71,9 +71,7 @@ export default function GradesGrid() {
 
     useEffect(() => {
         const gradeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Grade ${createdGrade?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Grade ${createdGrade?.name} has been created successfully`} />
         );
 
         if (createdGrade?.name) {
@@ -83,9 +81,7 @@ export default function GradesGrid() {
 
     useEffect(() => {
         const gradeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Grade ${savedGrade?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Grade ${savedGrade?.name} has been updated successfully`} />
         );
 
         if (savedGrade?.name) {
@@ -118,9 +114,7 @@ export default function GradesGrid() {
                     itemsPerPageSelect
                     pagination
                     noItemsLabel={
-                        error
-                            ? `Could not retrieve grades due to ${error}. Please try again.`
-                            : 'No grades found'
+                        error ? `Could not retrieve grades due to ${error}. Please try again.` : 'No grades found'
                     }
                     scopedColumns={{
                         show_details: (item) => (

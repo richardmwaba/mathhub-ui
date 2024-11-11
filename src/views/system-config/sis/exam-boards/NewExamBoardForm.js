@@ -20,11 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import ExamBoardsService from 'src/api/sis/exam-boards.service';
 
-export default function NewExamBoardForm({
-    visibility,
-    setExamBoardModalVisibility,
-    createdExamBoardCallBack,
-}) {
+export default function NewExamBoardForm({ visibility, setExamBoardModalVisibility, createdExamBoardCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const defaultExamBoard = {
@@ -54,12 +50,7 @@ export default function NewExamBoardForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ExamBoardsService.createExamBoard(
-                newExamBoard,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await ExamBoardsService.createExamBoard(newExamBoard, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewExamBoard(defaultExamBoard);
                     setExamBoardModalVisibility(!visibility);
@@ -99,8 +90,7 @@ export default function NewExamBoardForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new exam board. Please
-                                            try again!
+                                            An error occured while saving the new exam board. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,12 +147,7 @@ export default function NewExamBoardForm({
                 <CButton color="secondary" onClick={() => setExamBoardModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewExamBoardForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewExamBoardForm" loading={isLoading} type="submit">
                     Save Exam Board
                 </CLoadingButton>
             </CModalFooter>

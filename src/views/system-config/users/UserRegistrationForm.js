@@ -26,11 +26,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
 import PropTypes from 'prop-types';
 
-export default function UserRegistrationForm({
-    visibility,
-    setUserModalVisibility,
-    createdUserCallBack,
-}) {
+export default function UserRegistrationForm({ visibility, setUserModalVisibility, createdUserCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const usernameRef = useRef();
@@ -132,8 +128,7 @@ export default function UserRegistrationForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the user. Please try
-                                            again!
+                                            An error occured while saving the user. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -237,12 +232,11 @@ export default function UserRegistrationForm({
                                             feedbackInvalid="Select at least one user role."
                                             onChange={(selectedUserRoles) => {
                                                 setNewUser((prev) => {
-                                                    const selectedUserRolesValues =
-                                                        selectedUserRoles.map(
-                                                            (selectedUserRole) => {
-                                                                return selectedUserRole.value;
-                                                            },
-                                                        );
+                                                    const selectedUserRolesValues = selectedUserRoles.map(
+                                                        (selectedUserRole) => {
+                                                            return selectedUserRole.value;
+                                                        },
+                                                    );
                                                     return {
                                                         ...prev,
                                                         roles: selectedUserRolesValues,
@@ -324,12 +318,7 @@ export default function UserRegistrationForm({
                 <CButton color="secondary" onClick={() => setUserModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewUserForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewUserForm" loading={isLoading} type="submit">
                     Save user
                 </CLoadingButton>
             </CModalFooter>

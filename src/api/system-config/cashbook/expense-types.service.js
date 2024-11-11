@@ -24,13 +24,9 @@ function createExpenseType(newExpenseType, axiosPrivate, controller, errorCallba
 
 function editExpenseType(editedExpenseType, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(
-            `/systemconfig/ops/expenseTypes/${editedExpenseType.id}`,
-            editedExpenseType,
-            {
-                signal: controller.signal,
-            },
-        )
+        .put(`/systemconfig/ops/expenseTypes/${editedExpenseType.id}`, editedExpenseType, {
+            signal: controller.signal,
+        })
         .then((response) => {
             return response.data;
         })

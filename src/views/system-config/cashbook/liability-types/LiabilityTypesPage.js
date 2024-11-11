@@ -1,5 +1,5 @@
 import React from 'react';
-import { CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react-pro';
+import { CCard, CCardBody, CCol, CRow } from '@coreui/react-pro';
 import AssessmentTypesGrid from './LiabilityTypesGrid';
 
 const LiabilityTypesPage = () => {

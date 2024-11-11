@@ -14,11 +14,7 @@ const RequireAuthentication = () => {
     const { authentication } = useAuthentication();
     const location = useLocation();
 
-    return isAuthenticated(authentication) ? (
-        <Outlet />
-    ) : (
-        <Navigate to="/login" state={{ from: location }} replace />
-    );
+    return isAuthenticated(authentication) ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default RequireAuthentication;

@@ -20,11 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import EquityTypesService from 'src/api/system-config/cashbook/equity-types.service';
 
-export default function NewEquityTypeForm({
-    visibility,
-    setEquityTypeModalVisibility,
-    createdEquityTypeCallBack,
-}) {
+export default function NewEquityTypeForm({ visibility, setEquityTypeModalVisibility, createdEquityTypeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const equityTypeNameRef = useRef();
@@ -54,12 +50,7 @@ export default function NewEquityTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await EquityTypesService.createEquityType(
-                newEquityType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await EquityTypesService.createEquityType(newEquityType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewEquityType(defaultEquityType);
                     setEquityTypeModalVisibility(!visibility);
@@ -99,8 +90,7 @@ export default function NewEquityTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new equity type.
-                                            Please try again!
+                                            An error occured while saving the new equity type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,12 +147,7 @@ export default function NewEquityTypeForm({
                 <CButton color="secondary" onClick={() => setEquityTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewEquityTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewEquityTypeForm" loading={isLoading} type="submit">
                     Save Equity Type
                 </CLoadingButton>
             </CModalFooter>

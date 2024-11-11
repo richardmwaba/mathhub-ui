@@ -1,3 +1,5 @@
+import { getFullPhoneNumber } from 'src/components/common/serviceutils';
+
 function getAllUsers(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/ops/users', { signal: controller.signal })
@@ -22,6 +24,7 @@ function getAllUsers(axiosPrivate, controller, errorCallback) {
                     email: user.email,
                     gender: user.gender,
                     phoneNumber: user.phoneNumber,
+                    fullPhoneNumber: getFullPhoneNumber(user.phoneNumber),
                     roles: roles,
                 };
             });

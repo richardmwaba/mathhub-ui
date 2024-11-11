@@ -70,24 +70,17 @@ const Dashboard = () => {
         document.documentElement.addEventListener('ColorSchemeChange', () => {
             if (chartBartRef.current) {
                 setTimeout(() => {
-                    chartBartRef.current.options.scales.x.grid.color = getStyle(
-                        '--cui-border-color-translucent',
-                    );
-                    chartBartRef.current.options.scales.x.ticks.color =
-                        getStyle('--cui-body-color');
-                    chartBartRef.current.options.scales.y.grid.color = getStyle(
-                        '--cui-border-color-translucent',
-                    );
-                    chartBartRef.current.options.scales.y.ticks.color =
-                        getStyle('--cui-body-color');
+                    chartBartRef.current.options.scales.x.grid.color = getStyle('--cui-border-color-translucent');
+                    chartBartRef.current.options.scales.x.ticks.color = getStyle('--cui-body-color');
+                    chartBartRef.current.options.scales.y.grid.color = getStyle('--cui-border-color-translucent');
+                    chartBartRef.current.options.scales.y.ticks.color = getStyle('--cui-body-color');
                     chartBartRef.current.update();
                 });
             }
 
             if (chartLineRef.current) {
                 setTimeout(() => {
-                    chartLineRef.current.data.datasets[0].pointBackgroundColor =
-                        getStyle('--cui-primary');
+                    chartLineRef.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-primary');
                     chartLineRef.current.update();
                 });
             }
@@ -248,13 +241,9 @@ const Dashboard = () => {
                                 <CCardBody className="p-4">
                                     <CRow>
                                         <CCol>
-                                            <CCardTitle className="fs-4 fw-semibold">
-                                                {t('sale')}
-                                            </CCardTitle>
+                                            <CCardTitle className="fs-4 fw-semibold">{t('sale')}</CCardTitle>
                                         </CCol>
-                                        <CCol className="text-end text-primary fs-4 fw-semibold">
-                                            $613.200
-                                        </CCol>
+                                        <CCol className="text-end text-primary fs-4 fw-semibold">$613.200</CCol>
                                     </CRow>
                                     <CCardSubtitle className="fw-normal text-body-secondary">
                                         {t('date', {
@@ -336,10 +325,7 @@ const Dashboard = () => {
                             <CCard className="mb-4">
                                 <CCardBody>
                                     <div className="d-flex justify-content-between">
-                                        <CCardTitle
-                                            as="h6"
-                                            className="text-body-secondary text-truncate"
-                                        >
+                                        <CCardTitle as="h6" className="text-body-secondary text-truncate">
                                             {t('customers')}
                                         </CCardTitle>
                                         <div className="bg-primary bg-opacity-25 text-primary rounded p-2 ms-2">
@@ -357,10 +343,7 @@ const Dashboard = () => {
                             <CCard className="mb-4">
                                 <CCardBody>
                                     <div className="d-flex justify-content-between">
-                                        <CCardTitle
-                                            as="h6"
-                                            className="text-body-secondary text-truncate"
-                                        >
+                                        <CCardTitle as="h6" className="text-body-secondary text-truncate">
                                             {t('orders')}
                                         </CCardTitle>
                                         <div className="bg-primary bg-opacity-25 text-primary rounded p-2 ms-2">
@@ -380,10 +363,7 @@ const Dashboard = () => {
                     <CCard className="mb-4">
                         <CCardBody className="p-4">
                             <CCardTitle className="fs-4 fw-semibold">{t('traffic')}</CCardTitle>
-                            <CCardSubtitle
-                                className="fw-normal text-body-secondary"
-                                style={{ marginBottom: '40px' }}
-                            >
+                            <CCardSubtitle className="fw-normal text-body-secondary" style={{ marginBottom: '40px' }}>
                                 {t('date', {
                                     date: new Date(2022, 0, 1),
                                     formatParams: {
@@ -421,10 +401,7 @@ const Dashboard = () => {
                                             backgroundColor: getStyle('--cui-primary'),
                                             borderRadius: 6,
                                             borderSkipped: false,
-                                            data: [
-                                                78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34,
-                                                84, 67, 82,
-                                            ],
+                                            data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
                                             barPercentage: 0.6,
                                             categoryPercentage: 0.5,
                                         },
@@ -433,10 +410,7 @@ const Dashboard = () => {
                                             backgroundColor: getStyle('--cui-gray-200'),
                                             borderRadius: 6,
                                             borderSkipped: false,
-                                            data: [
-                                                78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34,
-                                                84, 67, 82,
-                                            ],
+                                            data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
                                             barPercentage: 0.6,
                                             categoryPercentage: 0.5,
                                         },
@@ -500,9 +474,7 @@ const Dashboard = () => {
                         <CCardBody className="p-4">
                             <CRow>
                                 <CCol>
-                                    <CCardTitle className="fs-4 fw-semibold">
-                                        {t('users')}
-                                    </CCardTitle>
+                                    <CCardTitle className="fs-4 fw-semibold">{t('users')}</CCardTitle>
                                     <CCardSubtitle className="fw-normal text-body-secondary mb-4">
                                         {t('registeredUsersCounter', {
                                             counter: '1.232.15',
@@ -523,9 +495,7 @@ const Dashboard = () => {
                                             <CIcon icon={cilPeople} />
                                         </CTableHeaderCell>
                                         <CTableHeaderCell>{t('user')}</CTableHeaderCell>
-                                        <CTableHeaderCell className="text-center">
-                                            {t('country')}
-                                        </CTableHeaderCell>
+                                        <CTableHeaderCell className="text-center">{t('country')}</CTableHeaderCell>
                                         <CTableHeaderCell>{t('usage')}</CTableHeaderCell>
                                         <CTableHeaderCell>{t('activity')}</CTableHeaderCell>
                                     </CTableRow>
@@ -534,34 +504,22 @@ const Dashboard = () => {
                                     {tableExample.map((item, index) => (
                                         <CTableRow v-for="item in tableItems" key={index}>
                                             <CTableDataCell className="text-center">
-                                                <CAvatar
-                                                    size="md"
-                                                    src={item.avatar.src}
-                                                    status={item.avatar.status}
-                                                />
+                                                <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
                                             </CTableDataCell>
                                             <CTableDataCell>
                                                 <div>{item.user.name}</div>
                                                 <div className="small text-body-secondary text-nowrap">
-                                                    <span>
-                                                        {item.user.new ? t('new') : t('recurring')}
-                                                    </span>{' '}
-                                                    | {t('registered')}
+                                                    <span>{item.user.new ? t('new') : t('recurring')}</span> |{' '}
+                                                    {t('registered')}
                                                     {item.user.registered}
                                                 </div>
                                             </CTableDataCell>
                                             <CTableDataCell className="text-center">
-                                                <CIcon
-                                                    size="xl"
-                                                    icon={item.country.flag}
-                                                    title={item.country.name}
-                                                />
+                                                <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
                                             </CTableDataCell>
                                             <CTableDataCell>
                                                 <div className="d-flex justify-content-between align-items-baseline mb-1">
-                                                    <div className="fw-semibold">
-                                                        {item.usage.value}%
-                                                    </div>
+                                                    <div className="fw-semibold">{item.usage.value}%</div>
                                                     <div className="small text-body-secondary text-nowrap ms-3">
                                                         {item.usage.period}
                                                     </div>
@@ -573,12 +531,8 @@ const Dashboard = () => {
                                                 />
                                             </CTableDataCell>
                                             <CTableDataCell>
-                                                <div className="small text-body-secondary">
-                                                    {t('lastLogin')}
-                                                </div>
-                                                <div className="fw-semibold text-nowrap">
-                                                    {item.activity}
-                                                </div>
+                                                <div className="small text-body-secondary">{t('lastLogin')}</div>
+                                                <div className="fw-semibold text-nowrap">{item.activity}</div>
                                             </CTableDataCell>
                                         </CTableRow>
                                     ))}
@@ -604,20 +558,14 @@ const Dashboard = () => {
                                 title={t('users')}
                                 action={
                                     <CDropdown alignment="end">
-                                        <CDropdownToggle
-                                            color="transparent"
-                                            caret={false}
-                                            className="p-0"
-                                        >
+                                        <CDropdownToggle color="transparent" caret={false} className="p-0">
                                             <CIcon icon={cilOptions} className="text-white" />
                                         </CDropdownToggle>
                                         <CDropdownMenu>
                                             <CDropdownItem>{t('action')}</CDropdownItem>
                                             <CDropdownItem>{t('anotherAction')}</CDropdownItem>
                                             <CDropdownItem>{t('somethingElseHere')}</CDropdownItem>
-                                            <CDropdownItem disabled>
-                                                {t('disabledAction')}
-                                            </CDropdownItem>
+                                            <CDropdownItem disabled>{t('disabledAction')}</CDropdownItem>
                                         </CDropdownMenu>
                                     </CDropdown>
                                 }
@@ -707,20 +655,14 @@ const Dashboard = () => {
                                 title={t('conversionRate')}
                                 action={
                                     <CDropdown alignment="end">
-                                        <CDropdownToggle
-                                            color="transparent"
-                                            caret={false}
-                                            className="p-0"
-                                        >
+                                        <CDropdownToggle color="transparent" caret={false} className="p-0">
                                             <CIcon icon={cilOptions} className="text-white" />
                                         </CDropdownToggle>
                                         <CDropdownMenu>
                                             <CDropdownItem>{t('action')}</CDropdownItem>
                                             <CDropdownItem>{t('anotherAction')}</CDropdownItem>
                                             <CDropdownItem>{t('somethingElseHere')}</CDropdownItem>
-                                            <CDropdownItem disabled>
-                                                {t('disabledAction')}
-                                            </CDropdownItem>
+                                            <CDropdownItem disabled>{t('disabledAction')}</CDropdownItem>
                                         </CDropdownMenu>
                                     </CDropdown>
                                 }
@@ -794,20 +736,14 @@ const Dashboard = () => {
                                 title={t('sessions')}
                                 action={
                                     <CDropdown alignment="end">
-                                        <CDropdownToggle
-                                            color="transparent"
-                                            caret={false}
-                                            className="p-0"
-                                        >
+                                        <CDropdownToggle color="transparent" caret={false} className="p-0">
                                             <CIcon icon={cilOptions} className="text-white" />
                                         </CDropdownToggle>
                                         <CDropdownMenu>
                                             <CDropdownItem>{t('action')}</CDropdownItem>
                                             <CDropdownItem>{t('anotherAction')}</CDropdownItem>
                                             <CDropdownItem>{t('somethingElseHere')}</CDropdownItem>
-                                            <CDropdownItem disabled>
-                                                {t('disabledAction')}
-                                            </CDropdownItem>
+                                            <CDropdownItem disabled>{t('disabledAction')}</CDropdownItem>
                                         </CDropdownMenu>
                                     </CDropdown>
                                 }
@@ -840,8 +776,7 @@ const Dashboard = () => {
                                                     backgroundColor: 'rgba(255,255,255,.2)',
                                                     borderColor: 'rgba(255,255,255,.55)',
                                                     data: [
-                                                        78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12,
-                                                        98, 34, 84, 67, 82,
+                                                        78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82,
                                                     ],
                                                     barPercentage: 0.6,
                                                 },
@@ -917,21 +852,11 @@ const Dashboard = () => {
                                     {progressGroupExample1.map((item, index) => (
                                         <div className="progress-group mb-4" key={index}>
                                             <div className="progress-group-prepend">
-                                                <span className="text-body-secondary small">
-                                                    {item.title}
-                                                </span>
+                                                <span className="text-body-secondary small">{item.title}</span>
                                             </div>
                                             <div className="progress-group-bars">
-                                                <CProgress
-                                                    thin
-                                                    color="info-gradient"
-                                                    value={item.value1}
-                                                />
-                                                <CProgress
-                                                    thin
-                                                    color="danger-gradient"
-                                                    value={item.value2}
-                                                />
+                                                <CProgress thin color="info-gradient" value={item.value1} />
+                                                <CProgress thin color="danger-gradient" value={item.value2} />
                                             </div>
                                         </div>
                                     ))}
@@ -959,22 +884,12 @@ const Dashboard = () => {
                                     {progressGroupExample2.map((item, index) => (
                                         <div className="progress-group mb-4" key={index}>
                                             <div className="progress-group-header">
-                                                <CIcon
-                                                    className="me-2"
-                                                    icon={item.icon}
-                                                    size="lg"
-                                                />
+                                                <CIcon className="me-2" icon={item.icon} size="lg" />
                                                 <span>{item.title}</span>
-                                                <span className="ms-auto fw-semibold">
-                                                    {item.value}%
-                                                </span>
+                                                <span className="ms-auto fw-semibold">{item.value}%</span>
                                             </div>
                                             <div className="progress-group-bars">
-                                                <CProgress
-                                                    thin
-                                                    color="warning-gradient"
-                                                    value={item.value}
-                                                />
+                                                <CProgress thin color="warning-gradient" value={item.value} />
                                             </div>
                                         </div>
                                     ))}
@@ -984,25 +899,15 @@ const Dashboard = () => {
                                     {progressGroupExample3.map((item, index) => (
                                         <div className="progress-group" key={index}>
                                             <div className="progress-group-header">
-                                                <CIcon
-                                                    className="me-2"
-                                                    icon={item.icon}
-                                                    size="lg"
-                                                />
+                                                <CIcon className="me-2" icon={item.icon} size="lg" />
                                                 <span>{item.title}</span>
                                                 <span className="ms-auto fw-semibold">
                                                     {item.value}{' '}
-                                                    <span className="text-body-secondary small">
-                                                        ({item.percent}%)
-                                                    </span>
+                                                    <span className="text-body-secondary small">({item.percent}%)</span>
                                                 </span>
                                             </div>
                                             <div className="progress-group-bars">
-                                                <CProgress
-                                                    thin
-                                                    color="success-gradient"
-                                                    value={item.percent}
-                                                />
+                                                <CProgress thin color="success-gradient" value={item.percent} />
                                             </div>
                                         </div>
                                     ))}

@@ -66,12 +66,7 @@ export default function EditClassRateForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ClassRatesService.editClassRate(
-                editedClassRate,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await ClassRatesService.editClassRate(editedClassRate, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedClassRate(defaultClassRate);
                     setEditClassRateModalVisibility(!visibility);
@@ -111,8 +106,7 @@ export default function EditClassRateForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the class rate. Please
-                                            try again!
+                                            An error occured while saving the class rate. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -185,12 +179,7 @@ export default function EditClassRateForm({
                 <CButton color="secondary" onClick={() => setEditClassRateModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editClassRateForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editClassRateForm" loading={isLoading} type="submit">
                     Save Class Rate
                 </CLoadingButton>
             </CModalFooter>

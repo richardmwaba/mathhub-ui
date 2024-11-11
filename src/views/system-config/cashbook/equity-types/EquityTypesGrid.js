@@ -44,11 +44,7 @@ export default function EquityTypesGrid() {
     ];
 
     const getEquityTypes = async () => {
-        const response = await EquityTypesService.getAllEquityTypes(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await EquityTypesService.getAllEquityTypes(axiosPrivate, controller, setError);
         isMounted && setEquityTypes(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function EquityTypesGrid() {
 
     useEffect(() => {
         const equityTypeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Equity type ${createdEquityType?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Equity type ${createdEquityType?.name} has been created successfully`} />
         );
 
         if (createdEquityType?.name) {
@@ -87,9 +81,7 @@ export default function EquityTypesGrid() {
 
     useEffect(() => {
         const equityTypeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Equity type ${savedEquityType?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Equity type ${savedEquityType?.name} has been updated successfully`} />
         );
 
         if (savedEquityType?.name) {

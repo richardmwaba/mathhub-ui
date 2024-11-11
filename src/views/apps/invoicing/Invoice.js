@@ -101,9 +101,7 @@ const Invoice = () => {
                         <CTableRow>
                             <CTableDataCell className="text-center">3</CTableDataCell>
                             <CTableDataCell className="text-start">Hosting</CTableDataCell>
-                            <CTableDataCell className="text-start">
-                                1 year subscription
-                            </CTableDataCell>
+                            <CTableDataCell className="text-start">1 year subscription</CTableDataCell>
                             <CTableDataCell className="text-center">1</CTableDataCell>
                             <CTableDataCell className="text-end">$499,00</CTableDataCell>
                             <CTableDataCell className="text-end">$499,00</CTableDataCell>
@@ -111,9 +109,7 @@ const Invoice = () => {
                         <CTableRow>
                             <CTableDataCell className="text-center">4</CTableDataCell>
                             <CTableDataCell className="text-start">Platinum Support</CTableDataCell>
-                            <CTableDataCell className="text-start">
-                                1 year subscription 24/7
-                            </CTableDataCell>
+                            <CTableDataCell className="text-start">1 year subscription 24/7</CTableDataCell>
                             <CTableDataCell className="text-center">1</CTableDataCell>
                             <CTableDataCell className="text-end">$3.999,00</CTableDataCell>
                             <CTableDataCell className="text-end">$3.999,00</CTableDataCell>
@@ -122,11 +118,10 @@ const Invoice = () => {
                 </CTable>
                 <CRow>
                     <CCol lg={4} sm={5}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                        voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                     </CCol>
                     <CCol lg={4} sm={5} className="ms-auto">
                         <CTable>

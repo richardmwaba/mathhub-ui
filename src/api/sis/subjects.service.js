@@ -9,7 +9,7 @@ function getAllSubjects(axiosPrivate, controller, errorCallback) {
             subjects = subjectsList.map((subject) => {
                 return {
                     id: subject.id,
-                    name: subject.subjectName,
+                    name: subject.name,
                     grades: extractGrades(subject.grades),
                     complexity: subject.complexity,
                 };

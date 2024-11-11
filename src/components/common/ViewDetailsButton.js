@@ -14,7 +14,7 @@ export function ViewDetailsButton({ item, detailsLocation, setSelectedItem }) {
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                    setSelectedItem(item);
+                    setSelectedItem?.(item);
                     navigate(detailsLocation, { state: item });
                 }}
             >
@@ -27,5 +27,5 @@ export function ViewDetailsButton({ item, detailsLocation, setSelectedItem }) {
 ViewDetailsButton.propTypes = {
     item: PropTypes.object.isRequired,
     detailsLocation: PropTypes.string.isRequired,
-    setSelectedItem: PropTypes.func.isRequired,
+    setSelectedItem: PropTypes.func,
 };

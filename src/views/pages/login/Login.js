@@ -108,9 +108,7 @@ export default function Login() {
                                         onSubmit={handleLogin}
                                     >
                                         <h1>Login</h1>
-                                        <p className="text-medium-emphasis">
-                                            Sign In to your account
-                                        </p>
+                                        <p className="text-medium-emphasis">Sign In to your account</p>
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText>
                                                 <CIcon icon={cilUser} />
@@ -140,11 +138,7 @@ export default function Login() {
                                             />
                                         </CInputGroup>
                                         {errorMessage && (
-                                            <p
-                                                ref={errorRef}
-                                                style={{ color: 'red' }}
-                                                aria-live="assertive"
-                                            >
+                                            <p ref={errorRef} style={{ color: 'red' }} aria-live="assertive">
                                                 {errorMessage}
                                             </p>
                                         )}

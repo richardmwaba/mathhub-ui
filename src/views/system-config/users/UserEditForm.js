@@ -22,29 +22,14 @@ import {
     CFormSelect,
 } from '@coreui/react-pro';
 import CIcon from '@coreui/icons-react';
-import {
-    cilChevronCircleDownAlt,
-    cilChevronCircleUpAlt,
-    cilLockLocked,
-    cilPhone,
-    cilUser,
-    cilWc,
-} from '@coreui/icons';
+import { cilChevronCircleDownAlt, cilChevronCircleUpAlt, cilLockLocked, cilPhone, cilUser, cilWc } from '@coreui/icons';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
 import PropTypes from 'prop-types';
-import { IMaskMixin } from 'react-imask';
+import counryCodes from 'src/assets/iso/country-codes.json';
+import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
-const CFormInputWithMask = IMaskMixin(({ inputRef, ...props }) => (
-    <CFormInput {...props} ref={inputRef} />
-));
-
-export default function UserEditForm({
-    user,
-    visibility,
-    setEditUserModalVisibility,
-    savedUserCallBack,
-}) {
+export default function UserEditForm({ user, visibility, setEditUserModalVisibility, savedUserCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const usernameRef = useRef();
@@ -60,6 +45,7 @@ export default function UserEditForm({
         gender: user.gender,
         middleName: usersNames.length === 3 ? usersNames[1] : '',
         phoneNumber: user.phoneNumber,
+        fullPhoneNumber: user.fullPhoneNumber,
         email: user.email,
         roles: user.roles,
     };
@@ -175,8 +161,7 @@ export default function UserEditForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the user. Please try
-                                            again!
+                                            An error occured while saving the user. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -285,16 +270,48 @@ export default function UserEditForm({
                                             <CInputGroupText>
                                                 <CIcon icon={cilPhone} title="Phone Number" />
                                             </CInputGroupText>
+                                            <CCol xs="4" sm="4" md="4">
+                                                <CFormSelect
+                                                    className="rounded-0"
+                                                    id="countryCodes"
+                                                    value={editedUser.phoneNumber?.countryCode ?? '+260'}
+                                                    onChange={(e) => {
+                                                        setEditedUser((prev) => {
+                                                            return {
+                                                                ...prev,
+                                                                phoneNumber: {
+                                                                    number: prev.phoneNumber?.number ?? '',
+                                                                    countryCode: e.target.value,
+                                                                },
+                                                            };
+                                                        });
+                                                    }}
+                                                >
+                                                    {counryCodes.map((countryCode) => {
+                                                        return (
+                                                            <option
+                                                                key={countryCode.name}
+                                                                value={countryCode.dial_code}
+                                                            >
+                                                                {countryCode.flag} {countryCode.dial_code}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </CFormSelect>
+                                            </CCol>
                                             <CFormInputWithMask
-                                                mask="+260 000 000000"
+                                                mask="000 000000"
                                                 autoComplete="phoneNumber"
                                                 id="phoneNumber"
-                                                value={editedUser.phoneNumber}
+                                                value={editedUser.phoneNumber?.number ?? ''}
                                                 onChange={(e) => {
                                                     setEditedUser((prev) => {
                                                         return {
                                                             ...prev,
-                                                            phoneNumber: e.target.value,
+                                                            phoneNumber: {
+                                                                number: e.target.value,
+                                                                countryCode: prev.phoneNumber?.countryCode ?? '+260',
+                                                            },
                                                         };
                                                     });
                                                 }}
@@ -309,12 +326,11 @@ export default function UserEditForm({
                                             feedbackInvalid="Select at least one user role."
                                             onChange={(selectedUserRoles) => {
                                                 setEditedUser((prev) => {
-                                                    const selectedUserRolesValues =
-                                                        selectedUserRoles.map(
-                                                            (selectedUserRole) => {
-                                                                return selectedUserRole.value;
-                                                            },
-                                                        );
+                                                    const selectedUserRolesValues = selectedUserRoles.map(
+                                                        (selectedUserRole) => {
+                                                            return selectedUserRole.value;
+                                                        },
+                                                    );
                                                     return {
                                                         ...prev,
                                                         roles: selectedUserRolesValues,
@@ -358,10 +374,7 @@ export default function UserEditForm({
                                                         required
                                                         feedbackInvalid="Password should be at least 8 characters, alphanumeric, contaning lower and uppercase letters, and a special charater (!, @, #, $, %)"
                                                         valid={isValidPassword}
-                                                        invalid={
-                                                            !!editedUser.password &&
-                                                            !isValidPassword
-                                                        }
+                                                        invalid={!!editedUser.password && !isValidPassword}
                                                         value={editedUser.password}
                                                         onChange={(e) => {
                                                             setEditedUser((prev) => {
@@ -385,14 +398,9 @@ export default function UserEditForm({
                                                         required
                                                         feedbackInvalid="Passwords do not match."
                                                         valid={isValidMatchPassword}
-                                                        invalid={
-                                                            !!confirmPassword &&
-                                                            !isValidMatchPassword
-                                                        }
+                                                        invalid={!!confirmPassword && !isValidMatchPassword}
                                                         value={confirmPassword}
-                                                        onChange={(e) =>
-                                                            setConfirmPassword(e.target.value)
-                                                        }
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
                                                     />
                                                 </CInputGroup>
                                             </>
@@ -446,12 +454,7 @@ export default function UserEditForm({
                 <CButton color="secondary" onClick={() => setEditUserModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editUserForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editUserForm" loading={isLoading} type="submit">
                     Save user
                 </CLoadingButton>
             </CModalFooter>

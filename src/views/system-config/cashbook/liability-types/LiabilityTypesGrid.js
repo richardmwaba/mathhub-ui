@@ -44,11 +44,7 @@ export default function LiabilityTypesGrid() {
     ];
 
     const getLiabilityTypes = async () => {
-        const response = await LiabilityTypesService.getAllLiabilityTypes(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await LiabilityTypesService.getAllLiabilityTypes(axiosPrivate, controller, setError);
         isMounted && setLiabilityTypes(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function LiabilityTypesGrid() {
 
     useEffect(() => {
         const liabilityTypeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Liability type ${createdLiabilityType?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Liability type ${createdLiabilityType?.name} has been created successfully`} />
         );
 
         if (createdLiabilityType?.name) {
@@ -87,9 +81,7 @@ export default function LiabilityTypesGrid() {
 
     useEffect(() => {
         const liabilityTypeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Liability type ${savedLiabilityType?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Liability type ${savedLiabilityType?.name} has been updated successfully`} />
         );
 
         if (savedLiabilityType?.name) {
@@ -105,9 +97,7 @@ export default function LiabilityTypesGrid() {
                     className="mb-2"
                     variant="outline"
                     size="sm"
-                    onClick={() =>
-                        setIsVisibleNewLiabilityTypeModal(!isVisibleNewLiabilityTypeModal)
-                    }
+                    onClick={() => setIsVisibleNewLiabilityTypeModal(!isVisibleNewLiabilityTypeModal)}
                 >
                     <CIcon icon={cilPlus} title="Add New Liability Type" /> Add New Liability Type
                 </CButton>
@@ -160,11 +150,7 @@ export default function LiabilityTypesGrid() {
                     savedLiabilityTypeCallBack={setSavedLiabilityTypeAndRefreshLiabilityTypes}
                 />
             )}
-            <CToaster
-                ref={liabilityTypeActionSuccessToasterRef}
-                push={toast}
-                placement="bottom-end"
-            />
+            <CToaster ref={liabilityTypeActionSuccessToasterRef} push={toast} placement="bottom-end" />
         </>
     );
 }

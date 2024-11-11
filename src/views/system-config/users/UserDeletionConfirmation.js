@@ -95,8 +95,7 @@ export default function UserDeletionConfirmation({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while deleting the user. Please try
-                                            again!
+                                            An error occured while deleting the user. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -108,8 +107,7 @@ export default function UserDeletionConfirmation({
                                     >
                                         <CInputGroup className="mb-3">
                                             <CFormLabel htmlFor="fullname">
-                                                Are you sure you want to delete <b>{user.name}</b>?
-                                                To proceed, type{' '}
+                                                Are you sure you want to delete <b>{user.name}</b>? To proceed, type{' '}
                                                 <b>
                                                     &quot;<i>{user.name}</i>&quot;
                                                 </b>{' '}
@@ -121,14 +119,9 @@ export default function UserDeletionConfirmation({
                                                 required
                                                 ref={fullnameRef}
                                                 value={nameOfUserToDelete}
-                                                onChange={(event) =>
-                                                    setNameOfUserToDelete(event.target.value)
-                                                }
+                                                onChange={(event) => setNameOfUserToDelete(event.target.value)}
                                                 valid={isValidNameOfUserToDelete}
-                                                invalid={
-                                                    !!nameOfUserToDelete &&
-                                                    !isValidNameOfUserToDelete
-                                                }
+                                                invalid={!!nameOfUserToDelete && !isValidNameOfUserToDelete}
                                                 aria-describedby="confirmNameInputGroup"
                                             />
                                         </CInputGroup>
@@ -143,12 +136,7 @@ export default function UserDeletionConfirmation({
                 <CButton color="secondary" onClick={() => setDeleteUserModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="danger"
-                    form="deleteUserForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="danger" form="deleteUserForm" loading={isLoading} type="submit">
                     Delete user
                 </CLoadingButton>
             </CModalFooter>

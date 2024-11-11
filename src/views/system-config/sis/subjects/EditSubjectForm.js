@@ -24,12 +24,7 @@ import PropTypes from 'prop-types';
 import SubjectsService from 'src/api/sis/subjects.service';
 import GradesService from 'src/api/sis/grades.service';
 
-export default function EditSubjectForm({
-    subject,
-    visibility,
-    setEditSubjectModalVisibility,
-    savedSubjectCallBack,
-}) {
+export default function EditSubjectForm({ subject, visibility, setEditSubjectModalVisibility, savedSubjectCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const subjectNameRef = useRef();
@@ -91,12 +86,7 @@ export default function EditSubjectForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await SubjectsService.editSubject(
-                editedSubject,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await SubjectsService.editSubject(editedSubject, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedSubject(defaultSubject);
                     setEditSubjectModalVisibility(!visibility);
@@ -136,8 +126,7 @@ export default function EditSubjectForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the subject. Please try
-                                            again!
+                                            An error occured while saving the subject. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -175,11 +164,9 @@ export default function EditSubjectForm({
                                             feedbackInvalid="Select at least one grade"
                                             onChange={(selectedGrades) => {
                                                 setEditedSubject((prev) => {
-                                                    const selectedGradesValues = selectedGrades.map(
-                                                        (selectedGrade) => {
-                                                            return selectedGrade.value;
-                                                        },
-                                                    );
+                                                    const selectedGradesValues = selectedGrades.map((selectedGrade) => {
+                                                        return selectedGrade.value;
+                                                    });
                                                     return {
                                                         ...prev,
                                                         gradeIds: selectedGradesValues,
@@ -214,12 +201,7 @@ export default function EditSubjectForm({
                 <CButton color="secondary" onClick={() => setEditSubjectModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editSubjectForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editSubjectForm" loading={isLoading} type="submit">
                     Save Subject
                 </CLoadingButton>
             </CModalFooter>

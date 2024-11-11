@@ -44,11 +44,7 @@ export default function ExpenseTypesGrid() {
     ];
 
     const getExpenseTypes = async () => {
-        const response = await ExpenseTypesService.getAllExpenseTypes(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await ExpenseTypesService.getAllExpenseTypes(axiosPrivate, controller, setError);
         isMounted && setExpenseTypes(response);
         setLoading(false);
     };
@@ -75,9 +71,7 @@ export default function ExpenseTypesGrid() {
 
     useEffect(() => {
         const expenseTypeSuccessfullyCreatedToast = (
-            <SuccessToast
-                message={`Expense type ${createdExpenseType?.name} has been created successfully`}
-            />
+            <SuccessToast message={`Expense type ${createdExpenseType?.name} has been created successfully`} />
         );
 
         if (createdExpenseType?.name) {
@@ -87,9 +81,7 @@ export default function ExpenseTypesGrid() {
 
     useEffect(() => {
         const expenseTypeSuccessfullyEditedToast = (
-            <SuccessToast
-                message={`Expense type ${savedExpenseType?.name} has been updated successfully`}
-            />
+            <SuccessToast message={`Expense type ${savedExpenseType?.name} has been updated successfully`} />
         );
 
         if (savedExpenseType?.name) {
@@ -158,11 +150,7 @@ export default function ExpenseTypesGrid() {
                     savedExpenseTypeCallBack={setSavedExpenseTypeAndRefreshExpenseTypes}
                 />
             )}
-            <CToaster
-                ref={expenseTypeActionSuccessToasterRef}
-                push={toast}
-                placement="bottom-end"
-            />
+            <CToaster ref={expenseTypeActionSuccessToasterRef} push={toast} placement="bottom-end" />
         </>
     );
 }

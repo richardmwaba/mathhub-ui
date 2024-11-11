@@ -24,13 +24,9 @@ function createPaymentMethod(newPaymentMethod, axiosPrivate, controller, errorCa
 
 function editPaymentMethod(editedPaymentMethod, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
-        .put(
-            `/systemconfig/ops/paymentMethods/${editedPaymentMethod.id}`,
-            editedPaymentMethod,
-            {
-                signal: controller.signal,
-            },
-        )
+        .put(`/systemconfig/ops/paymentMethods/${editedPaymentMethod.id}`, editedPaymentMethod, {
+            signal: controller.signal,
+        })
         .then((response) => {
             return response.data;
         })

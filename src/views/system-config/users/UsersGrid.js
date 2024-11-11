@@ -68,7 +68,7 @@ export default function UsersGrid() {
             _style: { width: '10%' },
         },
         {
-            key: 'phoneNumber',
+            key: 'fullPhoneNumber',
             label: 'Phone Number',
             _style: { width: '20%' },
         },
@@ -195,6 +195,7 @@ export default function UsersGrid() {
                     sorterValue={{ column: 'name', state: 'asc' }}
                     columns={columns}
                     itemsPerPage={10}
+                    clickableRows
                     columnFilter
                     columnSorter
                     items={users}
@@ -206,6 +207,7 @@ export default function UsersGrid() {
                     noItemsLabel={
                         error ? `Could not retrieve users due to ${error}. Please try again.` : 'No users found'
                     }
+                    onRowClick={(user) => toggleDetails(user.id)}
                     scopedColumns={{
                         show_details: (user) => {
                             return ToggleButton(toggleDetails, user, details);

@@ -36,8 +36,7 @@ export default function EditAssessmentTypeForm({
         description: assessmentType.description,
     };
 
-    const [isEditAssessmentTypeFormValidated, setIsEditAssessmentTypeFormValidated] =
-        useState(false);
+    const [isEditAssessmentTypeFormValidated, setIsEditAssessmentTypeFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [editedAssessmentType, setEditedAssessmentType] = useState(defaultAssessmentType);
@@ -102,8 +101,7 @@ export default function EditAssessmentTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the assessment type.
-                                            Please try again!
+                                            An error occured while saving the assessment type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,18 +155,10 @@ export default function EditAssessmentTypeForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton
-                    color="secondary"
-                    onClick={() => setEditAssessmentTypeModalVisibility(false)}
-                >
+                <CButton color="secondary" onClick={() => setEditAssessmentTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editAssessmentTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editAssessmentTypeForm" loading={isLoading} type="submit">
                     Save Assessment Type
                 </CLoadingButton>
             </CModalFooter>

@@ -101,8 +101,7 @@ export default function EditLiabilityTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the liability type. Please
-                                            try again!
+                                            An error occured while saving the liability type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -156,18 +155,10 @@ export default function EditLiabilityTypeForm({
                 </CContainer>
             </CModalBody>
             <CModalFooter>
-                <CButton
-                    color="secondary"
-                    onClick={() => setEditLiabilityTypeModalVisibility(false)}
-                >
+                <CButton color="secondary" onClick={() => setEditLiabilityTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editLiabilityTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editLiabilityTypeForm" loading={isLoading} type="submit">
                     Save Liability Type
                 </CLoadingButton>
             </CModalFooter>

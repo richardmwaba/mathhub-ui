@@ -20,11 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import SessionTypesService from 'src/api/system-config/sis/session-types.service';
 
-export default function NewSessionTypeForm({
-    visibility,
-    setSessionTypeModalVisibility,
-    createdSessionTypeCallBack,
-}) {
+export default function NewSessionTypeForm({ visibility, setSessionTypeModalVisibility, createdSessionTypeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const sessionTypeNameRef = useRef();
@@ -54,12 +50,7 @@ export default function NewSessionTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await SessionTypesService.createSessionType(
-                newSessionType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await SessionTypesService.createSessionType(newSessionType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewSessionType(defaultSessionType);
                     setSessionTypeModalVisibility(!visibility);
@@ -99,8 +90,7 @@ export default function NewSessionTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new session type.
-                                            Please try again!
+                                            An error occured while saving the new session type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,12 +147,7 @@ export default function NewSessionTypeForm({
                 <CButton color="secondary" onClick={() => setSessionTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewSessionTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewSessionTypeForm" loading={isLoading} type="submit">
                     Save Session Type
                 </CLoadingButton>
             </CModalFooter>

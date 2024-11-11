@@ -54,11 +54,7 @@ export default function LiabilitiesGrid() {
     ];
 
     const getLiabilities = async () => {
-        const response = await LiabilitiesService.getAllLiabilities(
-            axiosPrivate,
-            controller,
-            setError,
-        );
+        const response = await LiabilitiesService.getAllLiabilities(axiosPrivate, controller, setError);
         isMounted && setLiabilities(response);
         setLoading(false);
     };
@@ -107,9 +103,7 @@ export default function LiabilitiesGrid() {
     }, [createdLiability]);
 
     useEffect(() => {
-        const liabilitySuccessfullyEditedToast = (
-            <SuccessToast message={'Liability has been updated successfully'} />
-        );
+        const liabilitySuccessfullyEditedToast = <SuccessToast message={'Liability has been updated successfully'} />;
 
         if (savedLiability?.narration) {
             setToast(liabilitySuccessfullyEditedToast);

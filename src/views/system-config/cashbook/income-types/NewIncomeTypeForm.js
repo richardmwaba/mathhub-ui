@@ -20,11 +20,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import IncomeTypesService from 'src/api/system-config/cashbook/income-types.service';
 
-export default function NewIncomeTypeForm({
-    visibility,
-    setIncomeTypeModalVisibility,
-    createdIncomeTypeCallBack,
-}) {
+export default function NewIncomeTypeForm({ visibility, setIncomeTypeModalVisibility, createdIncomeTypeCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const incomeTypeNameRef = useRef();
@@ -54,12 +50,7 @@ export default function NewIncomeTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await IncomeTypesService.createIncomeType(
-                newIncomeType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await IncomeTypesService.createIncomeType(newIncomeType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewIncomeType(defaultIncomeType);
                     setIncomeTypeModalVisibility(!visibility);
@@ -99,8 +90,7 @@ export default function NewIncomeTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new income type.
-                                            Please try again!
+                                            An error occured while saving the new income type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -157,12 +147,7 @@ export default function NewIncomeTypeForm({
                 <CButton color="secondary" onClick={() => setIncomeTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewIncomeTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewIncomeTypeForm" loading={isLoading} type="submit">
                     Save Income Type
                 </CLoadingButton>
             </CModalFooter>

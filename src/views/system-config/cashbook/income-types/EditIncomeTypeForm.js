@@ -56,12 +56,7 @@ export default function EditIncomeTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await IncomeTypesService.editIncomeType(
-                editedIncomeType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await IncomeTypesService.editIncomeType(editedIncomeType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedIncomeType(defaultIncomeType);
                     setEditIncomeTypeModalVisibility(!visibility);
@@ -101,8 +96,7 @@ export default function EditIncomeTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the income type. Please
-                                            try again!
+                                            An error occured while saving the income type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -159,12 +153,7 @@ export default function EditIncomeTypeForm({
                 <CButton color="secondary" onClick={() => setEditIncomeTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editIncomeTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editIncomeTypeForm" loading={isLoading} type="submit">
                     Save Income Type
                 </CLoadingButton>
             </CModalFooter>

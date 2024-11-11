@@ -24,11 +24,7 @@ import PropTypes from 'prop-types';
 import SubjectsService from 'src/api/sis/subjects.service';
 import GradesService from 'src/api/sis/grades.service';
 
-export default function NewSubjectForm({
-    visibility,
-    setSubjectModalVisibility,
-    createdSubjectCallBack,
-}) {
+export default function NewSubjectForm({ visibility, setSubjectModalVisibility, createdSubjectCallBack }) {
     const axiosPrivate = useAxiosPrivate();
     const controller = new AbortController();
     const subjectNameRef = useRef();
@@ -83,12 +79,7 @@ export default function NewSubjectForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await SubjectsService.createSubject(
-                newSubject,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await SubjectsService.createSubject(newSubject, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setNewSubject(defaultSubject);
                     setSubjectModalVisibility(!visibility);
@@ -128,8 +119,7 @@ export default function NewSubjectForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the new subject. Please
-                                            try again!
+                                            An error occured while saving the new subject. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -167,11 +157,9 @@ export default function NewSubjectForm({
                                             feedbackInvalid="Select at least one grade"
                                             onChange={(selectedGrades) => {
                                                 setNewSubject((prev) => {
-                                                    const selectedGradesValues = selectedGrades.map(
-                                                        (selectedGrade) => {
-                                                            return selectedGrade.value;
-                                                        },
-                                                    );
+                                                    const selectedGradesValues = selectedGrades.map((selectedGrade) => {
+                                                        return selectedGrade.value;
+                                                    });
                                                     return {
                                                         ...prev,
                                                         gradeIds: selectedGradesValues,
@@ -205,12 +193,7 @@ export default function NewSubjectForm({
                 <CButton color="secondary" onClick={() => setSubjectModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="createNewSubjectForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="createNewSubjectForm" loading={isLoading} type="submit">
                     Save Subject
                 </CLoadingButton>
             </CModalFooter>

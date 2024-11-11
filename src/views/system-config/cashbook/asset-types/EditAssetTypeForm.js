@@ -56,12 +56,7 @@ export default function EditAssetTypeForm({
             setErrorMessage('');
             setIsLoading(true);
 
-            await AssetTypesService.editAssetType(
-                editedAssetType,
-                axiosPrivate,
-                controller,
-                setErrorMessage,
-            ).then(
+            await AssetTypesService.editAssetType(editedAssetType, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedAssetType(defaultAssetType);
                     setEditAssetTypeModalVisibility(!visibility);
@@ -101,8 +96,7 @@ export default function EditAssetTypeForm({
                                 <CCardBody className="p-4">
                                     {errorMessage && (
                                         <CFormText className="mb-3" style={{ color: 'red' }}>
-                                            An error occured while saving the asset type. Please try
-                                            again!
+                                            An error occured while saving the asset type. Please try again!
                                         </CFormText>
                                     )}
                                     <CForm
@@ -159,12 +153,7 @@ export default function EditAssetTypeForm({
                 <CButton color="secondary" onClick={() => setEditAssetTypeModalVisibility(false)}>
                     Cancel
                 </CButton>
-                <CLoadingButton
-                    color="primary"
-                    form="editAssetTypeForm"
-                    loading={isLoading}
-                    type="submit"
-                >
+                <CLoadingButton color="primary" form="editAssetTypeForm" loading={isLoading} type="submit">
                     Save Asset Type
                 </CLoadingButton>
             </CModalFooter>

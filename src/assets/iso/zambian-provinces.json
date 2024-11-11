@@ -1,0 +1,169 @@
+[
+    {
+        "key": "central",
+        "name": "Central",
+        "capital": "Kabwe",
+        "cities_towns": [
+            "Kabwe",
+            "Kapiri Mposhi",
+            "Mkushi",
+            "Serenje",
+            "Mumbwa",
+            "Chibombo",
+            "Chisamba",
+            "Ngabwe",
+            "Luano",
+            "Itezhi-Tezhi"
+        ]
+    },
+    {
+        "key": "copperbelt",
+        "name": "Copperbelt",
+        "capital": "Ndola",
+        "cities_towns": [
+            "Ndola",
+            "Chingola",
+            "Kitwe",
+            "Mufulira",
+            "Luanshya",
+            "Kalulushi",
+            "Chililabombwe",
+            "Lufwanyama",
+            "Mpongwe",
+            "Masaiti"
+        ]
+    },
+    {
+        "key": "eastern",
+        "name": "Eastern",
+        "capital": "Chipata",
+        "cities_towns": [
+            "Chipata",
+            "Petauke",
+            "Katete",
+            "Lundazi",
+            "Nyimba",
+            "Sinda",
+            "Mambwe",
+            "Vubwi",
+            "Chadiza"
+        ]
+    },
+    {
+        "key": "luapula",
+        "name": "Luapula",
+        "capital": "Mansa",
+        "cities_towns": [
+            "Mansa",
+            "Samfya",
+            "Kawambwa",
+            "Nchelenge",
+            "Mwense",
+            "Chembe",
+            "Chienge",
+            "Milenge",
+            "Chipili",
+            "Lunga"
+        ]
+    },
+    {
+        "key": "lusaka",
+        "name": "Lusaka",
+        "capital": "Lusaka",
+        "cities_towns": [
+            "Lusaka",
+            "Kafue",
+            "Chongwe",
+            "Chilanga",
+            "Rufunsa",
+            "Shibuyunji"
+        ]
+    },
+    {
+        "key": "muchinga",
+        "name": "Muchinga",
+        "capital": "Chinsali",
+        "cities_towns": [
+            "Chinsali",
+            "Mpika",
+            "Isoka",
+            "Nakonde",
+            "Mafinga",
+            "Shiwang'andu",
+            "Lavushimanda",
+            "Kanchibiya"
+        ]
+    },
+    {
+        "key": "northern",
+        "name": "Northern",
+        "capital": "Kasama",
+        "cities_towns": [
+            "Kasama",
+            "Mbala",
+            "Mpulungu",
+            "Mporokoso",
+            "Luwingu",
+            "Chilubi",
+            "Kaputa",
+            "Lupososhi",
+            "Senga Hill",
+            "Lunte"
+        ]
+    },
+    {
+        "key": "north-western",
+        "name": "North-Western",
+        "capital": "Solwezi",
+        "cities_towns": [
+            "Solwezi",
+            "Mwinilunga",
+            "Kasempa",
+            "Kabompo",
+            "Zambezi",
+            "Chavuma",
+            "Ikelenge",
+            "Mushindamo",
+            "Kalumbila"
+        ]
+    },
+    {
+        "key": "southern",
+        "name": "Southern",
+        "capital": "Choma",
+        "cities_towns": [
+            "Choma",
+            "Livingstone",
+            "Mazabuka",
+            "Kalomo",
+            "Monze",
+            "Namwala",
+            "Siavonga",
+            "Sinazongwe",
+            "Gwembe",
+            "Zimba",
+            "Kazungula",
+            "Pemba"
+        ]
+    },
+    {
+        "key": "western",
+        "name": "Western",
+        "capital": "Mongu",
+        "cities_towns": [
+            "Mongu",
+            "Senanga",
+            "Kaoma",
+            "Sesheke",
+            "Shangombo",
+            "Kalabo",
+            "Lukulu",
+            "Nalolo",
+            "Sioma",
+            "Limulunga",
+            "Nkeyema",
+            "Mwandi",
+            "Mitete"
+        ]
+    }
+]
