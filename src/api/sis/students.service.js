@@ -1,3 +1,5 @@
+import { getFullname, getFullPhoneNumber } from 'src/components/common/serviceutils';
+
 function getAllStudents(axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .get('/sis/students', { signal: controller.signal })
@@ -5,22 +7,7 @@ function getAllStudents(axiosPrivate, controller, errorCallback) {
             const studentsList = response.data._embedded.studentList;
 
             return studentsList.map((detailedStudent) => {
-                return {
-                    id: detailedStudent.id,
-                    firstName: detailedStudent.firstName,
-                    middleName: detailedStudent.middleName,
-                    lastName: detailedStudent.lastName,
-                    gender: detailedStudent.gender,
-                    parents: detailedStudent.parents,
-                    grade: detailedStudent.grade,
-                    classes: detailedStudent.classes,
-                    email: detailedStudent.email,
-                    addresses: detailedStudent.addresses,
-                    examBoard: detailedStudent.examBoard,
-                    phoneNumbers: detailedStudent.phoneNumbers,
-                    financialSummary: detailedStudent.financialSummary,
-                    dateOfBirth: detailedStudent.dateOfBirth,
-                };
+                return expandStudent(detailedStudent);
             });
         })
         .catch((error) => {
@@ -34,29 +21,7 @@ function getStudentById(studentId, axiosPrivate, controller, errorCallback) {
         .get(`sis/students/${studentId}`, { signal: controller.signal })
         .then((response) => {
             const student = response.data;
-            const parent = StudentsService.getStudentsParent(student.parents)[0];
-            return {
-                id: student.id,
-                name: StudentsService.getFullname(student.firstName, student.middleName, student.lastName),
-                firstName: student.firstName,
-                middleName: student.middleName,
-                lastName: student.lastName,
-                dateOfBirth: student.dateOfBirth,
-                gender: student.gender,
-                email: student.email,
-                gradeName: student.grade ? student.grade.name : '',
-                syllabus: student.examBoard ? student.examBoard.name : '',
-                mobileNumber: StudentsService.getMobileNumber(student.phoneNumbers),
-                parentName: parent ? parent.parentName : '',
-                parentEmail: parent ? parent.parentEmail : '',
-                parents: student.parents,
-                grade: student.grade,
-                classes: student.classes,
-                addresses: student.addresses,
-                examBoard: student.examBoard,
-                phoneNumbers: student.phoneNumbers,
-                financialSummary: student.financialSummary,
-            };
+            return expandStudent(student);
         })
         .catch((error) => {
             errorCallback(error.message);
@@ -64,54 +29,60 @@ function getStudentById(studentId, axiosPrivate, controller, errorCallback) {
         });
 }
 
-function getFullname(firstName, middleName, lastName) {
-    return middleName ? `${firstName} ${middleName} ${lastName}` : `${firstName} ${lastName}`;
+function expandStudent(student) {
+    const defaultParent = StudentsService.getStudentsDefaultParent(student.parents)[0];
+    return {
+        id: student.id,
+        name: getFullname(student.firstName, student.middleName, student.lastName),
+        firstName: student.firstName,
+        middleName: student.middleName,
+        lastName: student.lastName,
+        dateOfBirth: student.dateOfBirth,
+        gender: student.gender,
+        email: student.email,
+        gradeName: student.grade ? student.grade.name : '',
+        syllabus: student.examBoard ? student.examBoard.name : '',
+        phoneNumber: student.phoneNumber,
+        fullPhoneNumber: getFullPhoneNumber(student.phoneNumber),
+        defaultParent: defaultParent,
+        parentName: defaultParent.name,
+        parentEmail: defaultParent.email,
+        parents: student.parents,
+        grade: student.grade,
+        classes: student.classes,
+        address: student.address,
+        examBoard: student.examBoard,
+        phoneNumbers: student.phoneNumbers,
+        financialSummary: student.financialSummary,
+    };
 }
 
-function getMobileNumber(phoneNumbers) {
-    return phoneNumbers.map((phoneNumber) => {
-        return phoneNumber.type === 'MOBILE' ? `${phoneNumber.countryCode} ${phoneNumber.number}` : null;
-    });
+function editStudent(editedStudent, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .put(`/sis/students/${editedStudent.id}`, editedStudent, { signal: controller.signal })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
 }
 
-function getFormattedAddresses(addresses) {
-    return addresses.map((address) => {
-        const fullAddress =
-            nonNullStringOf(address.firstAddress) +
-            ', ' +
-            nonNullStringOf(address.secondAddress) +
-            ', ' +
-            nonNullStringOf(address.thirdAddress) +
-            ', ' +
-            nonNullStringOf(address.city) +
-            ', ' +
-            nonNullStringOf(address.province);
-        const fullAddressWithCleanStart = fullAddress.replace(/^\W+\s+/, '');
-
-        return fullAddressWithCleanStart.replace(/\W+\s+/, ', ');
-    });
-}
-
-function nonNullStringOf(str) {
-    return str ?? '';
-}
-
-function getStudentsParent(parents) {
+function getStudentsDefaultParent(parents) {
     return parents.map((parent) => {
         return {
-            parentName: `${parent.firstName} ${parent.lastName}`,
-            parentEmail: parent.email,
+            name: `${parent.firstName} ${parent.lastName}`,
+            email: parent.email,
         };
     });
 }
 
 const StudentsService = {
+    editStudent,
     getAllStudents,
     getStudentById,
-    getFullname,
-    getFormattedAddresses,
-    getMobileNumber,
-    getStudentsParent,
+    getStudentsDefaultParent,
 };
 
 export default StudentsService;

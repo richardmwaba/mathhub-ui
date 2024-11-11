@@ -106,7 +106,7 @@ const StudentDetails = () => {
                                     aria-labelledby="personal-info-tab"
                                     visible={activeTab === 'personal-info'}
                                 >
-                                    <StudentPersonalInfo student={student} />
+                                    <StudentPersonalInfo student={student} setStudent={setStudent} />
                                 </CTabPane>
                             </CTabContent>
                         </CCardBody>

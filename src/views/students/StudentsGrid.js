@@ -14,7 +14,6 @@ export default function StudentsGrid() {
     const [loading, setLoading] = useState(true);
     const [currentItems, setCurrentItems] = useState([]);
     const [students, setStudents] = useState([]);
-    const [selectedStudent, setSelectedStudent] = useState({});
     const [error, setError] = useState('');
 
     const csvContent = currentItems.map((item) => Object.values(item).join(',')).join('\n');
@@ -43,7 +42,7 @@ export default function StudentsGrid() {
             _style: { width: '10%' },
         },
         {
-            key: 'mobileNumber',
+            key: 'fullPhoneNumber',
             label: 'Phone Number',
             _style: { width: '15%' },
         },
@@ -67,7 +66,6 @@ export default function StudentsGrid() {
     ];
 
     const handleRowClick = (student) => {
-        setSelectedStudent(student);
         navigate(`/students/enrolment/${student.id}`, { state: student });
     };
 
@@ -90,32 +88,6 @@ export default function StudentsGrid() {
         };
     }, [axiosPrivate]);
 
-    const expandedStudents = students.map((student) => {
-        const parent = StudentsService.getStudentsParent(student.parents)[0];
-        return {
-            id: student.id,
-            name: StudentsService.getFullname(student.firstName, student.middleName, student.lastName),
-            firstName: student.firstName,
-            middleName: student.middleName,
-            lastName: student.lastName,
-            dateOfBirth: student.dateOfBirth,
-            gender: student.gender,
-            email: student.email,
-            gradeName: student.grade ? student.grade.name : '',
-            syllabus: student.examBoard ? student.examBoard.name : '',
-            mobileNumber: StudentsService.getMobileNumber(student.phoneNumbers),
-            parentName: parent ? parent.parentName : '',
-            parentEmail: parent ? parent.parentEmail : '',
-            parents: student.parents,
-            grade: student.grade,
-            classes: student.classes,
-            addresses: student.addresses,
-            examBoard: student.examBoard,
-            phoneNumbers: student.phoneNumbers,
-            financialSummary: student.financialSummary,
-        };
-    });
-
     return (
         <CCardBody>
             <CButton
@@ -131,7 +103,7 @@ export default function StudentsGrid() {
             </CButton>
             <CSmartTable
                 sorterValue={{ column: 'name', state: 'asc' }}
-                items={expandedStudents}
+                items={students}
                 columns={columns}
                 clickableRows
                 itemsPerPage={10}
@@ -151,7 +123,6 @@ export default function StudentsGrid() {
                         <ViewDetailsButton
                             item={currentStudent}
                             detailsLocation={`/students/enrolment/${currentStudent.id}`}
-                            setSelectedItem={setSelectedStudent}
                         />
                     ),
                 }}

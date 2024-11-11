@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
+import { CButton, CCardBody, CSmartTable } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import AssetTypesService from 'src/api/system-config/cashbook/asset-types.service';
 import CIcon from '@coreui/icons-react';

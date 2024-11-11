@@ -26,9 +26,8 @@ import { cilChevronCircleDownAlt, cilChevronCircleUpAlt, cilLockLocked, cilPhone
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import UsersService from 'src/api/system-config/users/users.service';
 import PropTypes from 'prop-types';
-import { IMaskMixin } from 'react-imask';
-
-const CFormInputWithMask = IMaskMixin(({ inputRef, ...props }) => <CFormInput {...props} ref={inputRef} />);
+import counryCodes from 'src/assets/iso/country-codes.json';
+import { CFormInputWithMask } from 'src/views/common/CFormInputWithMask';
 
 export default function UserEditForm({ user, visibility, setEditUserModalVisibility, savedUserCallBack }) {
     const axiosPrivate = useAxiosPrivate();
@@ -46,6 +45,7 @@ export default function UserEditForm({ user, visibility, setEditUserModalVisibil
         gender: user.gender,
         middleName: usersNames.length === 3 ? usersNames[1] : '',
         phoneNumber: user.phoneNumber,
+        fullPhoneNumber: user.fullPhoneNumber,
         email: user.email,
         roles: user.roles,
     };
@@ -270,16 +270,48 @@ export default function UserEditForm({ user, visibility, setEditUserModalVisibil
                                             <CInputGroupText>
                                                 <CIcon icon={cilPhone} title="Phone Number" />
                                             </CInputGroupText>
+                                            <CCol xs="4" sm="4" md="4">
+                                                <CFormSelect
+                                                    className="rounded-0"
+                                                    id="countryCodes"
+                                                    value={editedUser.phoneNumber?.countryCode ?? '+260'}
+                                                    onChange={(e) => {
+                                                        setEditedUser((prev) => {
+                                                            return {
+                                                                ...prev,
+                                                                phoneNumber: {
+                                                                    number: prev.phoneNumber?.number ?? '',
+                                                                    countryCode: e.target.value,
+                                                                },
+                                                            };
+                                                        });
+                                                    }}
+                                                >
+                                                    {counryCodes.map((countryCode) => {
+                                                        return (
+                                                            <option
+                                                                key={countryCode.name}
+                                                                value={countryCode.dial_code}
+                                                            >
+                                                                {countryCode.flag} {countryCode.dial_code}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </CFormSelect>
+                                            </CCol>
                                             <CFormInputWithMask
-                                                mask="+260 000 000000"
+                                                mask="000 000000"
                                                 autoComplete="phoneNumber"
                                                 id="phoneNumber"
-                                                value={editedUser.phoneNumber}
+                                                value={editedUser.phoneNumber?.number ?? ''}
                                                 onChange={(e) => {
                                                     setEditedUser((prev) => {
                                                         return {
                                                             ...prev,
-                                                            phoneNumber: e.target.value,
+                                                            phoneNumber: {
+                                                                number: e.target.value,
+                                                                countryCode: prev.phoneNumber?.countryCode ?? '+260',
+                                                            },
                                                         };
                                                     });
                                                 }}

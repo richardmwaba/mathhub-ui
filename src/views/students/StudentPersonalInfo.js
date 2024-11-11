@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     CAccordion,
     CAccordionBody,
     CAccordionHeader,
     CAccordionItem,
-    CButton,
     CCard,
     CCardBody,
     CCardTitle,
@@ -13,14 +12,40 @@ import {
     CFormInput,
     CFormLabel,
     CRow,
+    CToaster,
 } from '@coreui/react-pro';
 import PropTypes from 'prop-types';
 import DateUtils from 'src/utils/dateUtils';
 import { isEmpty } from 'lodash';
-import StudentsService from 'src/api/sis/students.service';
+import { EditButton } from 'src/components/common/EditButton';
+import EditStudentBasicInfo from './EditStudentBasicInfo';
+import { SuccessToast } from 'src/components/common/SuccessToast';
+import EditContactDetails from './EditStudentContactDetails';
+import { formatAddress, getFormattedAddresses, getFullname, getMobileNumber } from 'src/components/common/serviceutils';
 
-const StudentPersonalInfo = ({ student }) => {
-    const addresses = StudentsService.getFormattedAddresses(student.addresses);
+const StudentPersonalInfo = ({ student, setStudent }) => {
+    const [isVisibleEditParentsModal, setIsVisibleEditParentsModal] = useState(false);
+    const [isVisibleEditContactDetailsModal, setIsVisibleEditContactDetailsModal] = useState(false);
+    const [isVisibleEditBasicInfoModal, setIsVisibleEditBasicInfoModal] = useState(false);
+    const [savedStudent, setSavedStudent] = useState({});
+    const [toast, setToast] = useState(0);
+
+    const studentActionSuccessToasterRef = useRef();
+
+    const setUpdatedStudent = (updatedStudent) => {
+        setStudent(updatedStudent);
+        setSavedStudent(updatedStudent);
+    };
+
+    useEffect(() => {
+        const studentSuccessfullyEditedToast = (
+            <SuccessToast message={`Student's basic info has been updated successfully`} />
+        );
+
+        if (savedStudent?.firstName) {
+            setToast(studentSuccessfullyEditedToast);
+        }
+    }, [savedStudent]);
 
     return (
         <CRow>
@@ -37,7 +62,19 @@ const StudentPersonalInfo = ({ student }) => {
                     <CCol xs={12} md={9} xl={9}>
                         <CCard className="mb-4">
                             <CCardBody>
-                                <CCardTitle className="fs-5">Basic Info</CCardTitle>
+                                <CCardTitle className="fs-5">
+                                    Basic Info{' |'}
+                                    <span>
+                                        <EditButton
+                                            buttonText="Update"
+                                            item={student}
+                                            isInGrid={false}
+                                            setSelectedItem={setStudent}
+                                            isVisibleEditModal={isVisibleEditBasicInfoModal}
+                                            setIsVisibleEditModal={setIsVisibleEditBasicInfoModal}
+                                        />
+                                    </span>
+                                </CCardTitle>
                                 <CRow>
                                     <CFormLabel htmlFor="name" className="col-sm-2 col-form-label">
                                         Name:
@@ -112,7 +149,18 @@ const StudentPersonalInfo = ({ student }) => {
                         </CCard>
                         <CCard className="mb-4">
                             <CCardBody>
-                                <CCardTitle className="fs-5">Contact Details</CCardTitle>
+                                <CCardTitle className="fs-5">
+                                    Contact Details{' |'}
+                                    <span>
+                                        <EditButton
+                                            buttonText="Update"
+                                            item={student}
+                                            setSelectedItem={setStudent}
+                                            isVisibleEditModal={isVisibleEditContactDetailsModal}
+                                            setIsVisibleEditModal={setIsVisibleEditContactDetailsModal}
+                                        />
+                                    </span>
+                                </CCardTitle>
                                 <CRow>
                                     <CFormLabel htmlFor="email" className="col-sm-2 col-form-label">
                                         Email:
@@ -135,7 +183,7 @@ const StudentPersonalInfo = ({ student }) => {
                                         <CFormInput
                                             type="text"
                                             id="birthday"
-                                            defaultValue={student.mobileNumber}
+                                            defaultValue={student.fullPhoneNumber}
                                             readOnly
                                             plainText
                                         />
@@ -149,7 +197,7 @@ const StudentPersonalInfo = ({ student }) => {
                                         <CFormInput
                                             type="text"
                                             id="gender"
-                                            defaultValue={addresses[0]}
+                                            defaultValue={formatAddress(student.address)}
                                             readOnly
                                             plainText
                                         />
@@ -159,7 +207,18 @@ const StudentPersonalInfo = ({ student }) => {
                         </CCard>
                         <CCard className="mb-4">
                             <CCardBody>
-                                <CCardTitle className="fs-5">Parents/Gurdians</CCardTitle>
+                                <CCardTitle className="fs-5">
+                                    Parents/Gurdians{' |'}
+                                    <span>
+                                        <EditButton
+                                            buttonText="Update"
+                                            item={student}
+                                            setSelectedItem={setStudent}
+                                            isVisibleEditModal={isVisibleEditParentsModal}
+                                            setIsVisibleEditModal={setIsVisibleEditParentsModal}
+                                        />
+                                    </span>
+                                </CCardTitle>
                                 <CAccordion flush>
                                     {isEmpty(student.parents) ? (
                                         <p>Not parents registered for student.</p>
@@ -169,7 +228,7 @@ const StudentPersonalInfo = ({ student }) => {
                                                 <CAccordionItem key={parent.id} itemKey={parent.id}>
                                                     <CAccordionHeader>
                                                         <CFormLabel className="col-sm-12 fw-semibold">
-                                                            {StudentsService.getFullname(
+                                                            {getFullname(
                                                                 parent.firstName,
                                                                 parent.middleName,
                                                                 parent.lastName,
@@ -188,9 +247,7 @@ const StudentPersonalInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id="phone"
-                                                                    defaultValue={StudentsService.getMobileNumber(
-                                                                        parent.phoneNumbers,
-                                                                    )}
+                                                                    defaultValue={getMobileNumber(parent.phoneNumbers)}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -225,9 +282,7 @@ const StudentPersonalInfo = ({ student }) => {
                                                                     type="text"
                                                                     id="address"
                                                                     defaultValue={
-                                                                        StudentsService.getFormattedAddresses(
-                                                                            parent.addresses,
-                                                                        )[0]
+                                                                        getFormattedAddresses(parent.addresses)[0]
                                                                     }
                                                                     readOnly
                                                                     plainText
@@ -244,6 +299,23 @@ const StudentPersonalInfo = ({ student }) => {
                         </CCard>
                     </CCol>
                 </CRow>
+                {isVisibleEditBasicInfoModal && (
+                    <EditStudentBasicInfo
+                        student={student}
+                        visibility={isVisibleEditBasicInfoModal}
+                        setEditStudentModalVisibility={setIsVisibleEditBasicInfoModal}
+                        savedStudentCallBack={setUpdatedStudent}
+                    />
+                )}
+                {isVisibleEditContactDetailsModal && (
+                    <EditContactDetails
+                        student={student}
+                        visibility={isVisibleEditContactDetailsModal}
+                        setEditStudentModalVisibility={setIsVisibleEditContactDetailsModal}
+                        savedStudentCallBack={setUpdatedStudent}
+                    />
+                )}
+                <CToaster ref={studentActionSuccessToasterRef} push={toast} placement="bottom-end" />
             </CContainer>
         </CRow>
     );
@@ -251,6 +323,7 @@ const StudentPersonalInfo = ({ student }) => {
 
 StudentPersonalInfo.propTypes = {
     student: PropTypes.object.isRequired,
+    setStudent: PropTypes.func.isRequired,
 };
 
 export default StudentPersonalInfo;
