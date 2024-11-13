@@ -28,7 +28,7 @@ import ExamBoardsService from 'src/api/sis/exam-boards.service';
 import DateUtils from 'src/utils/dateUtils';
 import moment from 'moment';
 
-export default function EditStudentBasicInfo({
+export default function EditStudentsBasicInfo({
     student,
     visibility,
     setEditStudentModalVisibility,
@@ -335,7 +335,7 @@ export default function EditStudentBasicInfo({
     );
 }
 
-EditStudentBasicInfo.propTypes = {
+EditStudentsBasicInfo.propTypes = {
     student: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
     setEditStudentModalVisibility: PropTypes.func.isRequired,

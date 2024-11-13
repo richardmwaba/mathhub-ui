@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewGradeForm from './NewGradeForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditGradeForm from './EditGradeForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function GradesGrid() {
@@ -118,7 +118,7 @@ export default function GradesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedGrade}
                                 isVisibleEditModal={isVisibleEditGradeModal}

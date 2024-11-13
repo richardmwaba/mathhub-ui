@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import DateUtils from 'src/utils/dateUtils';
 
-const StudentEnrolmentInfo = ({ student }) => {
+const StudentsEnrolmentInfo = ({ student }) => {
     return (
         <CRow>
             <CContainer className="mt-3 md-3">
@@ -141,8 +141,8 @@ const StudentEnrolmentInfo = ({ student }) => {
     );
 };
 
-StudentEnrolmentInfo.propTypes = {
+StudentsEnrolmentInfo.propTypes = {
     student: PropTypes.object.isRequired,
 };
 
-export default StudentEnrolmentInfo;
+export default StudentsEnrolmentInfo;

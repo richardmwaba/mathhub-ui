@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewExpenseTypeForm from './NewExpenseTypeForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditExpenseTypeForm from './EditExpenseTypeForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function ExpenseTypesGrid() {
@@ -120,7 +120,7 @@ export default function ExpenseTypesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedExpenseType}
                                 isVisibleEditModal={isVisibleEditExpenseTypeModal}

@@ -4,7 +4,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 
 // Enrolment
 const Students = React.lazy(() => import('./views/students/StudentsPage'));
-const StudentDetails = React.lazy(() => import('./views/students/StudentDetails'));
+const StudentDetails = React.lazy(() => import('./views/students/StudentsDetails'));
 
 // Cashbook
 const CashbookSummary = React.lazy(() => import('./views/cashbook/summary/CashbookSummaryPage'));

@@ -16,7 +16,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate';
 import InvoicesService from 'src/api/cashbook/invoices.service';
 import { isEmpty } from 'lodash';
 
-const StudentFinances = ({ student }) => {
+const StudentsFinances = ({ student }) => {
     const axiosPrivate = useAxiosPrivate();
 
     const [invoices, setInvoices] = useState([]);
@@ -129,8 +129,8 @@ function hasActiveInvoice(student, invoices) {
     return student.financialSummary.isOwing && !isEmpty(invoices);
 }
 
-StudentFinances.propTypes = {
+StudentsFinances.propTypes = {
     student: PropTypes.object.isRequired,
 };
 
-export default StudentFinances;
+export default StudentsFinances;

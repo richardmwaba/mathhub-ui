@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewAssessmentTypeForm from './NewAssessmentTypeForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditAssessmentTypeForm from './EditAssessmentTypeForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function AssessmentTypesGrid() {
@@ -120,7 +120,7 @@ export default function AssessmentTypesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedAssessmentType}
                                 isVisibleEditModal={isVisibleEditAssessmentTypeModal}

@@ -6,7 +6,7 @@ import CIcon from '@coreui/icons-react';
 import NewExpenseForm from './NewExpenseForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditExpenseForm from './EditExpenseForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 import ExpensesService from 'src/api/cashbook/expenses.service';
 
@@ -137,7 +137,7 @@ export default function ExpensesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={expenses.find((expense) => expense.id === item.id)}
                                 setSelectedItem={setSelectedExpense}
                                 isVisibleEditModal={isVisibleEditExpenseModal}

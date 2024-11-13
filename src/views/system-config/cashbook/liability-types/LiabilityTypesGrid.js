@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewLiabilityTypeForm from './NewLiabilityTypeForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditLiabilityTypeForm from './EditLiabilityTypeForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function LiabilityTypesGrid() {
@@ -120,7 +120,7 @@ export default function LiabilityTypesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedLiabilityType}
                                 isVisibleEditModal={isVisibleEditLiabilityTypeModal}

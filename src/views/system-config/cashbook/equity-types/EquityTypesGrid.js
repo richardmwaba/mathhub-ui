@@ -6,7 +6,7 @@ import EquityTypesService from 'src/api/system-config/cashbook/equity-types.serv
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import CIcon from '@coreui/icons-react';
 import { cilPlus } from '@coreui/icons';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import NewEquityTypeForm from './NewEquityTypeForm';
 import EditEquityTypeForm from './EditEquityTypeForm';
 
@@ -120,7 +120,7 @@ export default function EquityTypesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedEquityType}
                                 isVisibleEditModal={isVisibleEditEquityTypeModal}

@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewExamBoardForm from './NewExamBoardForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditExamBoardForm from './EditExamBoardForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function ExamBoardsGrid() {
@@ -120,7 +120,7 @@ export default function ExamBoardsGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedExamBoard}
                                 isVisibleEditModal={isVisibleEditExamBoardModal}

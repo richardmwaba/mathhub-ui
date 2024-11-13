@@ -5,7 +5,7 @@ import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import AssetTypesService from 'src/api/system-config/cashbook/asset-types.service';
 import CIcon from '@coreui/icons-react';
 import { SuccessToast } from 'src/components/common/SuccessToast';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function AssetTypesGrid() {
@@ -106,7 +106,7 @@ export default function AssetTypesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedAssetType}
                                 isVisibleEditModal={isVisibleEditAssetTypeModal}

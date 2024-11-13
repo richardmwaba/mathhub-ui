@@ -17,14 +17,17 @@ import {
 import PropTypes from 'prop-types';
 import DateUtils from 'src/utils/dateUtils';
 import { isEmpty } from 'lodash';
-import { EditButton } from 'src/components/common/EditButton';
-import EditStudentBasicInfo from './EditStudentBasicInfo';
+import { DefaultEditButton } from 'src/components/common/EditButton';
+import EditStudentsBasicInfo from './EditStudentsBasicInfo';
 import { SuccessToast } from 'src/components/common/SuccessToast';
-import EditContactDetails from './EditStudentContactDetails';
+import EditStudentsContactDetails from './EditStudentsContactDetails';
 import { formatAddress, getFormattedAddresses, getFullname, getMobileNumber } from 'src/components/common/serviceutils';
+import EditStudentParent from './EditStudentsParent';
 
-const StudentPersonalInfo = ({ student, setStudent }) => {
-    const [isVisibleEditParentsModal, setIsVisibleEditParentsModal] = useState(false);
+const StudentsPersonalInfo = ({ student, setStudent }) => {
+    const [isVisibleEditParentModal, setIsVisibleEditParentModal] = useState(false);
+    const [isVisibleAddParentModal, setIsVisibleAddParentModal] = useState(false);
+    const [isVisibleDeleteParentModal, setIsVisibleDeleteParentModal] = useState(false);
     const [isVisibleEditContactDetailsModal, setIsVisibleEditContactDetailsModal] = useState(false);
     const [isVisibleEditBasicInfoModal, setIsVisibleEditBasicInfoModal] = useState(false);
     const [savedStudent, setSavedStudent] = useState({});
@@ -65,10 +68,9 @@ const StudentPersonalInfo = ({ student, setStudent }) => {
                                 <CCardTitle className="fs-5">
                                     Basic Info{' |'}
                                     <span>
-                                        <EditButton
+                                        <DefaultEditButton
                                             buttonText="Update"
                                             item={student}
-                                            isInGrid={false}
                                             setSelectedItem={setStudent}
                                             isVisibleEditModal={isVisibleEditBasicInfoModal}
                                             setIsVisibleEditModal={setIsVisibleEditBasicInfoModal}
@@ -152,7 +154,7 @@ const StudentPersonalInfo = ({ student, setStudent }) => {
                                 <CCardTitle className="fs-5">
                                     Contact Details{' |'}
                                     <span>
-                                        <EditButton
+                                        <DefaultEditButton
                                             buttonText="Update"
                                             item={student}
                                             setSelectedItem={setStudent}
@@ -210,12 +212,12 @@ const StudentPersonalInfo = ({ student, setStudent }) => {
                                 <CCardTitle className="fs-5">
                                     Parents/Gurdians{' |'}
                                     <span>
-                                        <EditButton
+                                        <DefaultEditButton
                                             buttonText="Update"
                                             item={student}
                                             setSelectedItem={setStudent}
-                                            isVisibleEditModal={isVisibleEditParentsModal}
-                                            setIsVisibleEditModal={setIsVisibleEditParentsModal}
+                                            isVisibleEditModal={isVisibleEditParentModal}
+                                            setIsVisibleEditModal={setIsVisibleEditParentModal}
                                         />
                                     </span>
                                 </CCardTitle>
@@ -233,6 +235,16 @@ const StudentPersonalInfo = ({ student, setStudent }) => {
                                                                 parent.middleName,
                                                                 parent.lastName,
                                                             )}
+                                                            {' |'}
+                                                            <span>
+                                                                <DefaultEditButton
+                                                                    buttonText="Update"
+                                                                    item={student}
+                                                                    setSelectedItem={setStudent}
+                                                                    isVisibleEditModal={isVisibleEditParentModal}
+                                                                    setIsVisibleEditModal={setIsVisibleEditParentModal}
+                                                                />
+                                                            </span>
                                                         </CFormLabel>
                                                     </CAccordionHeader>
                                                     <CAccordionBody>
@@ -300,7 +312,7 @@ const StudentPersonalInfo = ({ student, setStudent }) => {
                     </CCol>
                 </CRow>
                 {isVisibleEditBasicInfoModal && (
-                    <EditStudentBasicInfo
+                    <EditStudentsBasicInfo
                         student={student}
                         visibility={isVisibleEditBasicInfoModal}
                         setEditStudentModalVisibility={setIsVisibleEditBasicInfoModal}
@@ -308,10 +320,18 @@ const StudentPersonalInfo = ({ student, setStudent }) => {
                     />
                 )}
                 {isVisibleEditContactDetailsModal && (
-                    <EditContactDetails
+                    <EditStudentsContactDetails
                         student={student}
                         visibility={isVisibleEditContactDetailsModal}
                         setEditStudentModalVisibility={setIsVisibleEditContactDetailsModal}
+                        savedStudentCallBack={setUpdatedStudent}
+                    />
+                )}
+                {isVisibleEditParentModal && (
+                    <EditStudentParent
+                        student={student}
+                        visibility={isVisibleEditParentModal}
+                        setEditParentModalVisibility={setIsVisibleEditParentModal}
                         savedStudentCallBack={setUpdatedStudent}
                     />
                 )}
@@ -321,9 +341,9 @@ const StudentPersonalInfo = ({ student, setStudent }) => {
     );
 };
 
-StudentPersonalInfo.propTypes = {
+StudentsPersonalInfo.propTypes = {
     student: PropTypes.object.isRequired,
     setStudent: PropTypes.func.isRequired,
 };
 
-export default StudentPersonalInfo;
+export default StudentsPersonalInfo;

@@ -12,13 +12,13 @@ import {
     CTabPane,
 } from '@coreui/react-pro';
 import { useLocation } from 'react-router-dom';
-import StudentEnrolmentInfo from './StudentEnrolmentInfo';
-import StudentFinances from './StudentFinances';
-import StudentPersonalInfo from './StudentPersonalInfo';
+import StudentsEnrolmentInfo from './StudentsEnrolmentInfo';
+import StudentsFinances from './StudentsFinances';
+import StudentsPersonalInfo from './StudentsPersonalInfo';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate';
 import StudentsService from 'src/api/sis/students.service';
 
-const StudentDetails = () => {
+const StudentsDetails = () => {
     const axiosPrivate = useAxiosPrivate();
     const location = useLocation();
 
@@ -92,21 +92,21 @@ const StudentDetails = () => {
                                     aria-labelledby="enrolment-info-tab"
                                     visible={activeTab === 'enrolment-info'}
                                 >
-                                    <StudentEnrolmentInfo student={student} />
+                                    <StudentsEnrolmentInfo student={student} />
                                 </CTabPane>
                                 <CTabPane
                                     role="tabpanel"
                                     aria-labelledby="finances-tab"
                                     visible={activeTab === 'finances'}
                                 >
-                                    <StudentFinances student={student} />
+                                    <StudentsFinances student={student} />
                                 </CTabPane>
                                 <CTabPane
                                     role="tabpanel"
                                     aria-labelledby="personal-info-tab"
                                     visible={activeTab === 'personal-info'}
                                 >
-                                    <StudentPersonalInfo student={student} setStudent={setStudent} />
+                                    <StudentsPersonalInfo student={student} setStudent={setStudent} />
                                 </CTabPane>
                             </CTabContent>
                         </CCardBody>
@@ -117,4 +117,4 @@ const StudentDetails = () => {
     );
 };
 
-export default StudentDetails;
+export default StudentsDetails;

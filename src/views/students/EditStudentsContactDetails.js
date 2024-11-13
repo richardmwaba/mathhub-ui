@@ -23,11 +23,11 @@ import {
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import StudentsService from 'src/api/sis/students.service';
-import counryCodes from 'src/assets/iso/country-codes.json';
+import countryDialCodes from 'src/assets/iso/country-codes.json';
 import { CFormInputWithMask } from '../common/CFormInputWithMask';
 import zambianProvinces from 'src/assets/iso/zambian-provinces.json';
 
-export default function EditContactDetails({
+export default function EditStudentsContactDetails({
     student,
     visibility,
     setEditStudentModalVisibility,
@@ -177,7 +177,7 @@ export default function EditContactDetails({
                                                         });
                                                     }}
                                                 >
-                                                    {counryCodes.map((countryCode) => {
+                                                    {countryDialCodes.map((countryCode) => {
                                                         return (
                                                             <option
                                                                 key={countryCode.name}
@@ -317,7 +317,7 @@ export default function EditContactDetails({
     );
 }
 
-EditContactDetails.propTypes = {
+EditStudentsContactDetails.propTypes = {
     student: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
     setEditStudentModalVisibility: PropTypes.func.isRequired,

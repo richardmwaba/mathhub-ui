@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewSessionTypeForm from './NewSessionTypeForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditSessionTypeForm from './EditSessionTypeForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function SessionTypesGrid() {
@@ -120,7 +120,7 @@ export default function SessionTypesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedSessionType}
                                 isVisibleEditModal={isVisibleEditSessionTypeModal}
