@@ -22,13 +22,16 @@ import {
 } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
-import ParentsService from 'src/api/sis/students.service';
 import UsersService from 'src/api/system-config/users/users.service';
 import countryDialCodes from 'src/assets/iso/country-codes.json';
+import zambianProvinces from 'src/assets/iso/zambian-provinces.json';
 import { CFormInputWithMask } from '../common/CFormInputWithMask';
+import StudentsService from 'src/api/sis/students.service';
+import { getCities, privincesOptions } from 'src/components/common/serviceutils';
 
 export default function EditStudentsParent({
     student,
+    parent,
     visibility,
     setEditParentModalVisibility,
     savedStudentCallBack,
@@ -44,14 +47,13 @@ export default function EditStudentsParent({
         lastName: student.lastName,
         parents: student.parents,
     };
-    const defaultParent = defaultStudent.parents[0];
 
     const [isEditParentFormValidated, setIsEditParentFormValidated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [editedStudent, setEditedStudent] = useState(defaultStudent);
-    const [editedParent, setEditedParent] = useState(defaultParent);
+    const [editedParent, setEditedParent] = useState(parent);
     const [genderOptions, setGenderOptions] = useState([]);
 
     const handleEditParent = async (event) => {
@@ -65,12 +67,11 @@ export default function EditStudentsParent({
             setErrorMessage('');
             setIsLoading(true);
 
-            await ParentsService.editParent(editedParent, axiosPrivate, controller, setErrorMessage).then(
+            await StudentsService.editStudent(editedStudent, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
                     setEditedParent(defaultStudent);
                     setEditParentModalVisibility(!visibility);
                     savedStudentCallBack(response);
-                    console.log(response);
                 },
                 (error) => {
                     if (!error?.response) {
@@ -131,6 +132,7 @@ export default function EditStudentsParent({
             visible={visibility}
             onClose={() => setEditParentModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">
@@ -208,25 +210,26 @@ export default function EditStudentsParent({
                                                 });
                                             }}
                                         />
-                                        <CFormSelect
-                                            className="mb-3"
-                                            placeholder="Select gender..."
-                                            autoComplete="off"
-                                            label="Gender"
-                                            options={genderOptions}
-                                            id="gender"
-                                            required
-                                            feedbackInvalid="Select valid gender."
-                                            value={editedParent.gender}
-                                            onChange={(e) => {
-                                                setEditedParent((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        gender: e.target.value,
-                                                    };
-                                                });
-                                            }}
-                                        />
+                                        <CCol className="mb-3">
+                                            <CFormSelect
+                                                placeholder="Select gender..."
+                                                autoComplete="off"
+                                                label="Gender"
+                                                options={genderOptions}
+                                                id="gender"
+                                                required
+                                                feedbackInvalid="Select valid gender."
+                                                value={editedParent.gender}
+                                                onChange={(e) => {
+                                                    setEditedParent((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            gender: e.target.value,
+                                                        };
+                                                    });
+                                                }}
+                                            />
+                                        </CCol>
                                         <CFormInput
                                             aria-describedby="emailInputGroup"
                                             className="mb-3"
@@ -301,6 +304,87 @@ export default function EditStudentsParent({
                                                 placeholder="Phone Number"
                                             />
                                         </CInputGroup>
+                                        <CFormLabel htmlFor="address">Address</CFormLabel>
+                                        <CFormInput
+                                            className="mb-3"
+                                            placeholder="Street address"
+                                            autoComplete="off"
+                                            id="streetAddress"
+                                            value={editedParent.address.firstAddressLine}
+                                            aria-describedby="streetAddress"
+                                            onChange={(e) => {
+                                                setEditedParent((prev) => {
+                                                    return {
+                                                        ...prev,
+                                                        address: {
+                                                            ...prev.address,
+                                                            firstAddressLine: e.target.value,
+                                                        },
+                                                    };
+                                                });
+                                            }}
+                                        />
+                                        <CFormInput
+                                            className="mb-3"
+                                            placeholder="Apt, suite, etc. (optional)"
+                                            autoComplete="off"
+                                            id="secondAddressLine"
+                                            value={editedParent.address.secondAddressLine}
+                                            aria-describedby="secondAddressLine"
+                                            onChange={(e) => {
+                                                setEditedParent((prev) => {
+                                                    return {
+                                                        ...prev,
+                                                        address: {
+                                                            ...prev.address,
+                                                            secondAddressLine: e.target.value,
+                                                        },
+                                                    };
+                                                });
+                                            }}
+                                        />
+                                        <CCol className="mb-3">
+                                            <CFormSelect
+                                                id="provinces"
+                                                value={editedParent.address.province}
+                                                options={privincesOptions()}
+                                                aria-describedby="province"
+                                                feedbackInvalid="Select valid province."
+                                                onChange={(e) => {
+                                                    setEditedParent((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            address: {
+                                                                ...prev.address,
+                                                                province: e.target.value,
+                                                            },
+                                                        };
+                                                    });
+                                                }}
+                                                required
+                                            />
+                                        </CCol>
+                                        <CCol className="mb-3">
+                                            <CFormSelect
+                                                id="cities"
+                                                feedbackInvalid="Select valid city/town."
+                                                value={editedParent.address.city ?? 'Lusaka'}
+                                                aria-describedby="city"
+                                                options={getCities(zambianProvinces, editedParent.address.province)}
+                                                onChange={(e) => {
+                                                    setEditedParent((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            address: {
+                                                                ...prev.address,
+                                                                city: e.target.value,
+                                                            },
+                                                        };
+                                                    });
+                                                }}
+                                                required
+                                            />
+                                        </CCol>
                                     </CForm>
                                 </CCardBody>
                             </CCard>
@@ -322,6 +406,7 @@ export default function EditStudentsParent({
 
 EditStudentsParent.propTypes = {
     student: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
     setEditParentModalVisibility: PropTypes.func.isRequired,
     savedStudentCallBack: PropTypes.func.isRequired,

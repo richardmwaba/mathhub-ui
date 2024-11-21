@@ -138,6 +138,7 @@ export default function EditEquityForm({ equity, visibility, setEditEquityModalV
             visible={visibility}
             onClose={() => setEditEquityModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">Edit Equity</CModalTitle>

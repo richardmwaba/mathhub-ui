@@ -164,6 +164,7 @@ export default function EditStudentsBasicInfo({
             visible={visibility}
             onClose={() => setEditStudentModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">Edit {student.firstName}&rsquo;s Basic Info</CModalTitle>

@@ -147,6 +147,7 @@ export default function EditLiabilityForm({
             visible={visibility}
             onClose={() => setEditLiabilityModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">Edit Liability</CModalTitle>

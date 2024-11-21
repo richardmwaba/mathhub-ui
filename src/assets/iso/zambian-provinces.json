@@ -1,5 +1,11 @@
 [
     {
+        "key": "select",
+        "name": "Select province...",
+        "capital": "",
+        "cities_towns": []
+    },
+    {
         "key": "central",
         "name": "Central",
         "capital": "Kabwe",

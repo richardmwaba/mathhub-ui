@@ -103,6 +103,7 @@ export default function NewClassRateForm({ visibility, setClassRateModalVisibili
             visible={visibility}
             onClose={() => setClassRateModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Class Rate</CModalTitle>

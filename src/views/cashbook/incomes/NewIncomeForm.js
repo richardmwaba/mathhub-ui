@@ -131,6 +131,7 @@ export default function NewIncomeForm({ visibility, setIncomeModalVisibility, cr
             visible={visibility}
             onClose={() => setIncomeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Income</CModalTitle>

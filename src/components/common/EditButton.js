@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 export function DefaultEditButton({
     item,
+    className,
     shape,
     variant,
     buttonText,
@@ -15,6 +16,7 @@ export function DefaultEditButton({
 }) {
     return (
         <CButton
+            className={className ?? ''}
             color="primary"
             size="sm"
             shape={shape ?? 'rounded'}
@@ -54,6 +56,7 @@ export function GridEditButton({
 }
 
 DefaultEditButton.propTypes = {
+    className: PropTypes.string,
     item: PropTypes.object.isRequired,
     shape: PropTypes.string,
     variant: PropTypes.string,

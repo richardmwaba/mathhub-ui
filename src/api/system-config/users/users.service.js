@@ -86,7 +86,7 @@ function getAllUserRoles() {
 
 function getGenderOptions() {
     return [
-        { value: '', label: 'Select your gender...' },
+        { value: '', label: 'Select gender...' },
         { value: 'Male', label: 'Male' },
         { value: 'Female', label: 'Female' },
         { value: 'Other', label: 'Other' },

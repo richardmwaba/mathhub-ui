@@ -4,6 +4,7 @@ import {
     CAccordionBody,
     CAccordionHeader,
     CAccordionItem,
+    CButton,
     CCard,
     CCardBody,
     CCardTitle,
@@ -21,8 +22,13 @@ import { DefaultEditButton } from 'src/components/common/EditButton';
 import EditStudentsBasicInfo from './EditStudentsBasicInfo';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditStudentsContactDetails from './EditStudentsContactDetails';
-import { formatAddress, getFormattedAddresses, getFullname, getMobileNumber } from 'src/components/common/serviceutils';
+import { formatAddress, getFullname, getFullPhoneNumber } from 'src/components/common/serviceutils';
 import EditStudentParent from './EditStudentsParent';
+import { DefaultAddButton } from 'src/components/common/AddButton';
+import AddStudentsParent from './AddStudentsParent';
+import CIcon from '@coreui/icons-react';
+import { cilTrash } from '@coreui/icons';
+import DeleteStudentsParent from './DeleteStudentsParent';
 
 const StudentsPersonalInfo = ({ student, setStudent }) => {
     const [isVisibleEditParentModal, setIsVisibleEditParentModal] = useState(false);
@@ -31,6 +37,7 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
     const [isVisibleEditContactDetailsModal, setIsVisibleEditContactDetailsModal] = useState(false);
     const [isVisibleEditBasicInfoModal, setIsVisibleEditBasicInfoModal] = useState(false);
     const [savedStudent, setSavedStudent] = useState({});
+    const [selectedParent, setSelectedParent] = useState({});
     const [toast, setToast] = useState(0);
 
     const studentActionSuccessToasterRef = useRef();
@@ -83,6 +90,7 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                     </CFormLabel>
                                     <CCol sm={10}>
                                         <CFormInput
+                                            autoComplete="off"
                                             type="text"
                                             id="name"
                                             defaultValue={student.name}
@@ -92,13 +100,13 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CFormLabel htmlFor="birthday" className="col-sm-2 col-form-label">
+                                    <CFormLabel htmlFor="studentsBirthday" className="col-sm-2 col-form-label">
                                         Birthday:
                                     </CFormLabel>
                                     <CCol sm={10}>
                                         <CFormInput
                                             type="text"
-                                            id="birthday"
+                                            id="studentsBirthday"
                                             defaultValue={`${DateUtils.formatDate(student.dateOfBirth, 'DD MMM YYYY')}`}
                                             readOnly
                                             plainText
@@ -106,13 +114,13 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CFormLabel htmlFor="gender" className="col-sm-2 col-form-label">
+                                    <CFormLabel htmlFor="studentsGender" className="col-sm-2 col-form-label">
                                         Gender:
                                     </CFormLabel>
                                     <CCol sm={10}>
                                         <CFormInput
                                             type="text"
-                                            id="gender"
+                                            id="studentsGender"
                                             defaultValue={student.gender}
                                             readOnly
                                             plainText
@@ -164,13 +172,13 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                     </span>
                                 </CCardTitle>
                                 <CRow>
-                                    <CFormLabel htmlFor="email" className="col-sm-2 col-form-label">
+                                    <CFormLabel htmlFor="studentsEmail" className="col-sm-2 col-form-label">
                                         Email:
                                     </CFormLabel>
                                     <CCol sm={10}>
                                         <CFormInput
                                             type="text"
-                                            id="name"
+                                            id="studentsEmail"
                                             defaultValue={student.email}
                                             readOnly
                                             plainText
@@ -178,13 +186,13 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CFormLabel htmlFor="phone" className="col-sm-2 col-form-label">
+                                    <CFormLabel htmlFor="studentsPhone" className="col-sm-2 col-form-label">
                                         Phone:
                                     </CFormLabel>
                                     <CCol sm={10}>
                                         <CFormInput
                                             type="text"
-                                            id="birthday"
+                                            id="studentsPhone"
                                             defaultValue={student.fullPhoneNumber}
                                             readOnly
                                             plainText
@@ -192,13 +200,13 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                     </CCol>
                                 </CRow>
                                 <CRow>
-                                    <CFormLabel htmlFor="address" className="col-sm-2 col-form-label">
+                                    <CFormLabel htmlFor="studentsAddress" className="col-sm-2 col-form-label">
                                         Address:
                                     </CFormLabel>
                                     <CCol sm={10}>
                                         <CFormInput
                                             type="text"
-                                            id="gender"
+                                            id="studentsAddress"
                                             defaultValue={formatAddress(student.address)}
                                             readOnly
                                             plainText
@@ -210,56 +218,50 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                         <CCard className="mb-4">
                             <CCardBody>
                                 <CCardTitle className="fs-5">
-                                    Parents/Gurdians{' |'}
-                                    <span>
-                                        <DefaultEditButton
-                                            buttonText="Update"
-                                            item={student}
-                                            setSelectedItem={setStudent}
-                                            isVisibleEditModal={isVisibleEditParentModal}
-                                            setIsVisibleEditModal={setIsVisibleEditParentModal}
-                                        />
-                                    </span>
+                                    Parents/Gurdians
+                                    {student.parents.length < 2 && (
+                                        <>
+                                            {' |'}
+                                            <span>
+                                                <DefaultAddButton
+                                                    buttonText="Update"
+                                                    itemName="parent"
+                                                    isVisibleAddModal={isVisibleAddParentModal}
+                                                    setIsVisibleAddModal={setIsVisibleAddParentModal}
+                                                />
+                                            </span>
+                                        </>
+                                    )}
                                 </CCardTitle>
                                 <CAccordion flush>
                                     {isEmpty(student.parents) ? (
-                                        <p>Not parents registered for student.</p>
+                                        <p>No parents registered for student.</p>
                                     ) : (
                                         student.parents.map((parent) => {
                                             return (
                                                 <CAccordionItem key={parent.id} itemKey={parent.id}>
                                                     <CAccordionHeader>
-                                                        <CFormLabel className="col-sm-12 fw-semibold">
+                                                        <CCol className="col-sm-12 fw-semibold">
                                                             {getFullname(
                                                                 parent.firstName,
                                                                 parent.middleName,
                                                                 parent.lastName,
                                                             )}
-                                                            {' |'}
-                                                            <span>
-                                                                <DefaultEditButton
-                                                                    buttonText="Update"
-                                                                    item={student}
-                                                                    setSelectedItem={setStudent}
-                                                                    isVisibleEditModal={isVisibleEditParentModal}
-                                                                    setIsVisibleEditModal={setIsVisibleEditParentModal}
-                                                                />
-                                                            </span>
-                                                        </CFormLabel>
+                                                        </CCol>
                                                     </CAccordionHeader>
                                                     <CAccordionBody>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor="phone"
+                                                                htmlFor={'parentsGender-' + parent.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
-                                                                Phone:
+                                                                Gender:
                                                             </CFormLabel>
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id="phone"
-                                                                    defaultValue={getMobileNumber(parent.phoneNumbers)}
+                                                                    id={'parentsGender-' + parent.id}
+                                                                    defaultValue={parent.gender}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -267,7 +269,26 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor="email"
+                                                                htmlFor={'parentsPhone-' + parent.id}
+                                                                className="col-sm-2 col-form-label"
+                                                            >
+                                                                Phone:
+                                                            </CFormLabel>
+                                                            <CCol sm={10}>
+                                                                <CFormInput
+                                                                    type="text"
+                                                                    id={'parentsPhone-' + parent.id}
+                                                                    defaultValue={getFullPhoneNumber(
+                                                                        parent.phoneNumber,
+                                                                    )}
+                                                                    readOnly
+                                                                    plainText
+                                                                />
+                                                            </CCol>
+                                                        </CRow>
+                                                        <CRow>
+                                                            <CFormLabel
+                                                                htmlFor={'parentsEmail-' + parent.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Email:
@@ -275,7 +296,7 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id="email"
+                                                                    id={'parentsEmail-' + parent.id}
                                                                     defaultValue={parent.email}
                                                                     readOnly
                                                                     plainText
@@ -284,7 +305,7 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor="Address"
+                                                                htmlFor={'parentsAddress-' + parent.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Address:
@@ -292,15 +313,42 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id="address"
+                                                                    id={'parentsAddress-' + parent.id}
                                                                     defaultValue={
-                                                                        getFormattedAddresses(parent.addresses)[0]
+                                                                        formatAddress(parent.address) ?? 'No address'
                                                                     }
                                                                     readOnly
                                                                     plainText
                                                                 />
                                                             </CCol>
                                                         </CRow>
+                                                        <DefaultEditButton
+                                                            className="mt-3"
+                                                            buttonText="Update"
+                                                            item={parent}
+                                                            setSelectedItem={setSelectedParent}
+                                                            isVisibleEditModal={isVisibleEditParentModal}
+                                                            setIsVisibleEditModal={setIsVisibleEditParentModal}
+                                                            variant="outline"
+                                                        />
+                                                        <CButton
+                                                            className="mt-3 ms-4"
+                                                            color="danger"
+                                                            onClick={() => {
+                                                                setSelectedParent(parent);
+                                                                setIsVisibleDeleteParentModal(!isVisibleAddParentModal);
+                                                            }}
+                                                            variant="outline"
+                                                            size="sm"
+                                                            shape="rounded"
+                                                        >
+                                                            <CIcon
+                                                                icon={cilTrash}
+                                                                title={`Delete ${parent.firstName}`}
+                                                                size="sm"
+                                                            />{' '}
+                                                            Delete
+                                                        </CButton>
                                                     </CAccordionBody>
                                                 </CAccordionItem>
                                             );
@@ -330,8 +378,26 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                 {isVisibleEditParentModal && (
                     <EditStudentParent
                         student={student}
+                        parent={selectedParent}
                         visibility={isVisibleEditParentModal}
                         setEditParentModalVisibility={setIsVisibleEditParentModal}
+                        savedStudentCallBack={setUpdatedStudent}
+                    />
+                )}
+                {isVisibleAddParentModal && (
+                    <AddStudentsParent
+                        student={student}
+                        visibility={isVisibleAddParentModal}
+                        setAddParentModalVisibility={setIsVisibleAddParentModal}
+                        savedStudentCallBack={setUpdatedStudent}
+                    />
+                )}
+                {isVisibleDeleteParentModal && (
+                    <DeleteStudentsParent
+                        student={student}
+                        parent={selectedParent}
+                        visibility={isVisibleDeleteParentModal}
+                        setDeleteParentModalVisibility={setIsVisibleDeleteParentModal}
                         savedStudentCallBack={setUpdatedStudent}
                     />
                 )}

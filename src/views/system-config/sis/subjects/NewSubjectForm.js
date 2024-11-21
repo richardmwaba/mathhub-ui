@@ -107,6 +107,7 @@ export default function NewSubjectForm({ visibility, setSubjectModalVisibility, 
             visible={visibility}
             onClose={() => setSubjectModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Subject</CModalTitle>

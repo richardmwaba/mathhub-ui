@@ -78,6 +78,7 @@ export default function NewExamBoardForm({ visibility, setExamBoardModalVisibili
             visible={visibility}
             onClose={() => setExamBoardModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Exam Board</CModalTitle>

@@ -89,6 +89,7 @@ export default function EditPaymentMethodForm({
             visible={visibility}
             onClose={() => setEditPaymentMethodModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Payment Method</CModalTitle>

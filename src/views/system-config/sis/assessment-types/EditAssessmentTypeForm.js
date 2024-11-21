@@ -89,6 +89,7 @@ export default function EditAssessmentTypeForm({
             visible={visibility}
             onClose={() => setEditAssessmentTypeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Assessment Type</CModalTitle>

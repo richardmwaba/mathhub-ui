@@ -97,7 +97,7 @@ const StudentsFinances = ({ student }) => {
                                     <CCol sm={10}>
                                         <CFormInput
                                             type="text"
-                                            id="dueDate"
+                                            id="activeInvoice"
                                             defaultValue={hasActiveInvoice ? 'Yes' : 'No'}
                                             readOnly
                                             plainText
