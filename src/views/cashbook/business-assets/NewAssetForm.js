@@ -131,6 +131,7 @@ export default function NewAssetForm({ visibility, setAssetModalVisibility, crea
             visible={visibility}
             onClose={() => setAssetModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Asset</CModalTitle>

@@ -135,6 +135,7 @@ export default function NewLiabilityForm({ visibility, setLiabilityModalVisibili
             visible={visibility}
             onClose={() => setLiabilityModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Liability</CModalTitle>

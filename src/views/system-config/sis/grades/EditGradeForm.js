@@ -79,6 +79,7 @@ export default function EditGradeForm({ grade, visibility, setEditGradeModalVisi
             visible={visibility}
             onClose={() => setEditGradeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Grade</CModalTitle>

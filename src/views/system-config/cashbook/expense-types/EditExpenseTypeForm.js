@@ -89,6 +89,7 @@ export default function EditExpenseTypeForm({
             visible={visibility}
             onClose={() => setEditExpenseTypeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Expense Type</CModalTitle>

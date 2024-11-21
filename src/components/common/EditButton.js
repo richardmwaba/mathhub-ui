@@ -4,43 +4,9 @@ import { CButton } from '@coreui/react-pro';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export function EditButton({
+export function DefaultEditButton({
     item,
-    isInGrid = true,
-    setSelectedItem,
-    setIsVisibleEditModal,
-    isVisibleEditModal,
-    shape,
-    buttonText,
-    variant,
-}) {
-    return isInGrid ? (
-        <td className="py-2">
-            <DefaultEditButton
-                item={item}
-                shape={shape}
-                variant={variant}
-                buttonText={buttonText}
-                setSelectedItem={setSelectedItem}
-                setIsVisibleEditModal={setIsVisibleEditModal}
-                isVisibleEditModal={isVisibleEditModal}
-            />
-        </td>
-    ) : (
-        <DefaultEditButton
-            item={item}
-            shape={shape}
-            variant={variant}
-            buttonText={buttonText}
-            setSelectedItem={setSelectedItem}
-            setIsVisibleEditModal={setIsVisibleEditModal}
-            isVisibleEditModal={isVisibleEditModal}
-        />
-    );
-}
-
-function DefaultEditButton({
-    item,
+    className,
     shape,
     variant,
     buttonText,
@@ -50,6 +16,7 @@ function DefaultEditButton({
 }) {
     return (
         <CButton
+            className={className ?? ''}
             color="primary"
             size="sm"
             shape={shape ?? 'rounded'}
@@ -64,7 +31,32 @@ function DefaultEditButton({
     );
 }
 
+export function GridEditButton({
+    item,
+    setSelectedItem,
+    setIsVisibleEditModal,
+    isVisibleEditModal,
+    shape,
+    buttonText,
+    variant,
+}) {
+    return (
+        <td className="py-2">
+            <DefaultEditButton
+                item={item}
+                shape={shape}
+                variant={variant}
+                buttonText={buttonText}
+                setSelectedItem={setSelectedItem}
+                setIsVisibleEditModal={setIsVisibleEditModal}
+                isVisibleEditModal={isVisibleEditModal}
+            />
+        </td>
+    );
+}
+
 DefaultEditButton.propTypes = {
+    className: PropTypes.string,
     item: PropTypes.object.isRequired,
     shape: PropTypes.string,
     variant: PropTypes.string,
@@ -74,13 +66,12 @@ DefaultEditButton.propTypes = {
     isVisibleEditModal: PropTypes.bool.isRequired,
 };
 
-EditButton.propTypes = {
+GridEditButton.propTypes = {
     item: PropTypes.object.isRequired,
-    isInGrid: PropTypes.bool,
+    shape: PropTypes.string,
+    variant: PropTypes.string,
+    buttonText: PropTypes.string,
     setSelectedItem: PropTypes.func.isRequired,
     setIsVisibleEditModal: PropTypes.func.isRequired,
     isVisibleEditModal: PropTypes.bool.isRequired,
-    shape: PropTypes.string,
-    buttonText: PropTypes.string,
-    variant: PropTypes.string,
 };

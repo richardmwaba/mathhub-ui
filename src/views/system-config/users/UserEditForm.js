@@ -149,6 +149,7 @@ export default function UserEditForm({ user, visibility, setEditUserModalVisibil
             visible={visibility}
             onClose={() => setEditUserModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">Edit User</CModalTitle>

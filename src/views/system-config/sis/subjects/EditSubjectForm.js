@@ -114,6 +114,7 @@ export default function EditSubjectForm({ subject, visibility, setEditSubjectMod
             visible={visibility}
             onClose={() => setEditSubjectModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Subject</CModalTitle>

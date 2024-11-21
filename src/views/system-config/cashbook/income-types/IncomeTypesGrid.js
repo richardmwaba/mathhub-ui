@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewIncomeTypeForm from './NewIncomeTypeForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditIncomeTypeForm from './EditIncomeTypeForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function IncomeTypesGrid() {
@@ -120,7 +120,7 @@ export default function IncomeTypesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedIncomeType}
                                 isVisibleEditModal={isVisibleEditIncomeTypeModal}

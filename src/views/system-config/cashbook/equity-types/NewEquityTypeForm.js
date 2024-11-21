@@ -78,6 +78,7 @@ export default function NewEquityTypeForm({ visibility, setEquityTypeModalVisibi
             visible={visibility}
             onClose={() => setEquityTypeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Equity Type</CModalTitle>

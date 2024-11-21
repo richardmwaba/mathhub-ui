@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewSubjectForm from './NewSubjectForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditSubjectForm from './EditSubjectForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function SubjectsGrid() {
@@ -135,7 +135,7 @@ export default function SubjectsGrid() {
                     }
                     scopedColumns={{
                         show_details: (currentSubject) => (
-                            <EditButton
+                            <GridEditButton
                                 item={subjects.find((subject) => subject.id === currentSubject.id)}
                                 setSelectedItem={setSelectedSubject}
                                 isVisibleEditModal={isVisibleEditSubjectModal}

@@ -89,6 +89,7 @@ export default function EditSessionTypeForm({
             visible={visibility}
             onClose={() => setEditSessionTypeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Session Type</CModalTitle>

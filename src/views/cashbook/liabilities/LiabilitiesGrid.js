@@ -6,7 +6,7 @@ import CIcon from '@coreui/icons-react';
 import NewLiabilityForm from './NewLiabilityForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditLiabilityForm from './EditLiabilityForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 import LiabilitiesService from 'src/api/cashbook/liabilities.service';
 
@@ -141,7 +141,7 @@ export default function LiabilitiesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={liabilities.find((liability) => liability.id === item.id)}
                                 setSelectedItem={setSelectedLiability}
                                 isVisibleEditModal={isVisibleEditLiabilityModal}

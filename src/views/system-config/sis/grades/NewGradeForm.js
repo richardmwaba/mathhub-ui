@@ -78,6 +78,7 @@ export default function NewGradeForm({ visibility, setGradeModalVisibility, crea
             visible={visibility}
             onClose={() => setGradeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Grade</CModalTitle>

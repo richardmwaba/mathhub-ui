@@ -6,7 +6,7 @@ import CIcon from '@coreui/icons-react';
 import NewIncomeForm from './NewIncomeForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditIncomeForm from './EditIncomeForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 import IncomesService from 'src/api/cashbook/incomes.service';
 
@@ -137,7 +137,7 @@ export default function IncomesGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={incomes.find((income) => income.id === item.id)}
                                 setSelectedItem={setSelectedIncome}
                                 isVisibleEditModal={isVisibleEditIncomeModal}

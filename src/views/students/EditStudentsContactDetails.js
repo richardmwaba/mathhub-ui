@@ -23,11 +23,12 @@ import {
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
 import PropTypes from 'prop-types';
 import StudentsService from 'src/api/sis/students.service';
-import counryCodes from 'src/assets/iso/country-codes.json';
+import countryDialCodes from 'src/assets/iso/country-codes.json';
 import { CFormInputWithMask } from '../common/CFormInputWithMask';
 import zambianProvinces from 'src/assets/iso/zambian-provinces.json';
+import { getCities, privincesOptions } from 'src/components/common/serviceutils';
 
-export default function EditContactDetails({
+export default function EditStudentsContactDetails({
     student,
     visibility,
     setEditStudentModalVisibility,
@@ -56,10 +57,6 @@ export default function EditContactDetails({
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [editedStudent, setEditedStudent] = useState(defaultStudent);
-
-    const getCities = (provinceName) => {
-        return zambianProvinces.filter((province) => province.name === provinceName)[0].cities_towns;
-    };
 
     const handleEditStudent = async (event) => {
         const editStudentForm = event.currentTarget;
@@ -110,6 +107,7 @@ export default function EditContactDetails({
             visible={visibility}
             onClose={() => setEditStudentModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">
@@ -134,29 +132,30 @@ export default function EditContactDetails({
                                         onSubmit={handleEditStudent}
                                         id="editStudentForm"
                                     >
-                                        <CFormInput
-                                            aria-describedby="emailInputGroup"
-                                            className="mb-3"
-                                            placeholder="Email"
-                                            autoComplete="off"
-                                            id="email"
-                                            label="Email"
-                                            required
-                                            ref={emailRef}
-                                            type="email"
-                                            value={editedStudent.email}
-                                            valid={isValidEmail}
-                                            invalid={!!editedStudent.email && !isValidEmail}
-                                            feedbackInvalid="Please enter a valid email address."
-                                            onChange={(e) => {
-                                                setEditedStudent((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        email: e.target.value,
-                                                    };
-                                                });
-                                            }}
-                                        />
+                                        <CCol className="mb-3">
+                                            <CFormInput
+                                                aria-describedby="emailInputGroup"
+                                                placeholder="Email"
+                                                autoComplete="off"
+                                                id="email"
+                                                label="Email"
+                                                required
+                                                ref={emailRef}
+                                                type="email"
+                                                value={editedStudent.email}
+                                                valid={isValidEmail}
+                                                invalid={!!editedStudent.email && !isValidEmail}
+                                                feedbackInvalid="Please enter a valid email address."
+                                                onChange={(e) => {
+                                                    setEditedStudent((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            email: e.target.value,
+                                                        };
+                                                    });
+                                                }}
+                                            />
+                                        </CCol>
                                         <CFormLabel htmlFor="phoneNumber">Phone Number</CFormLabel>
                                         <CInputGroup className="mb-3">
                                             <CCol xs="4" sm="4" md="4">
@@ -177,7 +176,7 @@ export default function EditContactDetails({
                                                         });
                                                     }}
                                                 >
-                                                    {counryCodes.map((countryCode) => {
+                                                    {countryDialCodes.map((countryCode) => {
                                                         return (
                                                             <option
                                                                 key={countryCode.name}
@@ -248,56 +247,48 @@ export default function EditContactDetails({
                                                 });
                                             }}
                                         />
-                                        <CFormSelect
-                                            id="provinces"
-                                            className="mb-3"
-                                            value={editedStudent.address.province ?? 'Lusaka'}
-                                            aria-describedby="province"
-                                            onChange={(e) => {
-                                                setEditedStudent((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        address: {
-                                                            ...prev.address,
-                                                            province: e.target.value,
-                                                        },
-                                                    };
-                                                });
-                                            }}
-                                        >
-                                            {zambianProvinces.map((province) => {
-                                                return (
-                                                    <option key={province.key} value={province.name}>
-                                                        {province.name}
-                                                    </option>
-                                                );
-                                            })}
-                                        </CFormSelect>
-                                        <CFormSelect
-                                            id="cities"
-                                            className="mb-3"
-                                            value={editedStudent.address.city ?? 'Lusaka'}
-                                            aria-describedby="city"
-                                            onChange={(e) => {
-                                                setEditedStudent((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        address: {
-                                                            ...prev.address,
-                                                            city: e.target.value,
-                                                        },
-                                                    };
-                                                });
-                                            }}
-                                        >
-                                            {getCities(editedStudent.address.province ?? 'Lusaka').map((city) => {
-                                                return (
-                                                    <option key={city} value={city}>
-                                                        {city}
-                                                    </option>
-                                                );
-                                            })}
-                                        </CFormSelect>
+                                        <CCol className="mb-3">
+                                            <CFormSelect
+                                                id="provinces"
+                                                value={editedStudent.address.province}
+                                                options={privincesOptions()}
+                                                aria-describedby="province"
+                                                feedbackInvalid="Select valid province."
+                                                onChange={(e) => {
+                                                    setEditedStudent((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            address: {
+                                                                ...prev.address,
+                                                                province: e.target.value,
+                                                            },
+                                                        };
+                                                    });
+                                                }}
+                                                required
+                                            />
+                                        </CCol>
+                                        <CCol className="mb-3">
+                                            <CFormSelect
+                                                id="cities"
+                                                feedbackInvalid="Select valid city/town."
+                                                value={editedStudent.address.city}
+                                                aria-describedby="city"
+                                                options={getCities(zambianProvinces, editedStudent.address.province)}
+                                                onChange={(e) => {
+                                                    setEditedStudent((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            address: {
+                                                                ...prev.address,
+                                                                city: e.target.value,
+                                                            },
+                                                        };
+                                                    });
+                                                }}
+                                                required
+                                            />
+                                        </CCol>
                                     </CForm>
                                 </CCardBody>
                             </CCard>
@@ -317,7 +308,7 @@ export default function EditContactDetails({
     );
 }
 
-EditContactDetails.propTypes = {
+EditStudentsContactDetails.propTypes = {
     student: PropTypes.object.isRequired,
     visibility: PropTypes.bool.isRequired,
     setEditStudentModalVisibility: PropTypes.func.isRequired,

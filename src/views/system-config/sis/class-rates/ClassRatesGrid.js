@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CButton, CCardBody, CSmartTable, CToaster } from '@coreui/react-pro';
 import useAxiosPrivate from 'src/hooks/useAxiosPrivate.js';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import CIcon from '@coreui/icons-react';
 import { cilPlus } from '@coreui/icons';
 import { SuccessToast } from 'src/components/common/SuccessToast';
@@ -136,7 +136,7 @@ export default function ClassRatesGrid() {
                     }
                     scopedColumns={{
                         show_details: (currentClassRate) => (
-                            <EditButton
+                            <GridEditButton
                                 item={classRates.find((classRate) => classRate.id === currentClassRate.id)}
                                 setSelectedItem={setSelectedClassRate}
                                 isVisibleEditModal={isVisibleEditClassRateModal}

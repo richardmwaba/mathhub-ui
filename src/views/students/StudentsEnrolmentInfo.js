@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import DateUtils from 'src/utils/dateUtils';
 
-const StudentEnrolmentInfo = ({ student }) => {
+const StudentsEnrolmentInfo = ({ student }) => {
     return (
         <CRow>
             <CContainer className="mt-3 md-3">
@@ -43,14 +43,14 @@ const StudentEnrolmentInfo = ({ student }) => {
                                             return (
                                                 <CAccordionItem key={aClass.id} itemKey={aClass.id}>
                                                     <CAccordionHeader>
-                                                        <CFormLabel className="col-sm-2 fw-semibold">
+                                                        <CCol className="col-sm-2 fw-semibold">
                                                             {aClass.subject.name}
-                                                        </CFormLabel>
+                                                        </CCol>
                                                     </CAccordionHeader>
                                                     <CAccordionBody>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor="occurence"
+                                                                htmlFor={'occurence-' + aClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Occurence:
@@ -58,7 +58,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id="occurence"
+                                                                    id={'occurence-' + aClass.id}
                                                                     defaultValue={`${aClass.occurrence} total lessons`}
                                                                     readOnly
                                                                     plainText
@@ -67,7 +67,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor="duration"
+                                                                htmlFor={'duration-' + aClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Duration:
@@ -75,7 +75,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id="duration"
+                                                                    id={'duration-' + aClass.id}
                                                                     defaultValue={`${aClass.duration} ${aClass.period}`}
                                                                     readOnly
                                                                     plainText
@@ -84,7 +84,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor="startDate"
+                                                                htmlFor={'startDate-' + aClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Start Date:
@@ -92,7 +92,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id="startDate"
+                                                                    id={'startDate-' + aClass.id}
                                                                     defaultValue={`${DateUtils.formatDate(aClass.startDate, 'DD MMM YYYY')}`}
                                                                     readOnly
                                                                     plainText
@@ -101,7 +101,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor="cost"
+                                                                htmlFor={'cost-' + aClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Cost:
@@ -109,7 +109,7 @@ const StudentEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id="cost"
+                                                                    id={'cost-' + aClass.id}
                                                                     defaultValue={`K${aClass.cost * aClass.duration}`}
                                                                     readOnly
                                                                     plainText
@@ -141,8 +141,8 @@ const StudentEnrolmentInfo = ({ student }) => {
     );
 };
 
-StudentEnrolmentInfo.propTypes = {
+StudentsEnrolmentInfo.propTypes = {
     student: PropTypes.object.isRequired,
 };
 
-export default StudentEnrolmentInfo;
+export default StudentsEnrolmentInfo;

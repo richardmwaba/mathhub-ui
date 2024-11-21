@@ -6,7 +6,7 @@ import CIcon from '@coreui/icons-react';
 import NewAssetForm from './NewAssetForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditAssetForm from './EditAssetForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 import AssetsService from 'src/api/cashbook/assets.service';
 
@@ -137,7 +137,7 @@ export default function AssetsGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={assets.find((asset) => asset.id === item.id)}
                                 setSelectedItem={setSelectedAsset}
                                 isVisibleEditModal={isVisibleEditAssetModal}

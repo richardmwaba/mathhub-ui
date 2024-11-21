@@ -116,6 +116,7 @@ export default function UserRegistrationForm({ visibility, setUserModalVisibilit
             visible={visibility}
             onClose={() => setUserModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New User</CModalTitle>
@@ -224,26 +225,27 @@ export default function UserRegistrationForm({ visibility, setUserModalVisibilit
                                                 }}
                                             />
                                         </CInputGroup>
-                                        <CMultiSelect
-                                            className="mb-3"
-                                            options={allUserRoles}
-                                            placeholder="Select user roles..."
-                                            required
-                                            feedbackInvalid="Select at least one user role."
-                                            onChange={(selectedUserRoles) => {
-                                                setNewUser((prev) => {
-                                                    const selectedUserRolesValues = selectedUserRoles.map(
-                                                        (selectedUserRole) => {
-                                                            return selectedUserRole.value;
-                                                        },
-                                                    );
-                                                    return {
-                                                        ...prev,
-                                                        roles: selectedUserRolesValues,
-                                                    };
-                                                });
-                                            }}
-                                        />
+                                        <CCol className="mb-3">
+                                            <CMultiSelect
+                                                options={allUserRoles}
+                                                placeholder="Select user roles..."
+                                                required
+                                                feedbackInvalid="Select at least one user role."
+                                                onChange={(selectedUserRoles) => {
+                                                    setNewUser((prev) => {
+                                                        const selectedUserRolesValues = selectedUserRoles.map(
+                                                            (selectedUserRole) => {
+                                                                return selectedUserRole.value;
+                                                            },
+                                                        );
+                                                        return {
+                                                            ...prev,
+                                                            roles: selectedUserRolesValues,
+                                                        };
+                                                    });
+                                                }}
+                                            />
+                                        </CCol>
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText>@</CInputGroupText>
                                             <CFormInput

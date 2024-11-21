@@ -83,6 +83,7 @@ export default function UserDeletionConfirmation({
             visible={visibility}
             onClose={() => setDeleteUserModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             {/* <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">Delete User</CModalTitle>

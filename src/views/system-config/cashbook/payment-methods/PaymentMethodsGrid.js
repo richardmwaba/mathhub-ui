@@ -7,7 +7,7 @@ import CIcon from '@coreui/icons-react';
 import NewPaymentMethodForm from './NewPaymentMethodForm';
 import { SuccessToast } from 'src/components/common/SuccessToast';
 import EditPaymentMethodForm from './EditPaymentMethodForm';
-import { EditButton } from 'src/components/common/EditButton';
+import { GridEditButton } from 'src/components/common/EditButton';
 import { cilPlus } from '@coreui/icons';
 
 export default function PaymentMethodsGrid() {
@@ -120,7 +120,7 @@ export default function PaymentMethodsGrid() {
                     }
                     scopedColumns={{
                         show_details: (item) => (
-                            <EditButton
+                            <GridEditButton
                                 item={item}
                                 setSelectedItem={setSelectedPaymentMethod}
                                 isVisibleEditModal={isVisibleEditPaymentMethodModal}

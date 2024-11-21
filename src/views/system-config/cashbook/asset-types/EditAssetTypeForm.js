@@ -84,6 +84,7 @@ export default function EditAssetTypeForm({
             visible={visibility}
             onClose={() => setEditAssetTypeModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Asset Type</CModalTitle>

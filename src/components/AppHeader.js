@@ -71,6 +71,7 @@ const AppHeader = () => {
                             <CIcon icon={cilSearch} size="lg" className="my-1 mx-2 text-white text-opacity-25" />
                         </CInputGroupText>
                         <CFormInput
+                            id="searchField"
                             placeholder={t('search')}
                             aria-label="Search"
                             aria-describedby="search-addon"

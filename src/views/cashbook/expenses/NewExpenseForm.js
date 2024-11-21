@@ -131,6 +131,7 @@ export default function NewExpenseForm({ visibility, setExpenseModalVisibility, 
             visible={visibility}
             onClose={() => setExpenseModalVisibility(!visibility)}
             aria-labelledby="StaticBackdropExampleLabel"
+            size="lg"
         >
             <CModalHeader>
                 <CModalTitle id="StaticBackdropExampleLabel">New Expense</CModalTitle>
