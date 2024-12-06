@@ -107,10 +107,9 @@ export default function EditStudentsBasicInfo({
 
             await StudentsService.editStudent(editedStudent, axiosPrivate, controller, setErrorMessage).then(
                 (response) => {
+                    savedStudentCallBack(response);
                     setEditedStudent(defaultStudent);
                     setEditStudentModalVisibility(!visibility);
-                    savedStudentCallBack(response);
-                    console.log(response);
                 },
                 (error) => {
                     if (!error?.response) {
@@ -231,11 +230,11 @@ export default function EditStudentsBasicInfo({
                                             label="Last Name"
                                             required
                                             value={editedStudent.lastName}
-                                            onChange={(e) => {
+                                            onChange={(event) => {
                                                 setEditedStudent((prev) => {
                                                     return {
                                                         ...prev,
-                                                        lastName: e.target.value,
+                                                        lastName: event.target.value,
                                                     };
                                                 });
                                             }}
@@ -244,6 +243,7 @@ export default function EditStudentsBasicInfo({
                                             className="mb-3"
                                             closeOnSelect
                                             label="Date of Birth"
+                                            id="dateOfBirth"
                                             firstDayOfWeek={0} // Sunday
                                             maxDate={moment().subtract(7, 'years').toDate()}
                                             required
@@ -270,11 +270,11 @@ export default function EditStudentsBasicInfo({
                                             required
                                             feedbackInvalid="Select valid gender."
                                             value={editedStudent.gender}
-                                            onChange={(e) => {
+                                            onChange={(event) => {
                                                 setEditedStudent((prev) => {
                                                     return {
                                                         ...prev,
-                                                        gender: e.target.value,
+                                                        gender: event.target.value,
                                                     };
                                                 });
                                             }}
@@ -289,11 +289,11 @@ export default function EditStudentsBasicInfo({
                                             required
                                             feedbackInvalid="Select a grade."
                                             value={editedStudent.gradeId}
-                                            onChange={(selectedGrade) => {
+                                            onChange={(event) => {
                                                 setEditedStudent((prev) => {
                                                     return {
                                                         ...prev,
-                                                        gradeId: selectedGrade.value,
+                                                        gradeId: event.target.value,
                                                     };
                                                 });
                                             }}
@@ -308,11 +308,11 @@ export default function EditStudentsBasicInfo({
                                             required
                                             feedbackInvalid="Select an examboard option."
                                             value={editedStudent.examBoardId}
-                                            onChange={(selectedExamBoard) => {
+                                            onChange={(event) => {
                                                 setEditedStudent((prev) => {
                                                     return {
                                                         ...prev,
-                                                        examBoardId: selectedExamBoard.value,
+                                                        examBoardId: event.target.value,
                                                     };
                                                 });
                                             }}

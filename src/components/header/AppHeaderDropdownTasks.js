@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
     CBadge,
     CButton,
@@ -14,7 +13,6 @@ import CIcon from '@coreui/icons-react';
 import { cilListRich } from '@coreui/icons';
 
 const AppHeaderDropdownTasks = () => {
-    const { t } = useTranslation();
     const itemsCount = 5;
     return (
         <CDropdown variant="nav-item" alignment="end">
@@ -28,7 +26,7 @@ const AppHeaderDropdownTasks = () => {
             </CDropdownToggle>
             <CDropdownMenu className="pt-0">
                 <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold rounded-top mb-2">
-                    {t('taskCounter', { counter: itemsCount })}
+                    taskCounter
                 </CDropdownHeader>
                 <CDropdownItem className="d-block py-2">
                     <div className="d-flex justify-content-between mb-1">
@@ -67,7 +65,7 @@ const AppHeaderDropdownTasks = () => {
                 </CDropdownItem>
                 <div className="p-2">
                     <CButton color="primary" variant="outline" className="w-100">
-                        {t('viewAllTasks')}
+                        viewAllTasks
                     </CButton>
                 </div>
             </CDropdownMenu>

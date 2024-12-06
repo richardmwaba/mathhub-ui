@@ -61,7 +61,7 @@ function editStudent(editedStudent, axiosPrivate, controller, errorCallback) {
     return axiosPrivate
         .put(`/sis/students/${editedStudent.id}`, editedStudent, { signal: controller.signal })
         .then((response) => {
-            return response.data;
+            return expandStudent(response.data);
         })
         .catch((error) => {
             errorCallback(error.message);

@@ -41,7 +41,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                     ) : (
                                         student.classes.map((aClass) => {
                                             return (
-                                                <CAccordionItem key={aClass.id} itemKey={aClass.id}>
+                                                <CAccordionItem key={aClass.id}>
                                                     <CAccordionHeader>
                                                         <CCol className="col-sm-2 fw-semibold">
                                                             {aClass.subject.name}
@@ -59,7 +59,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id={'occurence-' + aClass.id}
-                                                                    defaultValue={`${aClass.occurrence} total lessons`}
+                                                                    value={`${aClass.occurrence} total lessons`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -76,7 +76,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id={'duration-' + aClass.id}
-                                                                    defaultValue={`${aClass.duration} ${aClass.period}`}
+                                                                    value={`${aClass.duration} ${aClass.period}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -93,7 +93,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id={'startDate-' + aClass.id}
-                                                                    defaultValue={`${DateUtils.formatDate(aClass.startDate, 'DD MMM YYYY')}`}
+                                                                    value={`${DateUtils.formatDate(aClass.startDate, 'DD MMM YYYY')}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -110,7 +110,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                                 <CFormInput
                                                                     type="text"
                                                                     id={'cost-' + aClass.id}
-                                                                    defaultValue={`K${aClass.cost * aClass.duration}`}
+                                                                    value={`K${aClass.cost * aClass.duration}`}
                                                                     readOnly
                                                                     plainText
                                                                 />

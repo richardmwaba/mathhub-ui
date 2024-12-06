@@ -121,6 +121,7 @@ export default function StudentsGrid() {
                 scopedColumns={{
                     show_details: (currentStudent) => (
                         <ViewDetailsButton
+                            key={currentStudent.id}
                             item={currentStudent}
                             detailsLocation={`/students/enrolment/${currentStudent.id}`}
                         />

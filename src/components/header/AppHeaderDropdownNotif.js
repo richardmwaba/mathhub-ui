@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
     CBadge,
     CDropdown,
@@ -13,7 +12,6 @@ import CIcon from '@coreui/icons-react';
 import { cilBasket, cilBell, cilChartPie, cilSpeedometer, cilUserFollow, cilUserUnfollow } from '@coreui/icons';
 
 const AppHeaderDropdownNotif = () => {
-    const { t } = useTranslation();
     const itemsCount = 5;
     return (
         <CDropdown variant="nav-item" alignment="end">
@@ -27,43 +25,38 @@ const AppHeaderDropdownNotif = () => {
             </CDropdownToggle>
             <CDropdownMenu className="py-0">
                 <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold rounded-top mb-2">
-                    {t('notificationsCounter', { counter: itemsCount })}
+                    notificationsCounter
                 </CDropdownHeader>
                 <CDropdownItem>
-                    <CIcon icon={cilUserFollow} className="me-2 text-success" /> {t('newUserRegistered')}
+                    <CIcon icon={cilUserFollow} className="me-2 text-success" /> newUserRegistered
                 </CDropdownItem>
                 <CDropdownItem>
-                    <CIcon icon={cilUserUnfollow} className="me-2 text-danger" /> {t('userDeleted')}
+                    <CIcon icon={cilUserUnfollow} className="me-2 text-danger" /> userDeleted
                 </CDropdownItem>
                 <CDropdownItem>
-                    <CIcon icon={cilChartPie} className="me-2 text-info" /> {t('salesReportIsReady')}
+                    <CIcon icon={cilChartPie} className="me-2 text-info" /> salesReportIsReady
                 </CDropdownItem>
                 <CDropdownItem>
-                    <CIcon icon={cilBasket} className="me-2 text-primary" /> {t('newClient')}
+                    <CIcon icon={cilBasket} className="me-2 text-primary" /> newClient
                 </CDropdownItem>
                 <CDropdownItem>
-                    <CIcon icon={cilSpeedometer} className="me-2 text-warning" /> {t('serverOverloaded')}
+                    <CIcon icon={cilSpeedometer} className="me-2 text-warning" /> serverOverloaded
                 </CDropdownItem>
                 <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold my-2">
-                    {t('server')}
+                    server
                 </CDropdownHeader>
                 <CDropdownItem className="d-block py-2">
-                    <div className="text-uppercase small fw-semibold mb-1">{t('cpuUsage')}</div>
+                    <div className="text-uppercase small fw-semibold mb-1">cpuUsage</div>
                     <CProgress thin color="info-gradient" value={25} />
-                    <div className="text-body-secondary small">
-                        {t('cpuUsageDescription', {
-                            number_of_processes: 348,
-                            number_of_cores: '1/4',
-                        })}
-                    </div>
+                    <div className="text-body-secondary small">cpuUsageDescription</div>
                 </CDropdownItem>
                 <CDropdownItem className="d-block py-2">
-                    <div className="text-uppercase small fw-semibold mb-1">{t('memoryUsage')}</div>
+                    <div className="text-uppercase small fw-semibold mb-1">memoryUsage</div>
                     <CProgress thin color="warning-gradient" value={70} />
                     <div className="text-body-secondary small">11444GB/16384MB</div>
                 </CDropdownItem>
                 <CDropdownItem className="d-block py-2">
-                    <div className="text-uppercase small fw-semibold mb-1">{t('ssdUsage')}</div>
+                    <div className="text-uppercase small fw-semibold mb-1">ssdUsage</div>
                     <CProgress thin color="danger-gradient" value={90} />
                     <div className="text-body-secondary small">243GB/256GB</div>
                 </CDropdownItem>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
     CAvatar,
     CBadge,
@@ -33,7 +32,6 @@ const AppHeaderDropdown = () => {
     const { authentication, setAuthentication } = useAuthentication();
     const navigate = useNavigate();
     const location = useLocation();
-    const { t: translate } = useTranslation();
 
     const handleLogout = async (event) => {
         event.preventDefault();
@@ -53,57 +51,57 @@ const AppHeaderDropdown = () => {
             </CDropdownToggle>
             <CDropdownMenu className="pt-0">
                 <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold rounded-top mb-2">
-                    {translate('account')}
+                    {'account'}
                 </CDropdownHeader>
                 <CDropdownItem href="#">
                     <CIcon icon={cilBell} className="me-2" />
-                    {translate('updates')}
+                    {'updates'}
                     <CBadge color="info-gradient" className="ms-2">
                         42
                     </CBadge>
                 </CDropdownItem>
                 <CDropdownItem href="#">
                     <CIcon icon={cilEnvelopeOpen} className="me-2" />
-                    {translate('messages')}
+                    {'messages'}
                     <CBadge color="success-gradient" className="ms-2">
                         42
                     </CBadge>
                 </CDropdownItem>
                 <CDropdownItem href="#">
                     <CIcon icon={cilTask} className="me-2" />
-                    {translate('tasks')}
+                    {'tasks'}
                     <CBadge color="danger-gradient" className="ms-2">
                         42
                     </CBadge>
                 </CDropdownItem>
                 <CDropdownItem href="#">
                     <CIcon icon={cilCommentSquare} className="me-2" />
-                    {translate('comments')}
+                    {'comments'}
                     <CBadge color="warning-gradient" className="ms-2">
                         42
                     </CBadge>
                 </CDropdownItem>
                 <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold my-2">
-                    {translate('settings')}
+                    {'settings'}
                 </CDropdownHeader>
                 <CDropdownItem href="#">
                     <CIcon icon={cilUser} className="me-2" />
-                    {translate('profile')}
+                    {'profile'}
                 </CDropdownItem>
                 <CDropdownItem href="#">
                     <CIcon icon={cilSettings} className="me-2" />
-                    {translate('settings')}
+                    {'settings'}
                 </CDropdownItem>
                 <CDropdownItem href="#">
                     <CIcon icon={cilCreditCard} className="me-2" />
-                    {translate('payments')}
+                    {'payments'}
                     <CBadge color="secondary-gradient" className="ms-2">
                         42
                     </CBadge>
                 </CDropdownItem>
                 <CDropdownItem href="#">
                     <CIcon icon={cilFile} className="me-2" />
-                    {translate('projects')}
+                    {'projects'}
                     <CBadge color="primary-gradient" className="ms-2">
                         42
                     </CBadge>
@@ -111,11 +109,11 @@ const AppHeaderDropdown = () => {
                 <CDropdownDivider />
                 <CDropdownItem href="#">
                     <CIcon icon={cilLockLocked} className="me-2" />
-                    {translate('lockAccount')}
+                    {'lockAccount'}
                 </CDropdownItem>
                 <CDropdownItem href="#" onClick={handleLogout}>
                     <CIcon icon={cilAccountLogout} className="me-2" />
-                    {translate('logout')}
+                    {'logout'}
                 </CDropdownItem>
             </CDropdownMenu>
         </CDropdown>
