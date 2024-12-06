@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import { CRow, CCol, CDropdown, CDropdownMenu, CDropdownItem, CDropdownToggle, CWidgetStatsA } from '@coreui/react-pro';
@@ -9,7 +8,6 @@ import CIcon from '@coreui/icons-react';
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons';
 
 const WidgetsDropdown = (props) => {
-    const { t } = useTranslation();
     const widgetChartRef1 = useRef(null);
     const widgetChartRef2 = useRef(null);
 
@@ -44,17 +42,17 @@ const WidgetsDropdown = (props) => {
                             </span>
                         </>
                     }
-                    title={t('users')}
+                    title={'users'}
                     action={
                         <CDropdown alignment="end">
                             <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
-                                <CDropdownItem>{t('action')}</CDropdownItem>
-                                <CDropdownItem>{t('anotherAction')}</CDropdownItem>
-                                <CDropdownItem>{t('somethingElseHere')}</CDropdownItem>
-                                <CDropdownItem disabled>{t('disabledAction')}</CDropdownItem>
+                                <CDropdownItem>action</CDropdownItem>
+                                <CDropdownItem>anotherAction</CDropdownItem>
+                                <CDropdownItem>somethingElseHere</CDropdownItem>
+                                <CDropdownItem disabled>disabledAction</CDropdownItem>
                             </CDropdownMenu>
                         </CDropdown>
                     }
@@ -64,15 +62,7 @@ const WidgetsDropdown = (props) => {
                             className="mt-3 mx-3"
                             style={{ height: '70px' }}
                             data={{
-                                labels: [
-                                    t('january'),
-                                    t('february'),
-                                    t('march'),
-                                    t('april'),
-                                    t('may'),
-                                    t('june'),
-                                    t('july'),
-                                ],
+                                labels: ['january', 'february', 'march', 'april', 'may', 'june', 'july'],
                                 datasets: [
                                     {
                                         label: 'My First dataset',
@@ -141,16 +131,16 @@ const WidgetsDropdown = (props) => {
                             </span>
                         </>
                     }
-                    title={t('income')}
+                    title={'income'}
                     action={
                         <CDropdown alignment="end">
                             <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
-                                <CDropdownItem>{t('action')}</CDropdownItem>
-                                <CDropdownItem>{t('anotherAction')}</CDropdownItem>
-                                <CDropdownItem>{t('somethingElseHere')}</CDropdownItem>
+                                <CDropdownItem>action</CDropdownItem>
+                                <CDropdownItem>anotherAction</CDropdownItem>
+                                <CDropdownItem>somethingElseHere</CDropdownItem>
                                 <CDropdownItem disabled>Disabled action</CDropdownItem>
                             </CDropdownMenu>
                         </CDropdown>
@@ -161,15 +151,7 @@ const WidgetsDropdown = (props) => {
                             className="mt-3 mx-3"
                             style={{ height: '70px' }}
                             data={{
-                                labels: [
-                                    t('january'),
-                                    t('february'),
-                                    t('march'),
-                                    t('april'),
-                                    t('may'),
-                                    t('june'),
-                                    t('july'),
-                                ],
+                                labels: ['january', 'february', 'march', 'april', 'may', 'june', 'july'],
                                 datasets: [
                                     {
                                         label: 'My First dataset',
@@ -237,16 +219,16 @@ const WidgetsDropdown = (props) => {
                             </span>
                         </>
                     }
-                    title={t('conversionRate')}
+                    title={'conversionRate'}
                     action={
                         <CDropdown alignment="end">
                             <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
-                                <CDropdownItem>{t('action')}</CDropdownItem>
-                                <CDropdownItem>{t('anotherAction')}</CDropdownItem>
-                                <CDropdownItem>{t('somethingElseHere')}</CDropdownItem>
+                                <CDropdownItem>action</CDropdownItem>
+                                <CDropdownItem>anotherAction</CDropdownItem>
+                                <CDropdownItem>somethingElseHere</CDropdownItem>
                                 <CDropdownItem disabled>Disabled action</CDropdownItem>
                             </CDropdownMenu>
                         </CDropdown>
@@ -256,15 +238,7 @@ const WidgetsDropdown = (props) => {
                             className="mt-3"
                             style={{ height: '70px' }}
                             data={{
-                                labels: [
-                                    t('january'),
-                                    t('february'),
-                                    t('march'),
-                                    t('april'),
-                                    t('may'),
-                                    t('june'),
-                                    t('july'),
-                                ],
+                                labels: ['january', 'february', 'march', 'april', 'may', 'june', 'july'],
                                 datasets: [
                                     {
                                         label: 'My First dataset',
@@ -317,16 +291,16 @@ const WidgetsDropdown = (props) => {
                             </span>
                         </>
                     }
-                    title={t('sessions')}
+                    title={'sessions'}
                     action={
                         <CDropdown alignment="end">
                             <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                                 <CIcon icon={cilOptions} />
                             </CDropdownToggle>
                             <CDropdownMenu>
-                                <CDropdownItem>{t('action')}</CDropdownItem>
-                                <CDropdownItem>{t('anotherAction')}</CDropdownItem>
-                                <CDropdownItem>{t('somethingElseHere')}</CDropdownItem>
+                                <CDropdownItem>action</CDropdownItem>
+                                <CDropdownItem>anotherAction</CDropdownItem>
+                                <CDropdownItem>somethingElseHere</CDropdownItem>
                                 <CDropdownItem disabled>Disabled action</CDropdownItem>
                             </CDropdownMenu>
                         </CDropdown>
@@ -337,22 +311,22 @@ const WidgetsDropdown = (props) => {
                             style={{ height: '70px' }}
                             data={{
                                 labels: [
-                                    t('january'),
-                                    t('february'),
-                                    t('march'),
-                                    t('april'),
-                                    t('may'),
-                                    t('june'),
-                                    t('july'),
-                                    t('august'),
-                                    t('september'),
-                                    t('october'),
-                                    t('november'),
-                                    t('december'),
-                                    t('january'),
-                                    t('february'),
-                                    t('march'),
-                                    t('april'),
+                                    'january',
+                                    'february',
+                                    'march',
+                                    'april',
+                                    'may',
+                                    'june',
+                                    'july',
+                                    'august',
+                                    'september',
+                                    'october',
+                                    'november',
+                                    'december',
+                                    'january',
+                                    'february',
+                                    'march',
+                                    'april',
                                 ],
                                 datasets: [
                                     {

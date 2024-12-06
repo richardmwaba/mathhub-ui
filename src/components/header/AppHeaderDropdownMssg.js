@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
     CAvatar,
     CBadge,
@@ -20,7 +19,6 @@ import avatar4 from './../../assets/images/avatars/4.jpg';
 import avatar5 from './../../assets/images/avatars/5.jpg';
 
 const AppHeaderDropdownMssg = () => {
-    const { t } = useTranslation();
     const itemsCount = 4;
     return (
         <CDropdown variant="nav-item" alignment="end">
@@ -34,7 +32,7 @@ const AppHeaderDropdownMssg = () => {
             </CDropdownToggle>
             <CDropdownMenu className="py-0" style={{ minWidth: '24rem' }}>
                 <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold rounded-top mb-2">
-                    {t('messagesCounter', { counter: itemsCount })}
+                    messagesCounter
                 </CDropdownHeader>
                 <CDropdownItem href="#">
                     <div className="d-flex">
@@ -122,7 +120,7 @@ const AppHeaderDropdownMssg = () => {
                 </CDropdownItem>
                 <div className="p-2">
                     <CButton color="primary" variant="outline" className="w-100">
-                        {t('viewAllMessages')}
+                        viewAllMessages
                     </CButton>
                 </div>
             </CDropdownMenu>

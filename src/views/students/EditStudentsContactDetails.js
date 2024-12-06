@@ -190,7 +190,7 @@ export default function EditStudentsContactDetails({
                                             </CCol>
                                             <CFormInputWithMask
                                                 mask="000 000000"
-                                                autoComplete="phoneNumber"
+                                                autoComplete="off"
                                                 id="phoneNumber"
                                                 value={editedStudent.phoneNumber?.number ?? ''}
                                                 onChange={(e) => {
@@ -208,13 +208,13 @@ export default function EditStudentsContactDetails({
                                                 placeholder="Phone Number"
                                             />
                                         </CInputGroup>
-                                        <CFormLabel htmlFor="address">Address</CFormLabel>
+                                        <CFormLabel htmlFor="streetAddress">Address</CFormLabel>
                                         <CFormInput
                                             className="mb-3"
                                             placeholder="Street address"
                                             autoComplete="off"
                                             id="streetAddress"
-                                            value={editedStudent.address.firstAddressLine}
+                                            value={editedStudent.address.firstAddressLine ?? ''}
                                             aria-describedby="streetAddress"
                                             onChange={(e) => {
                                                 setEditedStudent((prev) => {
@@ -233,7 +233,7 @@ export default function EditStudentsContactDetails({
                                             placeholder="Apt, suite, etc. (optional)"
                                             autoComplete="off"
                                             id="secondAddressLine"
-                                            value={editedStudent.address.secondAddressLine}
+                                            value={editedStudent.address.secondAddressLine ?? ''}
                                             aria-describedby="secondAddressLine"
                                             onChange={(e) => {
                                                 setEditedStudent((prev) => {

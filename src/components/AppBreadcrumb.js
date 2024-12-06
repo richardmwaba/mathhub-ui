@@ -1,13 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react-pro';
 
 import routes from '../routes';
 
 const AppBreadcrumb = () => {
     const currentLocation = useLocation().pathname;
-    const { t } = useTranslation();
 
     const getRouteName = (pathname, routes) => {
         const currentRoute = routes.find((route) => route.path === pathname);
@@ -36,7 +34,7 @@ const AppBreadcrumb = () => {
         <>
             <div className="fs-2 fw-semibold">{[...breadcrumbs].pop().name}</div>
             <CBreadcrumb className="mb-4">
-                <CBreadcrumbItem href="/">{t('Home')}</CBreadcrumbItem>
+                <CBreadcrumbItem href="/">{'Home'}</CBreadcrumbItem>
                 {breadcrumbs.map((breadcrumb, index) => {
                     return (
                         <CBreadcrumbItem

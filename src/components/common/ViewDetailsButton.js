@@ -15,7 +15,7 @@ export function ViewDetailsButton({ item, detailsLocation, setSelectedItem }) {
                 size="sm"
                 onClick={() => {
                     setSelectedItem?.(item);
-                    navigate(detailsLocation, { state: item });
+                    navigate(detailsLocation);
                 }}
             >
                 <CIcon icon={cilInfo} title={`View ${item.name}`} />

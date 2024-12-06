@@ -70,7 +70,7 @@ const StudentsFinances = ({ student }) => {
                                         <CFormInput
                                             type="text"
                                             id="amount"
-                                            defaultValue={`K${studentFinancialSummary.amountOwing}`}
+                                            value={`K${studentFinancialSummary.amountOwing}`}
                                             readOnly
                                             plainText
                                         />
@@ -84,7 +84,7 @@ const StudentsFinances = ({ student }) => {
                                         <CFormInput
                                             type="text"
                                             id="dueDate"
-                                            defaultValue={`${DateUtils.formatDate(studentFinancialSummary.dueDate, 'DD MMM YYYY')}`}
+                                            value={`${DateUtils.formatDate(studentFinancialSummary.dueDate, 'DD MMM YYYY')}`}
                                             readOnly
                                             plainText
                                         />
@@ -98,7 +98,7 @@ const StudentsFinances = ({ student }) => {
                                         <CFormInput
                                             type="text"
                                             id="activeInvoice"
-                                            defaultValue={hasActiveInvoice ? 'Yes' : 'No'}
+                                            value={hasActiveInvoice ? 'Yes' : 'No'}
                                             readOnly
                                             plainText
                                         />

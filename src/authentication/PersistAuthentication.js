@@ -2,6 +2,7 @@
 import { CSpinner } from '@coreui/react-pro';
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { PageLoading } from 'src/components/common/PageLoading';
 import useAuthentication from 'src/hooks/useAuth';
 import useRefreshToken from 'src/hooks/useRefreshToken';
 
@@ -27,13 +28,7 @@ const PersistAuthentication = () => {
         !authentication?.accesToken ? verifyRefreshToken() : setIsLoading(false);
     }, []);
 
-    return isLoading ? (
-        <div className="d-flex justify-content-center">
-            <CSpinner variant="grow" />
-        </div>
-    ) : (
-        <Outlet />
-    );
+    return isLoading ? <PageLoading /> : <Outlet />;
 };
 
 export default PersistAuthentication;
