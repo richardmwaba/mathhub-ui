@@ -26,18 +26,20 @@ const StudentsDetails = () => {
 
     const [error, setError] = useState();
     const [student, setStudent] = useState();
+    const [studentsEnrolledClasses, setStudentsEnrolledClasses] = useState([]);
+
+    const getStudentId = () => {
+        const locationFragments = location.pathname.split('/');
+        return locationFragments.length > 4 ? locationFragments[3] : locationFragments.lastItem;
+    };
+    const studentId = getStudentId();
 
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getStudentId = () => {
-            const locationFragments = location.pathname.split('/');
-            return locationFragments.length > 4 ? locationFragments[3] : locationFragments.lastItem;
-        };
-
         const getStudent = async () => {
-            const response = await StudentsService.getStudentById(getStudentId(), axiosPrivate, controller, setError);
+            const response = await StudentsService.getStudentById(studentId, axiosPrivate, controller, setError);
             isMounted && setStudent(response);
         };
 
@@ -47,7 +49,26 @@ const StudentsDetails = () => {
             isMounted = false;
             controller.abort();
         };
-    }, [axiosPrivate, location]);
+    }, [axiosPrivate, location, studentId]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const getStudentsEnrolledClasses = async () => {
+            const response = await StudentsService.getAllClassesForStudent(
+                studentId,
+                axiosPrivate,
+                controller,
+                setError,
+            );
+            setStudentsEnrolledClasses(response);
+        };
+
+        getStudentsEnrolledClasses();
+
+        return () => {
+            controller.abort();
+        };
+    }, [axiosPrivate, student, studentId]);
 
     return (
         <>
@@ -67,7 +88,11 @@ const StudentsDetails = () => {
             {student ? (
                 <CRow>
                     <CCol xs={{ cols: 12 }}>
-                        <StudentDetailsNavigation student={student} setStudent={setStudent} />
+                        <StudentDetailsNavigation
+                            student={student}
+                            studentsEnrolledClasses={studentsEnrolledClasses}
+                            setStudent={setStudent}
+                        />
                     </CCol>
                 </CRow>
             ) : (
@@ -77,7 +102,7 @@ const StudentsDetails = () => {
     );
 };
 
-const StudentDetailsNavigation = ({ student, setStudent }) => {
+const StudentDetailsNavigation = ({ student, studentsEnrolledClasses, setStudent }) => {
     const [activeTab, setActiveTab] = useState('enrolment-info');
 
     return (
@@ -120,7 +145,7 @@ const StudentDetailsNavigation = ({ student, setStudent }) => {
                         visible={activeTab === 'enrolment-info'}
                         key={`enrolment-info-${student.id}`}
                     >
-                        <StudentsEnrolmentInfo student={student} />
+                        <StudentsEnrolmentInfo student={student} studentsEnrolledClasses={studentsEnrolledClasses} />
                     </CTabPane>
                     <CTabPane
                         role="tabpanel"
@@ -146,6 +171,7 @@ const StudentDetailsNavigation = ({ student, setStudent }) => {
 
 StudentDetailsNavigation.propTypes = {
     student: PropTypes.object.isRequired,
+    studentsEnrolledClasses: PropTypes.array.isRequired,
     setStudent: PropTypes.func.isRequired,
 };
 

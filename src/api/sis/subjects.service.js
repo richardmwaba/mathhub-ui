@@ -1,6 +1,7 @@
-function getAllSubjects(axiosPrivate, controller, errorCallback) {
+function getAllSubjects(axiosPrivate, controller, errorCallback, grade) {
+    const url = grade ? `/sis/subjects?grade=${grade}` : '/sis/subjects';
     return axiosPrivate
-        .get('/sis/subjects', { signal: controller.signal })
+        .get(url, { signal: controller.signal })
         .then((response) => {
             let subjects = [];
 

@@ -69,6 +69,32 @@ function editStudent(editedStudent, axiosPrivate, controller, errorCallback) {
         });
 }
 
+function enrollStudentInClasses(studentId, enrolledClasses, axiosPrivate, controller, errorCallback) {
+    return axiosPrivate
+        .post(`/sis/students/${studentId}/classes`, enrolledClasses, { signal: controller.signal })
+        .then((response) => {
+            return response.data._embedded.enrolledClassList;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
+function getAllClassesForStudent(studentId, axiosPrivate, controller, errorCallback, enrolmentStatus) {
+    return axiosPrivate
+        .get(`/sis/students/${studentId}/classes?enrolmentStatus=${enrolmentStatus ?? 'Active'}`, {
+            signal: controller.signal,
+        })
+        .then((response) => {
+            return response.data._embedded.enrolledClassList;
+        })
+        .catch((error) => {
+            errorCallback(error.message);
+            console.error(error);
+        });
+}
+
 function getStudentsDefaultParent(parents) {
     return parents.map((parent) => {
         return {
@@ -80,9 +106,11 @@ function getStudentsDefaultParent(parents) {
 
 const StudentsService = {
     editStudent,
+    enrollStudentInClasses,
     getAllStudents,
     getStudentById,
     getStudentsDefaultParent,
+    getAllClassesForStudent,
 };
 
 export default StudentsService;

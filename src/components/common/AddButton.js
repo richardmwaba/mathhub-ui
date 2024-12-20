@@ -4,7 +4,7 @@ import { CButton } from '@coreui/react-pro';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export function DefaultAddButton({ itemName, shape, variant, setIsVisibleAddModal, isVisibleAddModal }) {
+export function DefaultAddButton({ buttonText, shape, variant, setIsVisibleAddModal, isVisibleAddModal }) {
     return (
         <CButton
             color="primary"
@@ -15,13 +15,13 @@ export function DefaultAddButton({ itemName, shape, variant, setIsVisibleAddModa
                 setIsVisibleAddModal(!isVisibleAddModal);
             }}
         >
-            <CIcon icon={cilPlus} title={`Add ${itemName}`} size="sm" /> Add
+            <CIcon icon={cilPlus} title={buttonText} size="sm" /> {buttonText}
         </CButton>
     );
 }
 
 DefaultAddButton.propTypes = {
-    itemName: PropTypes.string.isRequired,
+    buttonText: PropTypes.string.isRequired,
     shape: PropTypes.string,
     variant: PropTypes.string,
     setIsVisibleAddModal: PropTypes.func.isRequired,

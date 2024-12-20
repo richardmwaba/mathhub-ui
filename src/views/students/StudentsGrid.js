@@ -7,6 +7,16 @@ import StudentsService from 'src/api/sis/students.service.js';
 import { ViewDetailsButton } from 'src/components/common/ViewDetailsButton';
 import { useNavigate } from 'react-router-dom';
 
+const studentDetailsButton = {
+    show_details: (currentStudent) => (
+        <ViewDetailsButton
+            key={currentStudent.id}
+            item={currentStudent}
+            detailsLocation={`/students/enrolment/${currentStudent.id}`}
+        />
+    ),
+};
+
 export default function StudentsGrid() {
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
@@ -118,15 +128,7 @@ export default function StudentsGrid() {
                     error ? `Could not retrieve students due to ${error}. Please try again.` : 'No students found'
                 }
                 onRowClick={(student) => handleRowClick(student)}
-                scopedColumns={{
-                    show_details: (currentStudent) => (
-                        <ViewDetailsButton
-                            key={currentStudent.id}
-                            item={currentStudent}
-                            detailsLocation={`/students/enrolment/${currentStudent.id}`}
-                        />
-                    ),
-                }}
+                scopedColumns={studentDetailsButton}
                 tableProps={{
                     hover: true,
                     responsive: true,

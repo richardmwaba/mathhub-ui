@@ -226,8 +226,7 @@ const StudentsPersonalInfo = ({ student, setStudent }) => {
                                             {' |'}
                                             <span>
                                                 <DefaultAddButton
-                                                    buttonText="Update"
-                                                    itemName="parent"
+                                                    buttonText="Add Parent"
                                                     isVisibleAddModal={isVisibleAddParentModal}
                                                     setIsVisibleAddModal={setIsVisibleAddParentModal}
                                                 />

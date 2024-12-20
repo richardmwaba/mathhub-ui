@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     CAccordion,
     CAccordionBody,
@@ -13,12 +13,63 @@ import {
     CFormInput,
     CFormLabel,
     CRow,
+    CToaster,
 } from '@coreui/react-pro';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import DateUtils from 'src/utils/dateUtils';
+import { DefaultAddButton } from 'src/components/common/AddButton';
+import EnrollStudentInClass from './EnrollStudentInClass';
+import StudentsService from 'src/api/sis/students.service';
+import useAxiosPrivate from 'src/hooks/useAxiosPrivate';
+import { SuccessToast } from 'src/components/common/SuccessToast';
 
-const StudentsEnrolmentInfo = ({ student }) => {
+const StudentsEnrolmentInfo = ({ student, studentsEnrolledClasses }) => {
+    const axiosPrivate = useAxiosPrivate();
+    const [error, setError] = useState();
+    const [isVisibleEnrollInClassModal, setIsVisibleEnrollInClassModal] = React.useState(false);
+    const [studentsClasses, setStudentsClasses] = React.useState(studentsEnrolledClasses);
+    const [isEnrolmentCompleted, setIsEnrolmentCompleted] = React.useState(false);
+    const [toast, setToast] = useState(0);
+
+    const enrolmentSuccessToasterRef = useRef();
+    const completedEnrolmentCallBack = (enrolledClasses) => {
+        setIsEnrolmentCompleted(true);
+        setIsEnrolmentCompleted(enrolledClasses);
+    };
+
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getClasses = async () => {
+            const response = await StudentsService.getAllClassesForStudent(
+                student.id,
+                axiosPrivate,
+                controller,
+                setError,
+            );
+            isMounted && setStudentsClasses(response);
+        };
+
+        getClasses();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, [axiosPrivate, student.id]);
+
+    useEffect(() => {
+        const studentSuccessfullyEditedToast = (
+            <SuccessToast message={`Student has been successfuly enrolled in classes`} />
+        );
+
+        if (isEnrolmentCompleted) {
+            setToast(studentSuccessfullyEditedToast);
+        }
+    }, [isEnrolmentCompleted]);
+
     return (
         <CRow>
             <CContainer className="mt-3 md-3">
@@ -34,23 +85,38 @@ const StudentsEnrolmentInfo = ({ student }) => {
                     <CCol xs={12} md={9} xl={9}>
                         <CCard className="mb-4">
                             <CCardBody>
-                                <CCardTitle className="fs-5">Enrolled Classes</CCardTitle>
+                                <CCardTitle className="fs-5">
+                                    Enrolled Classes {' |'}
+                                    <span>
+                                        <DefaultAddButton
+                                            buttonText="Enroll in a Class"
+                                            isVisibleAddModal={isVisibleEnrollInClassModal}
+                                            setIsVisibleAddModal={setIsVisibleEnrollInClassModal}
+                                        />
+                                    </span>
+                                </CCardTitle>
                                 <CAccordion flush>
-                                    {isEmpty(student.classes) ? (
-                                        <p>Not enrolled on any classes currently.</p>
+                                    {error && (
+                                        <p>
+                                            An error occured while fetching the student&apos;s classes. Please try again
+                                            or contact the system administrator if this persists.
+                                        </p>
+                                    )}
+                                    {isEmpty(studentsClasses) ? (
+                                        <p>Not enrolled in any classes currently.</p>
                                     ) : (
-                                        student.classes.map((aClass) => {
+                                        studentsClasses.map((enrolledClass) => {
                                             return (
-                                                <CAccordionItem key={aClass.id}>
+                                                <CAccordionItem key={enrolledClass.id}>
                                                     <CAccordionHeader>
                                                         <CCol className="col-sm-2 fw-semibold">
-                                                            {aClass.subject.name}
+                                                            {enrolledClass.subject.name}
                                                         </CCol>
                                                     </CAccordionHeader>
                                                     <CAccordionBody>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor={'occurence-' + aClass.id}
+                                                                htmlFor={'occurence-' + enrolledClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Occurence:
@@ -58,8 +124,8 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id={'occurence-' + aClass.id}
-                                                                    value={`${aClass.occurrence} total lessons`}
+                                                                    id={'occurence-' + enrolledClass.id}
+                                                                    value={`${enrolledClass.occurrence} total lessons`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -67,7 +133,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor={'duration-' + aClass.id}
+                                                                htmlFor={'duration-' + enrolledClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Duration:
@@ -75,8 +141,8 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id={'duration-' + aClass.id}
-                                                                    value={`${aClass.duration} ${aClass.period}`}
+                                                                    id={'duration-' + enrolledClass.id}
+                                                                    value={`${enrolledClass.duration} ${enrolledClass.period}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -84,7 +150,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor={'startDate-' + aClass.id}
+                                                                htmlFor={'startDate-' + enrolledClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Start Date:
@@ -92,8 +158,8 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id={'startDate-' + aClass.id}
-                                                                    value={`${DateUtils.formatDate(aClass.startDate, 'DD MMM YYYY')}`}
+                                                                    id={'startDate-' + enrolledClass.id}
+                                                                    value={`${DateUtils.formatDate(enrolledClass.startDate, 'DD MMM YYYY')}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
@@ -101,7 +167,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                         </CRow>
                                                         <CRow>
                                                             <CFormLabel
-                                                                htmlFor={'cost-' + aClass.id}
+                                                                htmlFor={'cost-' + enrolledClass.id}
                                                                 className="col-sm-2 col-form-label"
                                                             >
                                                                 Cost:
@@ -109,14 +175,14 @@ const StudentsEnrolmentInfo = ({ student }) => {
                                                             <CCol sm={10}>
                                                                 <CFormInput
                                                                     type="text"
-                                                                    id={'cost-' + aClass.id}
-                                                                    value={`K${aClass.cost * aClass.duration}`}
+                                                                    id={'cost-' + enrolledClass.id}
+                                                                    value={`K${enrolledClass.cost * enrolledClass.duration}`}
                                                                     readOnly
                                                                     plainText
                                                                 />
                                                             </CCol>
                                                         </CRow>
-                                                        {aClass.paymentStatus === 'UNPAID' && (
+                                                        {enrolledClass.paymentStatus === 'UNPAID' && (
                                                             <CButton
                                                                 className="mt-3"
                                                                 color="danger"
@@ -136,6 +202,15 @@ const StudentsEnrolmentInfo = ({ student }) => {
                         </CCard>
                     </CCol>
                 </CRow>
+                {isVisibleEnrollInClassModal && (
+                    <EnrollStudentInClass
+                        student={student}
+                        visibility={isVisibleEnrollInClassModal}
+                        setIsVisibleEnrollInClassModal={setIsVisibleEnrollInClassModal}
+                        completedEnrolmentCallBack={completedEnrolmentCallBack}
+                    />
+                )}
+                <CToaster ref={enrolmentSuccessToasterRef} push={toast} placement="bottom-end" />
             </CContainer>
         </CRow>
     );
@@ -143,6 +218,7 @@ const StudentsEnrolmentInfo = ({ student }) => {
 
 StudentsEnrolmentInfo.propTypes = {
     student: PropTypes.object.isRequired,
+    studentsEnrolledClasses: PropTypes.array.isRequired,
 };
 
 export default StudentsEnrolmentInfo;
